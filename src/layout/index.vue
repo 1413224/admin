@@ -7,6 +7,7 @@
     <div class="app-container container" :class="{paved:pavreLeft}">
       <div class="app">
         <div class="app-inner">
+          <!-- 命名视图？？？ -->
           <router-view></router-view>
         </div>
       </div>
@@ -30,9 +31,12 @@ export default {
       pavreLeft:false
     }
   },
+  created(){
+    // console.log(this.$route.path)
+  },
   methods:{
     changeLeft(val){
-      console.log(val)
+      // console.log(val)
       if(val){
         this.pavreLeft = false
       }else{

@@ -12,7 +12,7 @@ axios.defaults.baseURL = '//api.9yetech.com/apigw/' // 演示环境
 axios.interceptors.request.use(config => {
 	if(config.params){
 		if(!config.params.isNoLoading){
-			// Loading.service({text:'加载中'})
+			Loading.service({text:'加载中'})
 		}
 	}
 
@@ -33,13 +33,13 @@ axios.interceptors.request.use(config => {
 
 
 axios.interceptors.response.use(res => {
-	// Loading.service().close()
+	Loading.service().close()
 	if(res.data.ret!==200){
 		Message(res.data.msg)
 		// console.log(router)
 		if(
 				res.data.ret == 10000	//登陆信息已失效
-				|| res.data.ret == 400	//缺少必要参数token
+					//缺少必要参数token  || res.data.ret == 400
 			){
 			router.push({
 				path:`/login?redirect=${router.history.current.fullPath}`
@@ -48,8 +48,7 @@ axios.interceptors.response.use(res => {
 	}
 	return res
 },error => {
-    // Loading.service().close()
-
+    Loading.service().close()
     return Promise.reject(error)
 })
 

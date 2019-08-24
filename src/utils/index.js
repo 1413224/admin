@@ -18,5 +18,15 @@ export default {
   },
   getTimestamp(){
     return new Date().getTime()
+  },
+  findBrothersComponents(context, componentName, exceptMe = true){
+    let res = context.$parent.$children.filter(item=>{
+      if(item.$options.name == componentName){
+        return item
+      }
+    })
+    // let index = res.findIndex(item => item._uid == context._uid)
+    // if (exceptMe) res.splice(index, 1)
+    return res
   }
 }

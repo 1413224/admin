@@ -60,9 +60,10 @@ router.beforeEach(async(to, from, next)=>{
     if(to.path!='/login'){
 
       store.dispatch('getMenuList').then((res)=>{
-        store.dispatch('getConfigs').then(function(data){
-          next({})
-        })
+        // store.dispatch('getConfigs',to.path).then(function(data){
+        //   next({})
+        // })
+        next({})
       })
     }else{
       next()

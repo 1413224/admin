@@ -35,8 +35,7 @@
                 <ySelect
                   v-model="ruleForm[item.field]"
                   :options="item.options"
-                  :placeholder="item.placeholder ? item.placeholder : '自定义提示'"
-                  @change="bb"
+                  :placeholder="item.placeholder ? item.placeholder : '请选择'"
                   :style="{width:item.minWidth+'px'}"
                   :configs="item">
                 </ySelect>
@@ -161,7 +160,7 @@
 
           </div>
         </div>
-      <el-button @click="aa" class="fl">测试</el-button>
+      <!-- <el-button @click="aa" class="fl">测试</el-button> -->
       <!-- <div class="btnwrap">
         <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
         <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
@@ -245,17 +244,12 @@ export default {
       ruleFormData: state => state.diypage.ruleForm
     })
   },
-  // watch:{
-  //   'ruleForm':{
-  //     deep:true,
-  //     handler(val){
-  //       this.$store.commit('setRuleForm',val)
-  //       console.log(val)
-  //     }
-  //   }
-  // },
   created(){
+    
+  },
+  mounted(){
     let _this = this
+
     _this.headerConfigs.basic.map((item,index)=>{
       if(item.field){//剔除不需要传参的数据
         _this.$set(_this.ruleForm,item.field,item.defaultValue)
@@ -277,7 +271,7 @@ export default {
       // console.log(this.$store.state.diypage.ruleForm)
     },
     bb(val){
-      console.log(val)
+      // console.log(val)
     },
     ...actions
   },

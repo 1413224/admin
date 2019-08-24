@@ -67,7 +67,6 @@
                   <!-- :status="item[comItem.statusField]" -->
                   <yButton class="tabbtn" v-if="comItem.type=='button'" 
                     :configs="comItem" 
-                    
                     v-model="item[comItem.statusField]"
                     :listItem="item">
                   </yButton>
@@ -108,12 +107,13 @@ export default {
   data(){
     return {
       checkAll:false,
-      isIndeterminate:true,
+      isIndeterminate:false,
       // list:this.lists,
       list:this.value,
       checkedList:[],//选中的行
       draggableOptions:{
-        disabled:this.needPagebean ? this.needPagebean : false
+        disabled:this.needPagebean ? true : false,
+        // sort:this.needPagebean ? true : false,
       }
     }
   },
@@ -132,7 +132,7 @@ export default {
       lineConfig:state => state.diypage.lineConfig,
       tableConfig:state => state.diypage.tableConfig,
       // tableList:state => state.diypage.tableList,
-      
+      resetChecklist:state => state.diypage.resetChecklist
     }),
     
     yTableClass(){ return this.configs.tableClass },
@@ -149,6 +149,11 @@ export default {
   },
   methods:{
     ...actions,
+    resetCheckList(){
+      this.checkedList = []
+      this.checkAll = false
+      this.isIndeterminate = false
+    }
   },
   watch:{
     value(val){
@@ -158,6 +163,9 @@ export default {
       if(val!=oldVal){
         this.$emit('input',val)
       }
+    },
+    resetChecklist(){
+      this.resetCheckList()
     }
   },
   components:{

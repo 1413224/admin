@@ -1,4 +1,4 @@
-import { _ } from "core-js";
+
 
 export default{
   resetForm(formName){

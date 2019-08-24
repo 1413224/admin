@@ -72,15 +72,26 @@ export default {
   },
   computed:{
     ...mapState({
-      ids:state => state.diypage.ids
+      ids:state => state.diypage.ids,
+      addEditForm:state => state.diypage.addEditForm,
+      pageData:state => state.diypage.pageData,
+      addEditFormRefs:state => state.diypage.addEditFormRefs
     }),
     yButtonType(){ return this.configs.buttonType },
     yButtonName(){ return this.configs.buttonName },
     yType(){ return this.configs.buttonClass },
     yStyleType(){ return this.configs.styleType },
     yIcon(){ return this.configs.icon },
-    yRightIcon(){ return this.configs.rightIcon },
-    yleftIcon(){ return this.configs.leftIcon },
+    yRightIcon(){ 
+      if(this.configs.rightIcon){
+        return this.configs.rightIcon 
+      }
+    },
+    yleftIcon(){ 
+      if(this.configs.leftIcon){
+        return this.configs.leftIcon 
+      }
+    },
     ycolor(){ return this.configs.color },
 
     yStatusName(){ return this.configs.statusName }
@@ -120,7 +131,12 @@ export default {
           break;
         case 'editButton'://编辑按钮
           _this.navigateToEdit()
-        
+          break;
+        case 'backButton'://返回页面按钮
+          _this.backButton()
+          break;
+        case 'submitButton'://提交表单
+          _this.submitButton()
       }
     },
     changeStatus(){//修改可用，禁用状态
@@ -195,15 +211,30 @@ export default {
         token:token,
         status:1
       })
-
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
-          if(res.data.ret==200){
-            _this.$store.commit('changeList',1)
-            _this.$store.commit('setIds','')
-          }
+        _this.$confirm('是否批量可用?','提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          _this.$http.get(_this.configs.apiService,{
+            params
+          }).then((res)=>{
+            if(res.data.ret==200){
+              _this.$store.commit('changeList',1)
+              _this.$store.commit('setIds','')
+              _this.$message({
+                type: 'success',
+                message: '修改成功!'
+              })
+              _this.$store.commit('resetCheckList')
+            }
+          })
+        }).catch(()=>{
+          _this.$message({
+            type: 'info',
+            message: '已取消修改'
+          })
         })
       }
 
@@ -233,14 +264,30 @@ export default {
         status:0
       })
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
-          if(res.data.ret==200){
-            _this.$store.commit('changeList',1)
-            _this.$store.commit('setIds','')
-          }
-        })
+        _this.$confirm('是否批量禁用?','提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          _this.$http.get(_this.configs.apiService,{
+            params
+          }).then((res)=>{
+            if(res.data.ret==200){
+              _this.$store.commit('changeList',1)
+              _this.$store.commit('setIds','')
+              _this.$message({
+                type: 'success',
+                message: '修改成功!'
+              })
+              _this.$store.commit('resetCheckList',[])
+            }
+          })
+        }).catch(()=>{
+          _this.$message({
+            type: 'info',
+            message: '已取消修改'
+          })
+        })  
       }
     },
     deleteButton(){
@@ -291,6 +338,7 @@ export default {
                 _this.$store.commit('setIds','')
                 _this.del = 0
               }
+              _this.$store.commit('resetCheckList',[])
             }
           })
         }).catch(()=>{
@@ -301,7 +349,45 @@ export default {
         })
         
       }
+    },
+    backButton(){
+      this.$router.go(-1)
+    },
+    submitButton(){
+      let _this = this,
+          token = '',
+          params = {};
+      // console.log(_this.configs)
+      // console.log(_this.pageData)
+      let panel = _this.$utils.findBrothersComponents(_this,'panel')
+      panel[0].$refs[_this.addEditFormRefs].validate((valid)=>{
+        if(!valid){
+          return false
+        }
+        
+        if(_this.pageData.editNeedLogin){
+          token = _this.$utils.getToken()
+        }
+        _this.configs.params.map((item,index)=>{
+          params[item.name] = _this.$route.query[item.field]
+        })
+
+        params = Object.assign(params,{token:token},this.addEditForm)
+        _this.$http.get(_this.pageData.editApiService,{
+          params
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$message({
+              type: 'success',
+              message: '修改成功!'
+            })
+            _this.backButton()
+          }
+        })
+
+      })
     }
+
   }
 }
 </script>

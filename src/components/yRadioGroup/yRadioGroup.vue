@@ -5,7 +5,7 @@
         <el-radio
           v-for="(item,index) in options" 
           :key="index" 
-          :label="item.value"
+          :label="String(item.value)"
           :border="showStyle=='border'">{{item.label}}
         </el-radio>
       </template>
@@ -13,7 +13,7 @@
         <el-radio-button
           v-for="(item,index) in options" 
           :key="index" 
-          :label="item.value"
+          :label="String(item.value)"
           :disabled="item.disabled">{{item.label}}
         </el-radio-button>
       </template>

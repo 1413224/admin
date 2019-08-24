@@ -1,8 +1,9 @@
-import { _ } from "core-js";
+// import { _ } from "core-js";
 
 export default {
   handleCheckItemChange(checked,item){
     let _this = this
+    
     if(checked==true){
       _this.checkedList.push(item)
       if(_this.checkedList.length == _this.list.length){
@@ -15,10 +16,14 @@ export default {
     }else{
       _this.checkAll = false
       _this.isIndeterminate = true
+      _this.checkedList.pop()
+    }
+    if(_this.checkedList.length==0){
+      _this.checkAll = false
+      _this.isIndeterminate = false
     }
       // console.log(_this.getIds())
     _this.$store.commit('setIds',_this.getIds())
-    
     
   },
   handleCheckAllChange(val){
@@ -26,14 +31,18 @@ export default {
     _this.list.map((item,index)=>{
       item.checkModel = val
     })
+    _this.checkedList.length = _this.list.length
     if(val){
       _this.checkAll = true
       _this.isIndeterminate = false
     }else{
       _this.checkAll = false
+      _this.checkedList = []
     }
 
     _this.$store.commit('setIds',_this.getIds())
+    // _this.checkedList = []
+
       // console.log(_this.getIds())
       // console.log(_this.list)
 
@@ -69,6 +78,10 @@ export default {
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$store.commit('changeList',1)
+          _this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
         }
       })
     }

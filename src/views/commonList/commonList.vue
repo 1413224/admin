@@ -3,10 +3,10 @@
     <div class="page-list" v-if="type=='list'">
       <div class="head">
         {{pageData.title}}
-        <span class="desc">--{{pageData.desc}}</span>
+        <span class="desc" v-if="pageData.desc">--{{pageData.desc}}</span>
         <div class="extends-info">
           <div v-for="(item,index) in extendsInfo" :key="index">
-            <yText v-if="item.type=='text'" :configs="item"></yText>
+            <yText v-if="item.type=='text'" :configs="item">{{item.value}}</yText>
           </div>          
         </div>
       </div>
@@ -16,7 +16,7 @@
         <!-- 提示信息开始 -->
         <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
         <!-- 提示信息end -->
-        <div class="search-wrap">
+        <div class="search-wrap" v-if="showSearch">
           <!-- 搜索列表数据 -->
           <search @changeList="changeList"></search>
         </div>
@@ -77,11 +77,14 @@ const MyTable = () => ({
 const diyTable = () => ({
   component:import("@/components/table/diyTable")
 })
+const search = () => ({
+  component:import("./compoments/search")
+})
 // import diyTable from '@/components/table/diyTable'
 import yButton from '@/components/yButton/yButton'
 import yImage from '@/components/yImage/yImage'
 import yText from '@/components/yText/yText'
-import search from './compoments/search'
+// import search from './compoments/search'
 import addModel from './compoments/addModel'
 import { mapState } from 'vuex'
 export default {
@@ -89,7 +92,7 @@ export default {
   data(){
     return {
       type:'list',
-      headerConfigs:{},
+      // headerConfigs:{},
       mainConfigs:{},
       pageConfigs:{},
       statInfo:[],//统计数据
@@ -99,7 +102,9 @@ export default {
       curPage:1,
       pageSize:10,
       totalPages:1,
-      totalNums:0
+      totalNums:0,
+
+      showSearch:false
 
     }
   },
@@ -108,16 +113,19 @@ export default {
     // console.log(this.headerData)
     // console.log(this.mainData)
     let _this = this
+    let path = _this.$route.path
+    _this.$store.dispatch('getConfigs',path).then(()=>{
       _this.statInfo = _this.pageData.statInfo //赋值统计数据
+      _this.showSearch = true
       _this.$nextTick(()=>{
         _this.setStatInfoData()
         _this.getList()
       })
+    })
       
   },
   mounted(){
     let _this = this
-      
   },
   methods:{
     setStatInfoData(){//统计数据字段赋值

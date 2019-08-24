@@ -8,14 +8,15 @@
       :clearable="yClearable"
       :show-password="yShowPassword"
       :autosize="{minRows:yMinRows,maxRows:yMaxRows}"
-      ></el-input>
-      <!-- 
-      
       :maxlength="yMaxlength"
       :minlength="yMinlength"
       :show-word-limit="yShowWordLimit"
       :prefix-icon="yPrefixIcon"
-      :suffix-icon="ySuffixIcon" -->
+      :suffix-icon="ySuffixIcon"
+      ></el-input>
+      <!-- 
+      
+       -->
   </div>
 </template>
 <script>
@@ -47,7 +48,9 @@ export default {
       }
     },
     yShowPassword(){
-      return this.configs.showPassword
+      if(this.configs.specialAttr=="password"){
+        return true
+      }
     },
     yMinRows(){
       if(this.configs.type=='textarea'){
