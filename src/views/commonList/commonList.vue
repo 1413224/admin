@@ -1,6 +1,20 @@
 <template>
   <div class="wrapper">
     <div class="page-list" v-if="type=='list'">
+      <div class="tab-wrap clearfix" v-if="pageData.tabs">
+        <template v-for="(item,index) in pageData.tabs">
+          <router-link :key="index"
+            tag="a"
+            :target="item.isBlank ? '_blank' :''"
+            :to="item.path">
+            <div
+              class="tab-item fl"
+              :class="{active:item.path==$route.path}">
+              {{item.name}}
+            </div>
+          </router-link>
+        </template>
+      </div>
       <div class="head">
         {{pageData.title}}
         <span class="desc" v-if="pageData.desc">--{{pageData.desc}}</span>
@@ -14,6 +28,9 @@
       <!-- 或外层重新装一层 -->
       <div class="bg-gray content">
         <!-- 提示信息开始 -->
+        <el-button>测试上传</el-button>
+        <uploadPicture></uploadPicture>
+ 
         <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
         <!-- 提示信息end -->
         <div class="search-wrap" v-if="showSearch">
@@ -81,6 +98,7 @@ const search = () => ({
   component:import("./compoments/search")
 })
 // import diyTable from '@/components/table/diyTable'
+import uploadPicture from '@/components/uploadPicture/uploadPicture'
 import yButton from '@/components/yButton/yButton'
 import yImage from '@/components/yImage/yImage'
 import yText from '@/components/yText/yText'
@@ -109,7 +127,6 @@ export default {
     }
   },
   created(){
-    // console.log(this.pageData)
     // console.log(this.headerData)
     // console.log(this.mainData)
     let _this = this
@@ -121,6 +138,10 @@ export default {
         _this.setStatInfoData()
         _this.getList()
       })
+
+    console.log(this.pageData)
+
+
     })
       
   },
@@ -208,13 +229,34 @@ export default {
     yText,
     diyTable,
     yImage,
-    yButton
+    yButton,
+    uploadPicture
   }
 }
 </script>
 <style lang="less" scoped>
 .desc{
   font-size: 12px;
+}
+.tab-wrap{
+  margin-bottom: 20px;
+  .tab-item{
+    font-size: 16px;
+    margin-right: 20px;
+    padding: 8px 10px;
+    color: #333;
+    &:hover{
+      color: white;
+      background: #409EFF;
+      border-radius: 6px;
+    }
+  }
+  .active{
+    color: white;
+    background: #409EFF;
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
 }
 .content{
   padding: 10px;

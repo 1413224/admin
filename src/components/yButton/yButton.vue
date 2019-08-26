@@ -360,7 +360,10 @@ export default {
       // console.log(_this.configs)
       // console.log(_this.pageData)
       let panel = _this.$utils.findBrothersComponents(_this,'panel')
-      panel[0].$refs[_this.addEditFormRefs].validate((valid)=>{
+      panel.map((item)=>{
+        
+      })
+      panel[1].$refs[_this.addEditFormRefs].validate((valid)=>{
         if(!valid){
           return false
         }

@@ -1,10 +1,12 @@
 <template>
-  <div class="edit-wrap"> 
-    <el-form :model="addEditForm" :rules="addEditRules" ref="addEditForm" label-width="110px">
+  <div class="edit-wrap clearfix" :style="{background:decorationColor}"> 
+    <div class="tit ">{{panelName}}</div>
+    <el-form class="" :model="addEditForm" :rules="addEditRules" ref="addEditForm" label-width="110px">
       <el-row v-for="(item,index) in configs.column" :key="index">
         <el-col v-if="item.component">
           <template v-if="item.component.type=='input' || item.component.type=='textarea'">
             <el-form-item
+              :required="item.component.require"
               :label="item.component.name"
               :prop="item.component.field"
               :style="{width:item.component.minWidth+'px'}">
@@ -30,7 +32,7 @@
         </el-col>
       </el-row>
     </el-form>
-      <el-button @click="aa" class="fl">测试</el-button>
+      <!-- <el-button @click="aa" class="fl">测试</el-button> -->
   </div>
 </template>
 <script>
@@ -81,7 +83,13 @@ export default {
   computed:{
     ...mapState({
       pageData:state => state.diypage.pageData
-    })
+    }),
+    panelName(){
+      return this.configs.panelName
+    },
+    decorationColor(){
+      return this.configs.decorationColor
+    }
   },
   methods:{
     aa(){
@@ -123,3 +131,16 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.tit{
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+</style>
+<style lang="less">
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-textarea__inner{
+  border:1px solid #dcdfe6 !important;
+}
+</style>
