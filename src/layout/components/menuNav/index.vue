@@ -183,7 +183,7 @@ export default {
   },
   created(){
     let _this = this
-    // console.log(this.$route)
+    console.log(this.$route)
 
     // console.log(_this.menuList.some(_this.filter))
     if(_this.menuList.some(_this.filter)){
@@ -199,6 +199,8 @@ export default {
       item.children.map(submenuItem=>{//设置默认展开项
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
+      
+      _this.subMenuData = item.children
       if(item.name == _this.$route.meta.parentsLabel){
         _this.subMenuData = item.children
         return false

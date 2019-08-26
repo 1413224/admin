@@ -1,7 +1,7 @@
 
 const uploadPicture = {
   state:{
-    dialogPicture:true
+    dialogPicture:false
   },
   mutations:{
     setDialogPicture(state,data){

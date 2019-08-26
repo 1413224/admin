@@ -10,14 +10,13 @@
               :label="item.component.name"
               :prop="item.component.field"
               :style="{width:item.component.minWidth+'px'}">
-              <!-- :required="item.component.require" -->
-              <!-- required  -->
               <yInput
                 v-model="addEditForm[item.component.field]"
                 :configs="item.component"></yInput>
             </el-form-item>
           </template>
           <el-form-item
+            :required="item.component.require"
             v-if="item.component.type=='radio'"
             :label="item.component.name"
             :prop="item.component.field">
@@ -32,7 +31,7 @@
         </el-col>
       </el-row>
     </el-form>
-      <!-- <el-button @click="aa" class="fl">测试</el-button> -->
+      <el-button @click="aa" class="fl">测试</el-button>
   </div>
 </template>
 <script>
@@ -62,22 +61,29 @@ export default {
     // console.log(this.pageData)
     // console.log(this.$route.query[this.pageData.acceptParams.name])
     let _this = this
-    
-    _this.getInfo().then((res)=>{
-      // console.log(res)
-      _this.configs.column.map((item,index)=>{
-        if(item.component && item.component.field){
-          _this.$set(_this.addEditForm,item.component.field,res[item.component.field])
-          if(item.component.require){
-            _this.addEditRules[item.component.field] = [
-              {required:true,message:item.component.message,trigger: 'blur'}
-            ]
-          }
-        }
+    if(_this.$route.query[_this.pageData.acceptParams.name] && 
+      _this.pageData.acceptParams.require){
+      _this.getInfo().then((res)=>{
+
+        _this.setFormData(res)
+
+      // _this.configs.column.map((item,index)=>{
+      //   if(item.component && item.component.field){
+      //     _this.$set(_this.addEditForm,item.component.field,res[item.component.field])
+            
+      //       if(item.component.require){
+      //         _this.addEditRules[item.component.field] = [
+      //           {message:item.component.message,trigger: 'blur'}
+      //         ]
+      //       }
+      //     }
+      //   })
       })
-    })
+    }else{
+      _this.setFormData()
+    }
+    getValid(_this.addEditRules)    
     _this.$store.commit('setAddEditForm',_this.addEditForm)
-    getValid(_this.addEditRules)
     _this.$store.commit('setAddEditFormRefs','addEditForm')
   },
   computed:{
@@ -94,7 +100,27 @@ export default {
   methods:{
     aa(){
       console.log(this.addEditForm)
+      console.log(this.addEditRules)
       // console.log(this.$store.state.diypage.ruleForm)
+    },
+    setFormData(res){
+      let _this = this
+      _this.configs.column.map((item,index)=>{
+      if(item.component && item.component.field){
+
+          if(res){
+            _this.$set(_this.addEditForm,item.component.field,res[item.component.field])
+          }else{
+            _this.$set(_this.addEditForm,item.component.field,null)
+          }
+          
+          if(item.component.require){
+            _this.addEditRules[item.component.field] = [
+              { required: true,message:item.component.message}
+            ]
+          }
+        }
+      })
     },
     getInfo(){
       return new Promise((resolve,reject)=>{

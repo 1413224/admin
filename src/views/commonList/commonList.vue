@@ -28,7 +28,6 @@
       <!-- 或外层重新装一层 -->
       <div class="bg-gray content">
         <!-- 提示信息开始 -->
-        <el-button>测试上传</el-button>
         <uploadPicture></uploadPicture>
  
         <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>

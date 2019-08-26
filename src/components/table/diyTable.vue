@@ -42,7 +42,8 @@
               :value="item.id"
               v-model="checkData"></el-checkbox> -->
               <!-- <input type="checkbox" v-model="checkData" :value="item.id"> -->
-              <el-checkbox 
+              <el-checkbox
+                class="item-checkbox" 
                 v-model="item.checkModel" 
                 @change="checked=>handleCheckItemChange(checked,item)"></el-checkbox>
             <div
@@ -239,6 +240,10 @@ export default {
     border-bottom: 1px solid #ebeef5;
     padding: 0 10px;
     background: #fff;
+    .item-checkbox{
+      position: relative;
+      top: -2px;
+    }
     .checkbox{
       margin-right: 5px;
     }

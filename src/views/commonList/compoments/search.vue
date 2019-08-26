@@ -15,6 +15,7 @@
             :style="{float:item.float}">
 
               <el-form-item 
+                :required="item.require"
                 v-if="item.type=='input' || item.type=='textarea'" 
                 :style="{width:item.minWidth+'px'}"
                 :label="item.name" 
@@ -29,6 +30,7 @@
               <div v-if="item.type=='line-break'" style="height:65px"></div>
 
               <el-form-item
+                :required="item.require"
                 v-if="item.type=='select'"
                 :label="item.name"
                 :prop="item.field">
@@ -42,6 +44,7 @@
               </el-form-item>
 
               <el-form-item
+                :required="item.require"
                 v-if="item.type=='radio'"
                 :label="item.name"
                 :prop="item.field">
@@ -255,12 +258,12 @@ export default {
         _this.$set(_this.ruleForm,item.field,item.defaultValue)
         if(item.require==true){
           _this.rules[item.field] = [
-            {required:true,message:item.message,trigger: 'blur'}
+            {required:true,message:item.message}
           ]
         }
       }
     })
-    //动态保存ruleForm数据,严格模式下打开watch监听,待处理
+    //动态保存ruleForm数据,严格模式下打开watch监听
     _this.$store.commit('setRuleForm',_this.ruleForm)
     
     getValid(_this.rules)
@@ -310,6 +313,11 @@ export default {
   .item{
     // display: inline-block;
   }
+}
+</style>
+<style lang="less">
+.el-form-item.is-success .el-input__inner{
+  border-color:#dcdfe6 !important;
 }
 </style>
 

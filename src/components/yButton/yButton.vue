@@ -185,7 +185,11 @@ export default {
       })
     },
     addButton(){
-
+      let _this = this
+      console.log(_this.configs)
+      _this.$router.push({
+        path:_this.configs.url
+      })
     },
     availableButton(){
       let _this = this,

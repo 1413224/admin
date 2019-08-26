@@ -3,7 +3,8 @@
     <el-dialog 
       :visible.sync="dialogPicture"
       width="50%"
-      class="uploadPicture">
+      class="uploadPicture"
+      :before-close="closeDialog">
       <div slot="title">
         <ul class="clearfix tit-tabs">
           <li 
@@ -14,22 +15,35 @@
         </ul>
       </div>
       <div class="content">
-        <div class="tab-itemwrap">
-          <el-radio-group v-model="year" size="mini">
-            <el-radio-button
-              v-for="(item,index) in yearArray" 
-              :key="index" 
-              :label="item.value">{{item.label}}</el-radio-button>
-          </el-radio-group>
-          <br><br>
-          <el-radio-group v-model="month" size="mini">
-            <el-radio-button
-              v-for="(item,index) in monthArray"
-              :key="index"
-              :label="item.value">{{item.label}}</el-radio-button>
-          </el-radio-group>
+
+        <div class="item-wrap" v-show="tabsidx==0">
+          <span class="label">本地图片：</span>
+          
         </div>
-        <div class="list-wrap">
+        
+        <div class="item-wrap" v-show="tabsidx==1">
+          <span class="label">网络图片：</span>
+          <el-input size="small" class="item-input" placeholder="请添加网络图片地址">
+            <template slot="append">提取</template>
+          </el-input>
+        </div>
+
+        <div class="item-wrap list-wrap" v-show="tabsidx==2">
+          <div class="tab-itemwrap">
+            <el-radio-group v-model="year" size="mini">
+              <el-radio-button
+                v-for="(item,index) in yearArray" 
+                :key="index" 
+                :label="item.value">{{item.label}}</el-radio-button>
+            </el-radio-group>
+            <br><br>
+            <el-radio-group v-model="month" size="mini">
+              <el-radio-button
+                v-for="(item,index) in monthArray"
+                :key="index"
+                :label="item.value">{{item.label}}</el-radio-button>
+            </el-radio-group>
+          </div>
           <ul class="clearfix">
             <li class="list-item fl">
               <img src="../../assets/logo.png" alt="">
@@ -38,16 +52,18 @@
               <img src="../../assets/logo.png" alt="">
             </li>
           </ul>
+
+          <el-pagination
+            class="pagination"
+            small
+            layout="prev, pager, next"
+            :total="50">
+          </el-pagination>
         </div>
-        <el-pagination
-          class="pagination"
-          small
-          layout="prev, pager, next"
-          :total="50">
-        </el-pagination>
+        
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogPicture = false">取 消</el-button>
+        <el-button size="small" @click="closeDialog">取 消</el-button>
         <el-button size="small" type="primary" @click="dialogPicture = false">确 定</el-button>
       </span>
     </el-dialog>
@@ -100,6 +116,9 @@ export default {
     handelTabs(idx){
       let _this = this
       _this.tabsidx = idx
+    },
+    closeDialog(){
+      this.$store.commit('setDialogPicture',false)
     }
   }
 }
@@ -123,26 +142,38 @@ export default {
   }
 }
 .list-wrap{
-    margin-top: 20px;
-    .list-item{
-      background: #eee;
-      width: 65px;
-      height: 65px;
-      border: 1px solid transparent;
-      margin-right: 3px;
-      img{
-        width: 100%;
-        height: 100%;
-      }
-      &:hover{
-        border: 1px solid #409EFF;
-        cursor: pointer;
-      }
+  // margin-top: 20px;
+  .tab-itemwrap{
+    margin-bottom: 20px;
+  }
+  .list-item{
+    background: #eee;
+    width: 65px;
+    height: 65px;
+    border: 1px solid transparent;
+    margin-right: 5px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+    &:hover{
+      border: 1px solid #409EFF;
+      cursor: pointer;
     }
   }
-  .pagination{
-    margin-top: 40px;
+}
+.pagination{
+  margin-top: 40px;
+}
+.item-wrap{
+  .label{
+    font-weight: bold;
   }
+  .item-input{
+    width: 80%;
+  }
+}
+
 </style>
 <style lang="less">
 .uploadPicture{

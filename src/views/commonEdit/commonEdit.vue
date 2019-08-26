@@ -49,28 +49,23 @@ export default {
   name:'commonEdit',
   data(){
     return {
-      showEdit:false
+      showEdit:false,
+      yAddEdit:'add'
     }
   },
   created(){
     let _this = this,
         path = _this.$route.path;
-    _this.$store.dispatch('getConfigs',path).then((data)=>{
-      // console.log(data)
-      _this.showEdit = true
+      _this.$store.dispatch('getConfigs',path).then((data)=>{
+        _this.showEdit = true
+      if(_this.$route.query[_this.pageData.acceptParams.name]){
+        _this.yAddEdit = 'edit'
+      }
     })
 
   },
   methods:{
-    yAddEdit(){
-      let _this = this
-      if(_this.pageData.acceptParams.isInfoParam
-        && _this.pageData.acceptParams.require){
-        return 'edit'
-      }else{
-        return 'add'
-      }
-    }
+
   },
   computed:{
     ...mapState({
@@ -80,7 +75,7 @@ export default {
     extendsInfo(){
       return this.pageData.extendsInfo
     },
-    bottomInfo(){return this.pageData.bottomInfo}
+    bottomInfo(){return this.pageData.bottomInfo},
   },
   components:{
     yText,
