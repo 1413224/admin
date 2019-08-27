@@ -47,3 +47,23 @@ Vue.filter("formatSecs", function(value, tUnit = '时', mUnit = '分') { //全�
 	}
 	return t
 })
+
+// Vue.directive("focus", {
+// 	inserted:   function (el, option) {
+// 		var  defClass  =  'el-input',
+// 			 defTag  =  'input';
+// 		var  value  =  option.value  ||  true;
+// 		if (typeof  value  ===  'boolean')
+// 			value  = { 
+// 				cls:  defClass,
+// 				 tag:  defTag
+// 			};
+// 		else
+// 			value  = { 
+// 				cls:  value.cls  ||  defClass,
+// 				 tag:  value.tag  ||  defTag
+// 			};
+// 		if (el.classList.contains(value.cls))
+// 			el.getElementsByTagName(value.tag)[0].focus();
+// 	}
+// })

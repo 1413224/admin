@@ -6,7 +6,7 @@
       <div class="extends-info">
         <div v-for="(item,index) in extendsInfo" :key="index">
           <yText v-if="item.type=='text'" :configs="item">{{item.value}}</yText>
-        </div>          
+        </div>        
       </div>
     </div>
 

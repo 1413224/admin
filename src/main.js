@@ -15,8 +15,10 @@ import { loadSkin } from './skin/index'
 
 import './style/reset.css'
 import './style/global.less'
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
 import './icons/index'
+
+document.documentElement.style.fontSize = 10 + 'px'
 
 Vue.config.productionTip = false
 Vue.prototype.url = url
