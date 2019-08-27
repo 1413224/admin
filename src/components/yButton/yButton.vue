@@ -75,7 +75,8 @@ export default {
       ids:state => state.diypage.ids,
       addEditForm:state => state.diypage.addEditForm,
       pageData:state => state.diypage.pageData,
-      addEditFormRefs:state => state.diypage.addEditFormRefs
+      addEditFormRefs:state => state.diypage.addEditFormRefs,
+      addOrEditBtn:state => state.diypage.addOrEditBtn
     }),
     yButtonType(){ return this.configs.buttonType },
     yButtonName(){ return this.configs.buttonName },
@@ -158,14 +159,18 @@ export default {
       params = Object.assign(params,{token:token,status:_this.btnStatus})
 
       if(_this.configs.apiService){
+        _this.loading = true
         _this.$http.get(_this.configs.apiService,{
           params
         }).then((res)=>{
           if(res.data.ret==200){
+            _this.loading = false
             _this.$message({
               type: 'success',
               message: '更改成功!'
             })
+          }else{
+            _this.loading = false
           }
         })
       }
@@ -186,7 +191,7 @@ export default {
     },
     addButton(){
       let _this = this
-      console.log(_this.configs)
+      // console.log(_this.configs)
       _this.$router.push({
         path:_this.configs.url
       })
@@ -360,14 +365,10 @@ export default {
     submitButton(){
       let _this = this,
           token = '',
+          url='',
           params = {};
-      // console.log(_this.configs)
-      // console.log(_this.pageData)
       let panel = _this.$utils.findBrothersComponents(_this,'panel')
-      panel.map((item)=>{
-        
-      })
-      panel[1].$refs[_this.addEditFormRefs].validate((valid)=>{
+      panel[0].$refs[_this.addEditFormRefs].validate((valid)=>{
         if(!valid){
           return false
         }
@@ -379,8 +380,14 @@ export default {
           params[item.name] = _this.$route.query[item.field]
         })
 
+        if(_this.addOrEditBtn=='add'){
+          url = _this.pageData.addApiService
+        }else{
+          url = _this.pageData.editApiService
+        }
+
         params = Object.assign(params,{token:token},this.addEditForm)
-        _this.$http.get(_this.pageData.editApiService,{
+        _this.$http.get(url,{
           params
         }).then((res)=>{
           if(res.data.ret==200){

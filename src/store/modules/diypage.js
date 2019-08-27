@@ -15,7 +15,8 @@ const diypage = {
     tableConfig:{},
     listNum:0,//判断是否需要重新请求加载列表数据
     ids:'',//table列表的ids，其他按钮操作后必须重置
-    resetChecklist:0,//重置全选等
+    resetChecklist:0,//重置全选等(表格)
+    addOrEditBtn:'',//提交表单是新增还是编辑操作
   },
 
   mutations:{
@@ -54,7 +55,10 @@ const diypage = {
     },
     resetCheckList(state,data){
       state.resetChecklist += 1
-    }
+    },
+    setAddOrEditBtn(state,data){
+      state.addOrEditBtn = data
+    },
   },
   actions:{
     getConfigs({ commit },path){

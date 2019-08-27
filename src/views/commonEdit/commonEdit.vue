@@ -16,10 +16,11 @@
       <!-- 提示信息end -->
       <!-- 内容开始 -->
       <div v-if="showEdit">
-        <div v-for="(item,index) in mainData" :key="index">
+        <!-- <div v-for="(item,index) in mainData" :key="index">
           <panel v-if="item.type=='panel'" :configs="item"></panel>
           <lineBreak v-if="item.type=='line-break'"></lineBreak>
-        </div>
+        </div> -->
+        <panelWrap></panelWrap>
       </div>
       <!-- 内容结束 -->
     </div>
@@ -45,6 +46,7 @@ import panel from './compoments/panel'
 import yText from '@/components/yText/yText'
 import yButton from '@/components/yButton/yButton'
 import lineBreak from '@/components/lineBreak/lineBreak'
+import panelWrap from './compoments/panelWrap'
 export default {
   name:'commonEdit',
   data(){
@@ -81,7 +83,8 @@ export default {
     yText,
     yButton,
     panel,
-    lineBreak
+    lineBreak,
+    panelWrap
   }
 }
 </script>

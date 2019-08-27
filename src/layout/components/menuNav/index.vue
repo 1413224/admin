@@ -183,7 +183,7 @@ export default {
   },
   created(){
     let _this = this
-    console.log(this.$route)
+    // console.log(this.$route)
 
     // console.log(_this.menuList.some(_this.filter))
     if(_this.menuList.some(_this.filter)){
