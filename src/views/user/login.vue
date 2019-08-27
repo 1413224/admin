@@ -17,7 +17,10 @@
                 <el-input v-model="phone" placeholder="手机号码"></el-input>
               </el-col>
               <el-col class="input-item">
-                <el-input v-model="password" placeholder="登录密码" type="password"></el-input>
+                <el-input 
+                  v-model="password" 
+                  placeholder="登录密码" 
+                  type="password" @keyup.enter.native="login()"></el-input>
               </el-col>
             </el-row>
             <div class="remember clearfix">
@@ -98,12 +101,12 @@ export default {
     if(localStorage.getItem("userName")){
       _this.phone = localStorage.getItem("userName")
     }
-    document.onkeydown = function(e){
-      let key = window.event.keyCode
-      if(key==13){
-        _this.login()
-      }
-    }
+    // document.onkeydown = function(e){
+    //   let key = window.event.keyCode
+    //   if(key==13){
+    //     _this.login()
+    //   }
+    // }
   },
   methods:{
     senYzm(){

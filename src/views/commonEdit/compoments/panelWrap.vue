@@ -3,9 +3,12 @@
     <el-form class="" 
       :model="addEditForm" 
       :rules="addEditRules" ref="addEditForm" label-width="110px">
-      <div v-for="(configs,index) in mainData" :key="index">
-        <div v-if="configs.type=='panel'" :style="{background:configs.decorationColor}">
-          <div class="tit ">{{configs.panelName}}</div>
+      <div v-for="(configs,index) in mainData" :key="index" class="configs-content">
+        <div v-if="configs.type=='panel'" class="bg-gray panel-item">
+          <div class="tit" v-if="configs.panelName">
+            <span class="deco" :style="{background:configs.decorationColor}"></span>
+            {{configs.panelName}}
+          </div>
 
           <el-row v-for="(item,idx) in configs.column" :key="idx">
             <el-col v-if="item.component">
@@ -34,7 +37,7 @@
             </el-col>
           </el-row>
         </div>
-        <lineBreak v-if="configs.type=='line-break'"></lineBreak>
+        <div v-if="configs.type=='line-break'" style="height:10px;background:#fff;"></div>
       </div>
     </el-form>
   </div>
@@ -153,7 +156,24 @@ export default {
   font-weight: 700;
   font-size: 18px;
   margin-bottom: 20px;
+  // padding-left: 10px;
+  .deco{
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
 }
+.configs-content{
+  // padding: 10px 0 10px 0;
+  // border-radius: 5px;
+  .panel-item{
+    border-radius: 5px;
+    padding: 10px;
+  }
+}
+
 </style>
 <style lang="less">
 .el-form-item.is-success .el-input__inner,

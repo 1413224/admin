@@ -14,16 +14,17 @@
       <!-- 提示信息开始 -->
       <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
       <!-- 提示信息end -->
-      <!-- 内容开始 -->
-      <div v-if="showEdit">
-        <!-- <div v-for="(item,index) in mainData" :key="index">
-          <panel v-if="item.type=='panel'" :configs="item"></panel>
-          <lineBreak v-if="item.type=='line-break'"></lineBreak>
-        </div> -->
-        <panelWrap></panelWrap>
-      </div>
-      <!-- 内容结束 -->
     </div>
+
+    <!-- 内容开始 -->
+    <div v-if="showEdit">
+      <!-- <div v-for="(item,index) in mainData" :key="index">
+        <panel v-if="item.type=='panel'" :configs="item"></panel>
+        <lineBreak v-if="item.type=='line-break'"></lineBreak>
+      </div> -->
+      <panelWrap></panelWrap>
+    </div>
+    <!-- 内容结束 -->
 
 
     <div class="footer-bar">
@@ -92,16 +93,21 @@ export default {
 .desc{
   font-size: 12px;
 }
+.edit-wrap{
+  padding-bottom: 100px;
+}
 .content{
   padding: 10px;
   margin-top: 30px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   .toptip{
     width: calc(100% - 20px);
     min-height: 50px;
     border-radius: 5px;
     // border: 1px solid #ccc;
     padding: 10px;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     font-size: 12px;
     background: #fff;
   }
