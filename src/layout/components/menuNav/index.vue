@@ -13,7 +13,7 @@
           @mouseenter="enter(item)"
           @click="toNavMenu(item,index,$event)">
           <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
-          <i :class="item.icon"></i>
+          <i class="iconfont" :class="item.icon"></i>
           {{item.name}}
         </li>
       </ul>
@@ -270,6 +270,7 @@ export default {
     openSubMenu(item){
       // console.log(item.children[0].children[0])
       let _this = this
+      
       item.children.map((item)=>{
         _this.menuSetting.defaultOpeneds.push(String(item.menuId))
       })

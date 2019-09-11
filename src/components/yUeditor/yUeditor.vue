@@ -104,3 +104,8 @@ export default {
     }
 };
 </script>
+<style lang="less">
+.edui-editor{
+  width: 100% !important;
+}
+</style>

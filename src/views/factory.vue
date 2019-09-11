@@ -54,6 +54,8 @@
         v-model="selData.modelVal" 
         :options="selData.optionData"
         placeholder="自定义提示"></ySelect> -->
+
+        <yUeditor  ref="editor" v-model="editor"></yUeditor>
       
       <yArea v-model="area"></yArea>
       <el-button @click="aa">测试关联</el-button>
@@ -76,6 +78,9 @@ const MyTable = () => ({
   // delay: 2000, // 当前组件等待时间
   // timeout: 3000 //   最长等待时间
 })
+const yUeditor = () =>({
+  component:import("@/components/yUeditor/yUeditor")
+})
 import Pagination from '@/components/pagination/pagination'
 import ySelect from '@/components/ySelect/index'
 import yArea from '@/components/cascader/yArea'
@@ -94,6 +99,7 @@ export default {
       ceshi:{
         a : ''
       },
+      editor:'dd',
       rowDrop:true,
       totalNums:0,
       pageSize:10,
@@ -279,7 +285,8 @@ export default {
     datePicker,
     linkageDatePicker,
     dateTimePicker,
-    linkageDateTimePicker
+    linkageDateTimePicker,
+    yUeditor
   }
 }
 </script>
