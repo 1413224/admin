@@ -16,11 +16,9 @@ const diymenu = {
   actions:{
     getMenuList({ commit }){
       return new Promise((resolve,reject)=>{
-        _this.$http.get(_this.url.control.GetNavbarList,{
-          params:{
-            token:_this.$utils.getToken(),
-            role_type:_this.url.role_type
-          }
+        _this.$http.post(_this.url.control.GetNavbarList,{
+          token:_this.$utils.getToken(),
+          role_type:_this.url.role_type
         }).then((res)=>{
           if(res.data.ret==200){
             // console.log(res.data.data.menu)

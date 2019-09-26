@@ -160,9 +160,7 @@ export default {
 
       if(_this.configs.apiService){
         _this.loading = true
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
+        _this.$http.post(_this.configs.apiService,params).then((res)=>{
           if(res.data.ret==200){
             _this.loading = false
             _this.$message({
@@ -226,9 +224,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-          _this.$http.get(_this.configs.apiService,{
-            params
-          }).then((res)=>{
+          _this.$http.post(_this.configs.apiService,params).then((res)=>{
             if(res.data.ret==200){
               _this.$store.commit('changeList',1)
               _this.$store.commit('setIds','')
@@ -278,9 +274,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-          _this.$http.get(_this.configs.apiService,{
-            params
-          }).then((res)=>{
+          _this.$http.post(_this.configs.apiService,params).then((res)=>{
             if(res.data.ret==200){
               _this.$store.commit('changeList',1)
               _this.$store.commit('setIds','')
@@ -334,9 +328,7 @@ export default {
           type: 'warning'
         }).then(()=>{
           return;
-          _this.$http.get(_this.configs.apiService,{
-            params
-          }).then((res)=>{
+          _this.$http.post(_this.configs.apiService,params).then((res)=>{
             if(res.data.ret==200){
               _this.$message({
                 type: 'success',
@@ -387,9 +379,7 @@ export default {
         }
 
         params = Object.assign(params,{token:token},this.addEditForm)
-        _this.$http.get(url,{
-          params
-        }).then((res)=>{
+        _this.$http.post(url,params).then((res)=>{
           if(res.data.ret==200){
             _this.$message({
               type: 'success',

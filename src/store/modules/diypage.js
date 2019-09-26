@@ -64,12 +64,10 @@ const diypage = {
     getConfigs({ commit },path){
       let url = path
       return new Promise((resolve,reject)=>{
-        _this.$http.get(_this.url.control.GetDiyListPage,{
-          params:{
-            token:_this.$utils.getToken(),
-            // path:'/account/list'
-            path:url
-          }
+        _this.$http.post(_this.url.control.GetDiyListPage,{
+          token:_this.$utils.getToken(),
+          // path:'/account/list'
+          path:url
         }).then((res)=>{
           if(res.data.ret==200){
             // console.log(res.data.data)

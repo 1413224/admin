@@ -138,9 +138,7 @@ export default {
             token:token,
             id:value
           })
-          _this.$http.get(_this.pageData.infoApiService,{
-            params
-          }).then((res)=>{
+          _this.$http.post(_this.pageData.infoApiService,params).then((res)=>{
             if(res.data.ret==200){
               // console.log(res.data)
               resolve(res.data.data)
