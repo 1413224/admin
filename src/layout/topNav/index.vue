@@ -42,7 +42,7 @@ export default {
       let _this = this,
         info = JSON.parse(localStorage.getItem("info"));
         
-      _this.$http.post(_this.url.user.Logout,{
+      _this.$http.post(_this.baseUrl + _this.url.user.Logout,{
         token:info.token
       }).then((res)=>{
         if(res.data.ret == 200){

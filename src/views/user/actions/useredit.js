@@ -7,7 +7,7 @@ export default {
   },
   getInfo(){
     let _this = this
-    _this.$http.post(_this.url.user.GetInfo,{
+    _this.$http.post(_this.baseUrl + _this.url.user.GetInfo,{
       token:_this.$utils.getToken()
     }).then((res)=>{
       if(res.data.ret==200){
@@ -52,7 +52,7 @@ export default {
       params.emergency = _this.emergency
       params.egmobile = _this.egmobile
     }
-    _this.$http.post(_this.url.user.ChangeInfo,params).then((res)=>{
+    _this.$http.post(_this.baseUrl + _this.url.user.ChangeInfo,params).then((res)=>{
       if(res.data.ret==200){
         // console.log(res)
         // _this.resetInfo()
@@ -69,7 +69,7 @@ export default {
   },
   getYzmChangePhone(){
     let _this = this 
-    _this.$http.post(_this.url.user.GetLoginCode,{
+    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
       token:_this.$utils.getToken(),
       mobile:_this.changePhoneForm.newPhone,
       type:3
@@ -81,7 +81,7 @@ export default {
   },
   getYzmByChangePass(){
     let _this = this
-    _this.$http.post(_this.url.user.GetLoginCode,{
+    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
       token:_this.$utils.getToken(),
       type:1
     }).then((res)=>{
@@ -96,7 +96,7 @@ export default {
       if(!valid){
         return false
       }
-      _this.$http.post(_this.url.user.ChangeMobile,{
+      _this.$http.post(_this.baseUrl + _this.url.user.ChangeMobile,{
         token:_this.$utils.getToken(),
         password:_this.MD5(_this.changePhoneForm.changePhonePassword),
         new_mobile:_this.changePhoneForm.newPhone,
@@ -123,11 +123,11 @@ export default {
       }
       if(_this.chanPasswordStatus==0){//根据旧密码修改
         params.old_password = _this.MD5(_this.accountForm.oldPassword)
-        url = _this.url.user.ChangePasswordByOld
+        url = _this.baseUrl + _this.url.user.ChangePasswordByOld
       }
       if(_this.chanPasswordStatus==1){//根据验证码修改密码
         params.verification_code = _this.accountForm.yzm
-        url = _this.url.user.ChangePasswordByCode
+        url = _this.baseUrl + _this.url.user.ChangePasswordByCode
       }
 
       _this.$http.post(url,params).then((res)=>{

@@ -12,6 +12,7 @@ import MD5 from 'js-md5'
 import utils from './utils/index'
 import './utils/fillter'
 import { loadSkin } from './skin/index'
+import yTitle from './components/yTitle/yTitle.vue'
 
 import './style/reset.css'
 import './style/global.less'
@@ -26,8 +27,12 @@ Vue.prototype.$http = axios
 Vue.prototype.MD5 = MD5
 Vue.prototype.$utils = utils
 
+Vue.prototype.baseUrl = '//dev.9yetech.com/apigw/'
+Vue.prototype.cloudUrl = ''
+
 Vue.use(Vuex)
 Vue.use(ElementUI)
+Vue.component('yTitle',yTitle)
 
 Array.prototype.indexOf = function(val){
   for(let i=0;i<this.length;i++){

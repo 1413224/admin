@@ -64,7 +64,7 @@ const diypage = {
     getConfigs({ commit },path){
       let url = path
       return new Promise((resolve,reject)=>{
-        _this.$http.post(_this.url.control.GetDiyListPage,{
+        _this.$http.post(_this.baseUrl + _this.url.control.GetDiyListPage,{
           token:_this.$utils.getToken(),
           // path:'/account/list'
           path:url

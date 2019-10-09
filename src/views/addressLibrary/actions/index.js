@@ -9,7 +9,7 @@ export default {
       }
 
     return new Promise((resolve,reject)=>{
-      _this.$http.post(_this.url.control.GetAreaList,params).then((res)=>{
+      _this.$http.post(_this.baseUrl + _this.url.control.GetAreaList,params).then((res)=>{
         if(res.data.ret==200){
           // _this.firstData = res.data.data.list
           resolve(res.data.data.list)
@@ -26,7 +26,7 @@ export default {
       parent_id:id,
       status:-1
     }
-    _this.$http.post(_this.url.control.GetAreaList,params).then((res)=>{
+    _this.$http.post(_this.baseUrl + _this.url.control.GetAreaList,params).then((res)=>{
       if(res.data.ret==200){
         _this.treeData = res.data.data.list
         // resolve(res.data.data.list)
@@ -107,7 +107,7 @@ export default {
         population:_this.dialogForm.population,
         status:_this.dialogForm.status
       }
-      _this.$http.post(_this.url.control.AddAres,params).then((res)=>{
+      _this.$http.post(_this.baseUrl + _this.url.control.AddAres,params).then((res)=>{
         if(res.data.ret == 200){
           _this.getTreeDataList(0)//新增后直接刷新
           _this.dialogVisible = false
@@ -139,7 +139,7 @@ export default {
         population:_this.dialogForm.population,
         status:_this.dialogForm.status
       }
-      _this.$http.post(_this.url.control.EditAreaById,params).then((res)=>{
+      _this.$http.post(_this.baseUrl + _this.url.control.EditAreaById,params).then((res)=>{
         if(res.data.ret==200){
           _this.getTreeDataList(0)//编辑后直接刷新
           _this.dialogVisible = false
@@ -150,7 +150,7 @@ export default {
   GetAreaInfoById(id){
     let _this = this
     return new Promise((resolve,reject)=>{
-      _this.$http.post(_this.url.control.GetAreaInfoById,{
+      _this.$http.post(_this.baseUrl + _this.url.control.GetAreaInfoById,{
         token:_this.$utils.getToken(),
         id:id
       }).then((res)=>{
@@ -173,7 +173,7 @@ export default {
         token:_this.$utils.getToken(),
         ids:data.id
       }
-      _this.$http.post(_this.url.control.DelAreaByIds,params).then((res)=>{
+      _this.$http.post(_this.baseUrl + _this.url.control.DelAreaByIds,params).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
             type: 'success',
@@ -209,7 +209,7 @@ export default {
   },
   changeStatusById(item,value){
     let _this = this
-    _this.$http.post(_this.url.control.ChangeStatusByIds,{
+    _this.$http.post(_this.baseUrl + _this.url.control.ChangeStatusByIds,{
       token:_this.$utils.getToken(),
       ids:item.id,
       status:value

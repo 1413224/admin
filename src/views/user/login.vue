@@ -145,7 +145,7 @@ export default {
         this.$message('请输入正确的手机号码')
         return
       }
-      _this.$http.post(_this.url.user.Login,{
+      _this.$http.post(_this.baseUrl + _this.url.user.Login,{
         account:_this.phone,
         password:_this.MD5(_this.password),
         role_type:_this.url.role_type

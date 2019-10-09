@@ -35,7 +35,11 @@ let url = {
     GetDiyListPage:'control/temp/DiyPage/GetListPage',//control/temp/DiyPage/GetListPage
     GetDiyPageMenu:'control/temp/DiyPage/GetMenu',//获取后台菜单栏目信息
     GetNavbarList:'cloud/diyPage/Navbar/GetList',//获取指定角色类型对应的侧边栏目信息
-  }
+  },
+  File:{
+    AddImage:'basic/upload/File/AddImage',//后台账户上传图片通用接口
+    AddImageByUrl:'basic/upload/File/AddImageByUrl',//后台账户上传图片通用接口
+  },
 }
 
 export default url

@@ -16,7 +16,7 @@ const diymenu = {
   actions:{
     getMenuList({ commit }){
       return new Promise((resolve,reject)=>{
-        _this.$http.post(_this.url.control.GetNavbarList,{
+        _this.$http.post(_this.baseUrl + _this.url.control.GetNavbarList,{
           token:_this.$utils.getToken(),
           role_type:_this.url.role_type
         }).then((res)=>{

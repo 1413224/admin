@@ -96,6 +96,34 @@ export default new Router({
         {
           path:'/account/Add',
           component:() => import('@/views/commonEdit/commonEdit')
+        },
+        {
+          path:'/channel/agentList',
+          component:() => import('@/views/channel/agentList'),
+          meta:{
+            title:'代理列表'
+          }
+        },
+        {
+          path:'/channel/addEditAgent',
+          component:() => import('@/views/channel/addEditAgent'),
+          meta:{
+            title:'新增/编辑代理'
+          }
+        },
+        {
+          path:'/channel/agentDetail',
+          component:() => import('@/views/channel/agentDetail'),
+          meta:{
+            title:'代理详情'
+          }
+        },
+        {
+          path:'/operate/agentExamine',
+          component:() => import('@/views/operate/agentExamine'),
+          meta:{
+            title:'代理审核'
+          }
         }
       ]
     },
