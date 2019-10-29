@@ -23,13 +23,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .tit{
-  color: #595961;
-  font-weight: bold;
-  font-size: 15px;
-}
-.desc{
-  color: #686A73;
-  font-size: 12px;
-  font-weight: bold;
+  color: #333333FF;
+  // font-weight: bold;
+  font-size: 14px;
+  padding-left: 8px;
 }
 </style>

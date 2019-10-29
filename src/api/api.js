@@ -6,7 +6,7 @@ let url = {
     Logout:'common/role/Account/Logout',
     ForgetPassword:'common/role/Account/ForgetPassword',
     GetPublicCode:'common/role/verificationCode/GetPublicCode',//账户未登录时发送验证码接口
-    GetLoginCode:'common/role/verificationCode/GetLoginCode',//账户登录后发送验证码接口
+    GetLoginCode:'common/role/VerificationCode/GetLoginCode',//账户登录后发送验证码接口
     ChangePasswordByOld:'common/role/Account/ChangePasswordByOld',//后台端根据旧密码修改密码接口
     GetInfo:'common/role/Account/GetInfo',//后台端获取账户信息接口
     ChangeInfo:'common/role/Account/ChangeInfo',//后台端修改账户信息接口
@@ -40,6 +40,49 @@ let url = {
     AddImage:'basic/upload/File/AddImage',//后台账户上传图片通用接口
     AddImageByUrl:'basic/upload/File/AddImageByUrl',//后台账户上传图片通用接口
   },
+  Group:{
+    GetList:'common/attachment/Group/GetList',//获取本地附件空间类型对应的分组列表
+    Add:'common/attachment/Group/Add',//新增一个远程附件分组
+    DelInfoById:'common/attachment/Group/DelInfoById',//根据附件分组ID删除远程附件分组信息
+    ChangeInfoById:'common/attachment/Group/ChangeInfoById',//根据附件分组ID修改远程附件分组信息
+    GetPtGroupList:'cloud/common/attachment/Group/GetList',//获取平台可用的附件空间类型对应的分组列表
+
+  },
+  attachmentLog:{
+    GetList:'common/attachment/Log/GetList',//获取附件空间类型对应的配置列表
+    cloudGetList:'cloud/common/attachment/Log/GetList',//获取平台附件空间类型对应的配置列表
+    ChangeBdGroupByIds:'common/attachment/Log/ChangeGroupByIds',//批量修改本地图片所属分组
+  
+  },
+
+
+  common:{
+    GetRoleType:'cloud/common/Code/GetRoleType',//获取角色类型码接口
+  },
+  PermGroup:{//总后台角色组
+    GetList:'main/operate/PermGroup/GetList',//获取通用角色组列表信息接口
+    Statistics:'main/operate/PermGroup/Statistics',//角色组信息接口
+    AddPermGroup:'main/operate/PermGroup/Add',//新增角色组信息接口
+    ChangeStatusByIds:'main/operate/PermGroup/ChangeStatusByIds',//批量修改角色组可用状态接口
+    DelByIds:'main/operate/PermGroup/DelByIds',//批量删除角色组信息接口
+    GetInfoById:'main/operate/PermGroup/GetInfoById',//获取角色组详情信息接口
+    EditById:'main/operate/PermGroup/EditById',//修改角色组信息接口
+  },
+  commonPermGroup:{//通用角色组
+    GetList:'common/role/PermGroup/GetList',//获取通用角色组列表信息接口
+    ChangeStatusByIds:'common/role/PermGroup/ChangeStatusByIds',//批量修改角色组可用状态接口
+    Add:'common/role/PermGroup/Add',//新增角色组信息接口
+    GetInfoById:'common/role/PermGroup/GetInfoById',//获取角色组详情信息接口
+    DelByIds:'common/role/PermGroup/DelByIds',//批量删除角色组信息接口
+    EditById:'common/role/PermGroup/EditById',//修改角色组信息接口
+  },
+
+  cloud:{
+    Perm:{
+      GetPermByRoleType:'cloud/role/Perm/GetPermByRoleType',//获取角色类型所有权限列表
+
+    }
+  }
 }
 
 export default url

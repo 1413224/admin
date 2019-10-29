@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-5">
     <yTitle>新增代理</yTitle>
     <div class="bg-gray py-3 px-2 mt-2 rounded">
       <span class="tit">基础信息</span>
@@ -27,7 +27,8 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="代理logo" prop="logo">
-              <upLoadImage v-model="addForm.logo"></upLoadImage>
+              <!-- <upLoadImage v-model="addForm.logo"></upLoadImage> -->
+              <upLoadWrap v-model="addForm.logo" nums></upLoadWrap>
               <p style="color:#999;font-size:12px;">尺寸建议750x750像素以上，大小2M以下。</p>
             </el-form-item>
           </el-col>
@@ -86,7 +87,9 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
-import upLoadImage from '@/components/upLoadImage/upLoadImage'
+// import upLoadImage from '@/components/upLoadImage/upLoadImage'
+import upLoadWrap from '@/components/uploadPicture/uploadWrap'
+
 export default {
   data(){
     return {
@@ -140,7 +143,8 @@ export default {
   },
   components:{
     ySelect,
-    upLoadImage
+    // upLoadImage,
+    upLoadWrap
   }
 }
 </script>

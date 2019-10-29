@@ -34,19 +34,44 @@ html,body{
 .bg-gray{background: #f2f2f6;}
 .bg-white{background: #fff;}
 .box-shadow{box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05)}
-
+.ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ellipsis2{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 .bg-bule{
   background: #EEF6FF;
   border: 1px solid #B3D6FF;
   border-radius: 4px;
   margin: 10px 0;
 }
+.font-sm{
+  font-size: 12px;
+}
 // .el-button--primary{
 //   background-color: #2589ff !important;
 //   border-color: #2589ff;
 // }
+.table-wrap{
+  margin-top: 10px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  .status{
+    padding: 4px 12px !important;
+  }
+}
 .el-form-item__label{
-  font-size: 13px !important;
+  font-size: 12px !important;
 }
 .el-form-item__content{
   line-height: 36px !important;
@@ -54,11 +79,81 @@ html,body{
 .el-table thead{
   color: #333 !important;
 }
+.el-form-item.is-success .el-input__inner{
+  border-color: #dcdfe6 !important;
+}
+.el-form-item.is-success .el-textarea__inner{
+  border-color: #dcdfe6 !important;
+}
+.el-menu{
+  background-color: #fafafa !important;
+}
+.el-menu-item.is-active{
+  background: #EBEDF0 !important;
+  // margin-left: 10px;
+  border-radius: 4px;
+}
+.el-menu-item:hover{
+  background: #EBEDF0 !important;
+  // margin-left: 10px !important;
+  border-radius: 4px !important;
+}
+.el-submenu__title:hover{
+  background: transparent !important;
+}
+.el-submenu__title i{
+  color: #595961 !important;
+}
+.el-submenu .el-menu{
+  padding-left: 10px;
+}
+.el-submenu .el-menu-item{
+  min-width: 100px !important;
+  padding-left: 10px !important;
+  height: 42px !important;
+  line-height: 42px !important;
+}
+.yinput {
+  width: 166px !important;
+}
+.form-input{
+  width: 346px !important;
+}
+.yselect {
+  width: 166px !important;
+}
+//表格
+.el-table__body-wrapper{
+  font-size: 12px;
+}
+.el-table thead{
+  font-size: 12px;
+}
+.el-dialog__title{
+  font-size: 14px !important;
+  font-weight: 400;
+}
+.el-dialog__footer{
+  border: 1px solid #E3E2E5FF;
+}
+.dialog-footer /deep/ .el-button{
+  padding: 7px 20px;
+}
+.el-dialog__footer{
+  padding: 15px 20px 15px !important;
+}
+.el-radio__label{
+  font-size: 12px !important;
+}
 
 
 
+.text-right{text-align: right;}
+.box-shadow-page{ box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1); }
+.border-bottom{border-bottom: 1px solid #E3E2E5;}
+.border-top{border-top: 1px solid #E3E2E5;}
 
-
+.font-sm{ font-size: 12px;}
 /* flex布局 */
 .d-flex{ display: flex; }
 .d-block{ display: block; }
@@ -195,6 +290,7 @@ html,body{
 .pl-3 { padding-left: 30px;}
 .pl-4 { padding-left: 40px;}
 .pl-5 { padding-left: 50px;}
+.pl-7 { padding-left: 70px;}
 
 .pr-0 { padding-right: 0;}
 .pr { padding-right: 5px;}

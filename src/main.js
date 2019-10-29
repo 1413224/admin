@@ -28,7 +28,7 @@ Vue.prototype.MD5 = MD5
 Vue.prototype.$utils = utils
 
 Vue.prototype.baseUrl = '//dev.9yetech.com/apigw/'
-Vue.prototype.cloudUrl = ''
+Vue.prototype.cloudUrl = '//dev.9yetech.com/apigw/'
 
 Vue.use(Vuex)
 Vue.use(ElementUI)

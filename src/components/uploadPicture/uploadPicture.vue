@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="showBdGroupList = false">
     <el-dialog
       :visible.sync="dialogPicture"
       width="1100px"
@@ -19,8 +19,31 @@
 
       <div class="content">
         <div class="item-wrap" v-show="tabsidx==0">
+          <el-select v-model="ptYear" size="small" style="margin-left:20px;">
+            <el-option :value="-1" label="不限年份"></el-option>
+            <el-option 
+            v-for="(item,index) in ptYearList"
+            :key="index"
+            :value="item" 
+            :label="item">
+          </el-option>
+          </el-select>
+          <el-select v-model="ptMonth" size="small">
+            <el-option :value="-1" label="不限月份"></el-option>
+            <el-option 
+              v-for="(item,index) in ptMonthList"
+              :key="index"
+              :value="item.month" 
+              :label="item.month">
+            </el-option>
+          </el-select>
+          <el-button size="mini" type="primary" 
+            style="position:relative;top:2px;"
+            @click="getPtImageList()">
+            <i class="iconfont icon-search"></i>
+          </el-button>
           <div class="btn-wrap">
-            <el-button type="danger" size="small">删除</el-button>
+            <!-- <el-button type="danger" size="small">删除</el-button>
             <el-upload
               ref="uploada"
               style="width:120px;display:inline"
@@ -30,24 +53,24 @@
               :http-request="imgRequest"
               multiple>
               <el-button type="primary" size="small">上传图片</el-button>
-            </el-upload>
+            </el-upload> -->
           </div>
 
           <div class="top-wrap">
             <div class="group-wrap">
-              <div class="top">
+              <!-- <div class="top">
                 <i class="iconfont icon-plus-circle"></i>
                 <span class="add-group">添加分组</span>
-              </div>
-              <div class="group-list">
+              </div> -->
+              <div class="group-list pt-group-list">
                 <div
                   class="item default-item"
                   :class="{active:ptGroupIdx == index}"
                   v-for="(item,index) in ptGroupData"
                   :key="index"
-                  @click="changeTab(item,index)">
+                  @click="ptChangeTab(item,index)">
                   <i class="iconfont icon-folder-add"></i>
-                  <span class="name">组名</span>
+                  <span class="name">{{item.name}}</span>
                 </div>
               </div>
             </div>
@@ -59,7 +82,7 @@
                 class="item"
                 :class="{active:item.active}"
                 :style="{backgroundImage:`url(${item.url})`}"
-                @click="selectImage(item)">
+                @click="selectPtImage(item)">
                 <div class="name ellipsis">{{item.name}}</div>
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
@@ -79,7 +102,7 @@
           <div class="bottom">
             <el-row>
               <el-col :span="4">
-                <el-checkbox v-model="cheakAll" @change="ptCheckAll" class="checkAll">全选</el-checkbox>
+                <el-checkbox v-model="ptCheckedAll" @change="ptCheckAll" class="checkAll">全选</el-checkbox>
               </el-col>
               <el-col :span="20" style="text-align: center;">
                 <el-pagination
@@ -127,8 +150,25 @@
             <i class="iconfont icon-search"></i>
           </el-button>
           <div class="btn-wrap">
-            <el-button type="danger" size="small">删除</el-button>
-            <el-button type="primary" size="small">上传图片</el-button>
+            <el-button type="primary" size="small" @click.stop="showBdSelGroup()">
+              移动<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-upload
+              ref="uploada"
+              style="width:120px;display:inline"
+              :action="baseUrl + url.File.AddImage"
+              :show-file-list="false"
+              :before-upload="beforeAvatarUpload"
+              :http-request="imgRequest"
+              multiple>
+              <el-button type="primary" size="small">上传图片</el-button>
+            </el-upload>
+            <div class="grouplist-wrap py-1" v-show="showBdGroupList">
+              <div class="item pl-2" 
+                v-for="(item,index) in bdGroupData"
+                :key="index"
+                @click.stop="moveBdPicture(item)">{{item.name}}</div>
+            </div>
           </div>
           <div class="top-wrap">
             <div class="group-wrap">
@@ -139,22 +179,22 @@
               <div class="group-list">
                 <div class="item default-item" 
                   :class="{active:defaultGroupIndex==-1}"
-                  @click="changeTab($event,0,0,-1)">
+                  @click="bdChangeTab($event,0,0,-1)">
                   <i class="iconfont icon-folder-add"></i>
                   <span class="name">全部</span>
                 </div>
                 <div class="item default-item"
                   :class="{active:defaultGroupIndex==0}"
-                  @click="changeTab($event,0,0,0)">
+                  @click="bdChangeTab($event,0,0,0)">
                   <i class="iconfont icon-folder-add"></i>
                   <span class="name">未分组</span>
                 </div>
                 <div
                   class="item"
-                  :class="{active:ptGroupIdx == index}"
+                  :class="{active:bdGroupIdx == index}"
                   v-for="(item,index) in bdGroupData"
                   :key="index"
-                  @click.stop="changeTab($event,item,index)">
+                  @click.stop="bdChangeTab($event,item,index)">
                   <div class="name-wrap">
                     <i class="iconfont icon-folder-add"></i>
                     <span v-show="!item.submitShow" class="name">{{item.name}}</span>
@@ -189,12 +229,12 @@
             <!-- 列表开始 -->
             <div class="list-wrap">
               <div
-                v-for="(item,index) in ptListData"
+                v-for="(item,index) in bdListData"
                 :key="index"
                 class="item"
                 :class="{active:item.active}"
                 :style="{backgroundImage:`url(${item.url})`}"
-                @click="selectImage(item)">
+                @click="selectBdImage(item,index)">
                 <div class="name ellipsis">{{item.name}}</div>
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
@@ -208,7 +248,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="ptListData.length==0"
+              <div v-if="bdListData.length==0"
                 class="noimg">
                 暂无图片
               </div>
@@ -218,7 +258,7 @@
           <div class="bottom" style="padding-top:20px;">
             <el-row>
               <el-col :span="4">
-                <el-checkbox v-model="cheakAll" @change="ptCheckAll" class="checkAll">全选</el-checkbox>
+                <el-checkbox v-if="nums" v-model="bdCheckedAll" @change="bdCheckAll" class="checkAll">全选</el-checkbox>
               </el-col>
               <el-col :span="20" style="text-align: center;">
                 <el-pagination
@@ -243,7 +283,8 @@
         <!-- 提取网络照片 -->
         <div class="item-wrap" v-show="tabsidx==2">
           <div class="pic-top">
-            <img src="../../assets/nopic.png" alt="">
+            <img v-show="!srcPicture" src="../../assets/nopic.png" alt="">
+            <img v-show="srcPicture" :src="srcPicture"/>
           </div>
           <div class="desc-tip">输入图片链接</div>
           <el-input class="pic-input" v-model="picSrc" size="small" placeholder="图片链接"></el-input>
@@ -253,7 +294,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogPicture = false">取 消</el-button>
-        <el-button size="small" type="primary" @click="dialogPicture = false">确 定</el-button>
+        <el-button size="small" type="primary" @click="checkPicture()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -267,6 +308,10 @@ export default {
     attachmentConfigId:{
       type:[Number,String],
       default:-1
+    },
+    nums:{
+      type:Boolean,
+      default:false
     }
   },
   data() {
@@ -280,40 +325,57 @@ export default {
       bdCurPage: 1,
       bdPageSize: 10,
       bdTotalPages:1,
-
-      ptGroupTotalNums:0,
-      ptGroupCurPage: 1,
-      ptGroupPageSize: 10,
-      ptGroupTotalPages:1,
-
-      bdYearList:[],
+      // bdYearList:[],
       bdMonthList:[
         {month:1},{month:2},{month:3},{month:4},{month:5},{month:6},{month:7},
         {month:8},{month:9},{month:10},{month:11},{month:12},
       ],
       bdGroupId:-1,
+      bdGroupData:[],
+      bdListData:[],//本地图片列表
+      bdYear:-1,
+      bdYearList:this.$utils.getYearList(),
+      bdMonth:-1,
+      bdCheckedAll:false,
+      bdGroupIdx:null,
+      showBdGroupList:false,
 
-      list:[],
-      dialogPicture: this.value,
+
+
+      ptGroupTotalNums:0,
+      ptGroupCurPage: 1,
+      ptGroupPageSize: 10,
+      ptGroupTotalPages:1,
+      ptListData: [],//平台图片列表
       totalNums:0,
       curPage: 1,
       pageSize: 10,
       totalPages:1,
+      ptGroupIdx: 0,
+      ptGroupData: [
+        // {name:'全部',type:-1},
+        // {name:'未分组',type:0},
+      ],
+      ptMonthList:[
+        {month:1},{month:2},{month:3},{month:4},{month:5},{month:6},{month:7},
+        {month:8},{month:9},{month:10},{month:11},{month:12},
+      ],
+      ptYear:-1,
+      ptYearList:this.$utils.getYearList(),
+      ptMonth:-1,
+      ptCheckedAll:false,
+
+
+      list:[],
+      dialogPicture: this.value,
       tabsidx: 1,
       tabsBtn: [
         { text: "平台" },
         { text: "本地服务器" },
         { text: "提取网络图片" }
       ],
-      ptGroupIdx: null,
-      ptGroupData: [],
-      bdGroupData:[],
-      cheakAll:false,
-      ptListData: [],
       picSrc:'',
-      bdYear:-1,
-      bdYearList:this.$utils.getYearList(),
-      bdMonth:-1
+      srcPicture:'',//上传的链接图片
     };
   },
   created() {
@@ -321,7 +383,7 @@ export default {
     _this.getBdGroupList().then(()=>{
       _this.getBdImageList()
     })
-    // _this.getPtGroupList()
+    _this.getPtGroupList()
   },
   computed: {
     ...mapState({
@@ -340,29 +402,47 @@ export default {
       // this.$store.commit('setDialogPicture',false)
     },
     
-    selectImage(item) {
+    selectBdImage(item,index) {
       let _this = this
-      if (item.active) {
-        item.active = false
-      } else {
-        item.active = true
+      if(!_this.nums){
+        _this.bdListData.map((itm,idx)=>{
+          if(index==idx){
+            if(itm.active){
+              itm.active = false
+            }else{
+              itm.active = true
+            }
+          }else{
+            itm.active = false
+          }
+        })
+      }
+      if(_this.nums){
+        if (item.active) {
+          item.active = false
+        } else {
+          item.active = true
+        }
       }
     },
     ptDelImage(item){
       console.log(item)
     },
-    ptCheckAll(value){
+    bdCheckAll(value){
       // console.log(value)
       let _this = this
       if(value){
-        _this.ptListData.map((item,index)=>{
+        _this.bdListData.map((item,index)=>{
           item.active = true
         })
       }else{
-        _this.ptListData.map((item,index)=>{
+        _this.bdListData.map((item,index)=>{
           item.active = false
         })
       }
+    },
+    ptCheckAll(value){
+
     },
     handleCurrent(currentVal){
       this.curPage = currentVal
@@ -437,11 +517,14 @@ export default {
         url:_this.picSrc
       }).then((res)=>{
         if(res.data.ret==200){
+          let data = res.data.data
           _this.$message({
             type: 'success',
             message: '上传成功!'
           })
           _this.picSrc = ''
+          console.log(data)
+          _this.srcPicture = data.url 
         }
       })
     },
@@ -475,7 +558,7 @@ export default {
 }
 .tit-tabs {
   .item {
-    padding: 8px 10px;
+    padding: 0 10px;
     margin-right: 15px;
     border-radius: 5px;
     font-size: 14px;

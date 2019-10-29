@@ -163,7 +163,7 @@ export default {
             })
           }else{
             _this.$router.replace({
-              path:'/test1'
+              path:'/home'
             })
           }
           

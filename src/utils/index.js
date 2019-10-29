@@ -19,14 +19,35 @@ export default {
   getTimestamp(){
     return new Date().getTime()
   },
-  findBrothersComponents(context, componentName, exceptMe = true){
-    let res = context.$parent.$children.filter(item=>{
-      if(item.$options.name == componentName){
-        return item
-      }
-    })
-    // let index = res.findIndex(item => item._uid == context._uid)
-    // if (exceptMe) res.splice(index, 1)
-    return res
+  computeTime(year,month){
+    if(year!=-1 && month!=-1){
+      return [
+        new Date(year,month - 1).getTime() / 1000,
+        new Date(year,month).getTime() / 1000,
+      ]
+    }else if(year!=-1 && month==-1){
+      return [
+        new Date(year,0).getTime() / 1000,
+        new Date(year,12,0).getTime() / 1000,
+      ]
+    }
+    else if(year==-1){
+      return [
+        '',''
+      ]
+    }
+    
+  },
+  getYearList(){
+    let thisYear,
+        yearList = [];
+    thisYear = new Date().getFullYear()
+    // console.log(thisYear) 2019
+    ++thisYear
+    for(let i=10;i>0;i--){
+      thisYear --
+      yearList.push(thisYear)
+    }
+    return yearList
   }
 }

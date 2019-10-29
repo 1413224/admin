@@ -1,6 +1,6 @@
 <template>
   <div class="zent-breadcrumb">
-    <span>移动店铺</span>
+    <breadCrumb class="breadCrumb fl"></breadCrumb>
     <ul class="navbar-right fr">
       <li>套餐升级</li>
       <li>客户消息</li>
@@ -28,6 +28,8 @@
 </template>
 <script>
 import ySkin from '@/components/ySkin/index'
+import breadCrumb from '@/components/breadcrumb/breadcrumb'
+
 export default {
   data(){
     return {
@@ -35,7 +37,8 @@ export default {
     }
   },
   components:{
-    ySkin
+    ySkin,
+    breadCrumb
   },
   methods:{
     logout(){
@@ -43,7 +46,8 @@ export default {
         info = JSON.parse(localStorage.getItem("info"));
         
       _this.$http.post(_this.baseUrl + _this.url.user.Logout,{
-        token:info.token
+        token:info.token,
+        role_type:_this.url.role_type
       }).then((res)=>{
         if(res.data.ret == 200){
           localStorage.removeItem('info')
@@ -59,7 +63,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .zent-breadcrumb{
-  position: relative;
+  position: fixed;
+  width: 100%;
   height: 56px;
   min-width: 750px;
   box-sizing: border-box;
@@ -68,6 +73,8 @@ export default {
   padding: 0 100px 0 5px;
   padding: 21px;
   font-size: 14px;
+  z-index: 101;
+  padding-left: 140px;
   .navbar-right{
     li{
       float:left;

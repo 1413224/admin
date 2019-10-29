@@ -59,18 +59,18 @@ export default {
     }
   },
   created(){
-    let shortcuts = this.configs.shortcuts
-    let showType = this.configs.showType
-    if(shortcuts){
-      if(showType=='date'){
-        this.pickerOptions.shortcuts = this.shortcutsDate
-      }
-      // if(showType=='date'){
+    // let shortcuts = this.configs.shortcuts
+    // let showType = this.configs.showType
+    // if(shortcuts){
+    //   if(showType=='date'){
+    //     this.pickerOptions.shortcuts = this.shortcutsDate
+    //   }
+    //   // if(showType=='date'){
 
-      // }
+    //   // }
 
-      this.align = 'right'
-    }
+    //   this.align = 'right'
+    // }
   },
   computed:{
     showType(){

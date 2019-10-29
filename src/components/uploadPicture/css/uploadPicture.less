@@ -4,6 +4,26 @@
     padding-right: 20px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    position: relative;
+  }
+  .grouplist-wrap{
+    width: 150px;
+    height: 200px;
+    border: 1px solid #e8e9eb;
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    z-index: 10;
+    background: #fff;
+    overflow-y: auto;
+    .item{
+      text-align: left;
+      border-bottom: 1px solid #e8e9eb;
+      &:hover{
+        cursor: pointer;
+        background: #e8e9eb;
+      }
+    }
   }
   .item-wrap{
     // border-top: 1px solid #eee;
@@ -32,6 +52,9 @@
         .add-group{
           margin-left: 5px;
         }
+      }
+      .pt-group-list{
+        top: 0 !important;
       }
       .group-list{
         // max-height: 300px;
@@ -134,10 +157,11 @@
         margin-top: 20px;
         margin-left: 20px;
         &:hover{
-          .del-border{
-            display: block;
-            cursor: pointer;
-          }
+          cursor: pointer;
+          // .del-border{
+          //   display: block;
+          //   cursor: pointer;
+          // }
         }
         &.active{
           .mask{

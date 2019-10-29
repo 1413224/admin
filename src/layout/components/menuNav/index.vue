@@ -1,34 +1,33 @@
 <template>
-  <div class="shared-sidebar">
-    <nav class="shared-first-sidebar">
-      <div class="shared-team-logo">
-        <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
+  <div>
+    <div class="shared-sidebar">
+      <nav class="shared-first-sidebar">
+        <div class="shared-team-logo">
+          <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
+          </div>
         </div>
-      </div>
-      <ul class="shared-first-sidebar-nav" ref="firsrMenu">
-        <li 
-          v-for="(item,index) in menuList" 
-          :key="index" 
-          :class="{active:item.path==$route.path || $route.meta.parentsLabel == item.name}"
-          @mouseenter="enter(item)"
-          @click="toNavMenu(item,index,$event)">
-          <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
-          <i class="iconfont" :class="item.icon"></i>
-          {{item.name}}
-        </li>
-      </ul>
-    </nav>
-
+        <ul class="shared-first-sidebar-nav" ref="firsrMenu">
+          <li 
+            v-for="(item,index) in menuList" 
+            :key="index" 
+            :class="{active:item.path==$route.path || $route.meta.parentsLabel == item.name}"
+            @mouseenter="enter(item)"
+            @click="toNavMenu(item,index,$event)">
+            <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
+            <i class="iconfont" :class="item.icon"></i>
+            {{item.name}}
+          </li>
+        </ul>
+      </nav>
+    </div>
     <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
-      <h2 class="second-sidebar-title">客户中心</h2>
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
 
     <!-- <div class="show-menu" v-show="showMenu" @mouseleave="sout">
       <MenuList :menuList="subMenuDataMove" :settings="menuSetting"></MenuList>
     </div> -->
-
   </div>
 </template>
 <script>
@@ -300,43 +299,65 @@ export default {
   left: 0;
   top: 0;
   height: 100%;
-  z-index: 11;
+  z-index: 102;
   // border: 1px solid #f00;
-  background: #273543;
+  // background: #273543;
+  background: #22242F;
 }
 .shared-first-sidebar{
-  background-color: #273543;
+  // background-color: #273543;
+  background: #22242F;
 }
 .shared-team-logo{
-  width: 92px;
-  height: 56px;
-  padding-top: 12px;
+  width: 120px;
+  height: 80px;
+  // padding-top: 20px;
+  display: flex;
+  align-items: center;
   .team-logo{
     margin:0 auto;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     -webkit-border-radius: 50%;
     border-radius: 50%;
     background-size: cover;
     background-position: 50% 50%;
     background-color: #fff;
-    border: 1px solid #fff;
+    // border: 1px solid #fff;
   }
 }
 .shared-first-sidebar-nav{
+  margin-top: 10px;
   li{
     // width: 74px;
     font-size: 14px;
-    height: 40px;
-    line-height: 40px;
-    color: #fff;
+    height: 42px;
+    line-height: 42px;
+    color:#7F839D;
     padding-left: 18px;
     cursor: pointer;
+    position: relative;
+    i{
+      position: relative;
+      top: 1px;
+      margin-right: 6px;
+    }
+    .xian{
+      width: 4px;
+      height: 20px;
+      background: #2589FF;
+      display: inline-block;
+      border-radius: 4px;
+      position: absolute;
+      top: 11px;
+      right: 5px;
+    }
     &:hover{
       background: #434e6c;
     }
     &.active{
-      background: #38f;
+      // background: #38f;
+      color: #2589FF;
     }
   }
 }
@@ -345,13 +366,17 @@ export default {
   width: 132px;
   height: 100%;
   margin-left: 120px;
-  background: #fff;
-  border-right: 1px solid #ebedf0;
-  z-index: 1;
+  // background: #fff;
+  background: #fafafa;
+  // border-right: 1px solid #ebedf0;
+  // z-index: 1;
   position: fixed;
   top: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: auto;
+  padding-top: 56px;
+  z-index: 100;
   .second-sidebar-title{
     width: 100%;
     height: 56px;
@@ -377,10 +402,41 @@ export default {
   z-index: 2;
   overflow-y: scroll;
 }
+//
+
 </style>
-<style>
+<style lang="less">
 .el-menu{
   border-right: none;
+}
+.el-submenu{
+  position: relative;
+  padding-bottom: 15px;
+  &::after{
+    width: 85px;
+    height: 1px;
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 0;
+    background: #E3E2E5FF;
+    // border-bottom: 1px solid #E3E2E5FF !important;
+
+  }
+}
+.el-submenu:first-child{
+  &::after{
+    background: transparent;
+  }
+}
+.shared-second-sidebar /deep/ .el-submenu__title{
+  font-size: 12px;
+  color: #333333FF;
+  font-weight: 600;
+}
+.shared-second-sidebar /deep/ .el-menu-item{
+  font-size: 12px;
+  // color: #535059FF;
 }
 </style>
 
