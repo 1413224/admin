@@ -116,6 +116,10 @@ export default {
       this.curPage = currentVal
       this.getList()
     },
+    getAccountList(){
+      let _this = this
+      
+    }
   },
   components:{
     ySelect,

@@ -84,6 +84,8 @@ let url = {
     Add:'common/role/PermAccount/Add',//新增账户信息接口
     GetInfoById:'common/role/PermAccount/GetInfoById',//获取账户信息接口
     ChangeInfoById:'common/role/PermAccount/ChangeInfoById',//后台端修改账户信息接口
+    GetAllInfoById:'common/role/PermAccount/GetAllInfoById',//获取操作员全部资料信息接口
+    GetOperationLogList:'common/role/OperationLog/GetList',//获取日志列表信息接口
     
   },
 

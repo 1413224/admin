@@ -13,7 +13,10 @@
               <span>基础信息</span>
             </div>
             <el-form-item label="头像" prop="thumb">
-              <div class="thumb d-flex a-center j-center">+</div>
+              <div v-if="ruleForm.thumb">
+                <img class="pic-thumb" :src="ruleForm.thumb" alt="">
+              </div>
+              <div v-else class="thumb d-flex a-center j-center">+</div>
             </el-form-item>
             <el-form-item label="昵称" prop="nickName">
               <el-input v-model="ruleForm.nickName" size="small" 
@@ -39,14 +42,16 @@
               <el-date-picker
                 v-model="ruleForm.birthday"
                 type="date"
+                value-format="timestamp"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="生肖星座">
-              <div class=" d-flex mt">
-                <p class="items px-1 mr-1">天秤座</p>
-                <p class="items px-1 mr-1">猴</p>
+              <div class=" d-flex mt" v-if="ruleForm.birthday">
+                <p class="items px-1 mr-1">{{xinzuo}}</p>
+                <p class="items px-1 mr-1">{{shengxiao}}</p>
               </div>
+              <div v-else>请选择日期</div>
             </el-form-item>
             <el-form-item label="联系电话" prop="phone">
               <el-input v-model="ruleForm.phone" size="small" 
@@ -228,11 +233,12 @@
 import dataPicker from '@/components/datePicker/datePicker'
 import ySelect from '@/components/ySelect/index'
 import AMap from 'AMap'
-
+import actions from './actions/accountData'
 export default {
   data(){
     return {
       ruleForm:{
+        thumb:'',
         nickName:'',
         sex:0,
         nativePlace:'',
@@ -281,17 +287,23 @@ export default {
       ],
         educationOptions:[
         { label:'全部',value:'-1' },
-      ]
+      ],
+      Info:{
+        xinzuo:'',
+        shengxiao:''
+      }
     }
   },
   created(){
 
   },
   mounted(){
-    this.initMap()
+    this.getInfo()
 
+    this.initMap()
   },
   methods:{
+    ...actions,
     goBackList(){
       this.$router.go(-1)
     },
@@ -344,55 +356,24 @@ export default {
     //   })
     // },
     
-    initMap(){
-      let _this = this
-      // AMapUI.setDomLibrary($)
-      //加载UI
-      AMapUI.loadUI(['misc/PositionPicker','misc/PoiPicker'],function(PositionPicker,PoiPicker){
-        //地图加载
-        var map = new AMap.Map("container", {
-          resizeEnable: true,
-          zoom:16,
-        })
-        //创建标注点
-        var marker = new AMap.Marker({
-          draggable:true //点标记可拖拽
-        })
-        var poiPicker = new PoiPicker({
-          input: 'tipinput' //输入框id
-        })
-        var positionPicker = new PositionPicker({
-            mode: 'dragMap',
-            map: map,
-        })
-
-        positionPicker.on('success',function(positionResult){
-          _this.ruleForm.address = positionResult.address
-          // console.log(positionResult)
-        })
-        positionPicker.on('fail', function(failResult){
-          console.log(failResult)
-        })
-
-        positionPicker.start()
-
-        // 监听poi选中信息
-        poiPicker.on('poiPicked', function(poiResult) {
-          //用户选中的poi点信息
-          // console.log(poiResult)
-          let poi = poiResult.item
-          let markAddress = poiResult.item.district + poiResult.item.address
-          //添加标注点
-          marker.setMap(map)
-          //设置marker定位
-          marker.setPosition(poi.location)
-          map.panTo(poi.location)
-          _this.ruleForm.address = markAddress
-        })
-
-      })
-    }
     
+    
+  },
+  computed:{
+    shengxiao(){
+      let _this = this
+      let year = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'Y/M/D')
+      let month = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'M')
+      let day = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'D')
+      return _this.$utils.getShengXiao(year)
+    },
+    xinzuo(){
+      let _this = this
+      let year = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'Y/M/D')
+      let month = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'M')
+      let day = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'D')
+      return _this.Info.xinzuo = _this.$utils.getAstro(month,day)
+    }
   },
   components:{
     dataPicker,
