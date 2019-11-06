@@ -11,6 +11,7 @@ import url from './api/api'
 import MD5 from 'js-md5'
 import utils from './utils/index'
 import './utils/fillter'
+import './utils/directives'
 import { loadSkin } from './skin/index'
 import yTitle from './components/yTitle/yTitle.vue'
 
@@ -18,6 +19,7 @@ import './style/reset.css'
 import './style/global.less'
 import 'element-ui/lib/theme-chalk/index.css'
 import './icons/index'
+
 
 document.documentElement.style.fontSize = 10 + 'px'
 

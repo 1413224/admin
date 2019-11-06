@@ -31,8 +31,8 @@
         <el-row class="mt-2 pb-1">
           <el-col :span="20">
             <div class="btn-wrap">
-              <el-button style="margin-left:20px;" @click="addAccount()" type="primary" size="mini">新增页面</el-button>
-              <el-button @click="delAccount()" plain size="mini">批量删除</el-button>
+              <el-button style="margin-left:20px;" @click="addAccount()" type="primary" size="mini">新增操作员</el-button>
+              <el-button @click="delRolepl()" plain size="mini">批量删除</el-button>
             </div>
           </el-col>
         </el-row>
@@ -43,62 +43,73 @@
           :data="tableData"
           stripe
           @selection-change="selectionChange"
+          @sort-change="sortChange"
+          :default-sort = "{prop: 'create_time', order: 'descending'}"
           style="width:100%;">
           <el-table-column
             type="selection"
             width="55">
           </el-table-column>
           <el-table-column
-            prop="namess"
+            prop="account"
             label="账户名">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="nickname"
             label="姓名">
           </el-table-column>
           <el-table-column
-            prop="phone"
+            prop="mobile"
             label="手机号">
           </el-table-column>
           <el-table-column
-            prop="role"
+            prop="perm_group_name"
             label="所属角色">
           </el-table-column>
           <el-table-column
             prop="status"
             label="状态">
             <template slot-scope="scope">
+              <div v-if="scope.row.account_type==0">
+                <p v-if="scope.row.status==1">启用</p>
+                <p v-if="scope.row.status==0">禁用</p>
+              </div>
               <div>
                 <el-button v-if="scope.row.status==1"
                   class="status" type="success" plain size="small"
-                  @click="changeStatus(Number(scope.row.status),scope.row.id)">显示</el-button>
+                  @click="changeStatus(Number(scope.row.status),scope.row.id)">启用</el-button>
                 <el-button v-if="scope.row.status==0" 
                   class="status" plain size="small"
-                  @click="changeStatus(Number(scope.row.status),scope.row.id)">隐藏</el-button>
+                  @click="changeStatus(Number(scope.row.status),scope.row.id)">禁用</el-button>
               </div>
             </template>
           </el-table-column>
           <el-table-column
-            prop="roldde"
+            prop="create_account_nickname"
             label="添加人">
           </el-table-column>
           <el-table-column
             label="创建时间"
             sortable="custom"
-            prop="created_time">
+            prop="create_time">
             <template slot-scope="scope">
-              <div>{{scope.row.created_time|formatDate}}</div>
+              <div>{{scope.row.create_time|formatDate}}</div>
             </template>
           </el-table-column>
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <p class="font-sm">当前账号</p>
-              <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button>
-              <el-button 
-              v-if="scope.row.type!=0"
-              @click="delRole(scope.row.id)" 
-              type="text" size="small">删除</el-button>
+              <p class="font-sm" 
+              v-if="scope.row.id==accoundId">当前账号</p>
+              <p class="font-sm" 
+                v-if="scope.row.account_type==0">超级账号</p>
+              <div v-if="scope.row.id!=accoundId && scope.row.account_type!=0">
+                <el-button @click="goEdit(scope.row.id)" type="text" size="small">编辑</el-button>
+                <el-button @click="goDetail(scope.row.id)" type="text" size="small">详情</el-button>
+                <el-button @click="goData(scope.row.id)" type="text" size="small">资料</el-button>
+                <el-button @click="delRole(scope.row.id)" 
+                type="text" size="small">删除</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -119,13 +130,14 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
-
+import actions from './actions/index'
 export default {
   data(){
     return {
+      accoundId:'',
       searchForm:{
         keyword:'',
-        roleType:'-1',
+        roleType:'',
         status:'-1'
       },
       options:[
@@ -133,7 +145,7 @@ export default {
       ],
       statusOptions:[
         { label:'全部',value:'-1' },
-        { label:'显示',value:'1' },
+        { label:'启用',value:'1' },
         { label:'禁用',value:'0' },
       ],
       tableData:[{}],
@@ -146,9 +158,14 @@ export default {
     }
   },
   created(){
-
+    let _this = this
+    _this.accoundId = JSON.parse(localStorage.getItem('info')).account_id
+    _this.getGroupList().then(()=>{
+      _this.getList()
+    })
   },
   methods:{
+    ...actions,
     resetForm(formName){
       this.$refs[formName].resetFields()
       this.getList()
@@ -167,6 +184,44 @@ export default {
     handleCurrent(currentVal){
       this.curPage = currentVal
       this.getList()
+    },
+    addAccount(){
+      this.$router.push({
+        path:'/setting/perm/account/addEditAccount'
+      })
+    },
+    sortChange(column){
+      let _this = this
+      if(column.order=='descending'){
+        _this.getList(2)
+      }
+      if(column.order=='ascending'){
+        _this.getList(1)
+      }
+    },
+    goDetail(id){
+      this.$router.push({
+        path:'/setting/perm/account/accountDetail',
+        query:{
+          id:id
+        }
+      })
+    },
+    goData(id){
+      this.$router.push({
+        path:'/setting/perm/account/accountData',
+        query:{
+          id:id
+        }
+      })
+    },
+    goEdit(id){
+      this.$router.push({
+        path:'/setting/perm/account/addEditAccount',
+        query:{
+          id:id
+        }
+      })
     }
   },
   components:{

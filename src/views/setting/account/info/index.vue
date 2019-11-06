@@ -163,13 +163,13 @@
               </el-form-item>
               <el-form-item label="身高">
                 <el-input placeholder="请填写身高" v-model="ruleForm.height"
-                  size="small" style="width:518px;">
+                  size="small" style="width:226px;">
                   <template slot="append">cm</template>
                 </el-input>
               </el-form-item>
               <el-form-item label="体重">
                 <el-input placeholder="请填写体重" v-model="ruleForm.weight"
-                  size="small" style="width:518px;">
+                  size="small" style="width:226px;">
                   <template slot="append">kg</template>
                 </el-input>
               </el-form-item>
@@ -215,7 +215,7 @@ export default {
         nickName:'',
         sex:0,
         nativePlace:'',
-        birthday:[],
+        birthday:'',
         phone:'',
         industry:'',
         job:'',
@@ -298,6 +298,9 @@ export default {
 }
 </style>
 <style lang="less" scoped>
+.interest{
+  width: 600px;
+}
 .interest /deep/ .el-checkbox__input{
   display: none
 }

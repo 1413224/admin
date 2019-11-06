@@ -40,7 +40,7 @@
         </div>
         <div class="right d-flex a-center">
           <div class="bangding" @click="showBdPhoneDialog()">绑定</div>
-          <div class="bangding">修改手机号</div>
+          <div class="bangding" @click="showChangePhoneDialog()">修改手机号</div>
         </div>
       </div>
       <!-- 绑定手机end -->
@@ -99,7 +99,7 @@
           <div class="desc ml-3">可用绑定的微信扫码登录</div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding">绑定</div>
+          <div class="bangding" @click="showBindWX()">绑定</div>
           <div class="jiebang">解绑</div>
         </div>
       </div>
@@ -207,10 +207,49 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogPhonebd = false">取 消</el-button>
-        <el-button type="primary" @click="SubmitBdPhome('bdPhoneForm')">确 定</el-button>
+        <el-button type="primary" @click="SubmitBdPhome('bdPhoneForm')">开启保护</el-button>
       </span>
     </el-dialog>
     <!-- 绑定手机弹框end -->
+    <!-- 修改手机弹框 -->
+    <el-dialog
+      title="修改手机号"
+      :visible.sync="dialogChangePhone"
+      :before-close="closeDialogChangePhone"
+      width="640px">
+      <el-form
+        label-width="130px" 
+        :model="changePhoneForm" :rules="changePhoneRules" 
+        ref="changePhoneForm">
+        <el-form-item label="当前手机号" prop="phone">
+          <p class="font-sm" style="margin-top:2px;color:#333333FF;">{{userInfo.mobile}}</p>
+        </el-form-item>
+        <el-form-item label="账户密码" prop="pass">
+          <el-input class="item-input" 
+            v-model="changePhoneForm.pass" placeholder="请填写账户密码"
+            type="password" 
+            size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="新手机号" prop="newPhone">
+          <el-input class="item-input" 
+            v-model="changePhoneForm.newPhone" placeholder="请填写新手机号码"
+            size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="短信验证码" prop="yzm">
+          <el-input 
+            style="width:239px;"
+            v-model="changePhoneForm.yzm" 
+            placeholder="请输入邮箱收到的验证码" size="small"></el-input>
+            <span class="bdPhone-yzm" v-if="showChangePhoneFormByYzm" @click="getYzmByChangePhoneForm">获取验证码</span>
+            <span class="bdPhone-yzm-s" v-if="!showChangePhoneFormByYzm">{{timesChangePhoneForm}}</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogChangePhone = false">取 消</el-button>
+        <el-button type="primary" @click="SubmitChangePhome('changePhoneForm')">确定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 修改手机弹框end -->
     <!-- 紧急联系人弹框 -->
     <el-dialog
       title="紧急联系人"
@@ -283,9 +322,30 @@
       </span>
     </el-dialog>
     <!-- 邮箱绑定弹框end -->
+    <!-- 绑定QQ弹框 -->
+    <!-- <el-dialog
+      title="绑定QQ"
+      :visible.sync="dialogQQ"
+      :before-close="closeDialogQQ"
+      width="640px">
+      <el-form>
+
+      </el-form>
+    </el-dialog> -->
+    <!-- 绑定QQ弹框end -->
+    <!-- 绑定微信弹框 -->
+    <el-dialog
+      title="微信"
+      :visible.sync="dialogWX"
+      width="280px">
+      <div id="qrcode-wx" class=" d-flex a-center j-center"></div>
+      <p class="wxtips font-sm mt-5 pb-2">请使用微信扫一扫以绑定</p>
+    </el-dialog>
+    <!-- 绑定微信弹框end -->
   </div>
 </template>
 <script>
+import QRCode  from "qrcodejs2"
 import numberTips from '@/components/numberTips/numberTips'
 import actions from './actions/index'
 import ySelect from '@/components/ySelect/index'
@@ -314,6 +374,10 @@ export default {
       dialogPhonebd:false,
       showbdPhoneFormByYzm:true,
       timesChangeBdPhoneForm:'',
+      dialogChangePhone:false,
+      timesChangePhoneForm:'',
+      showChangePhoneFormByYzm:true,
+      dialogWX:false,
       passForm:{
         pass:'',
         newPass:'',
@@ -377,11 +441,28 @@ export default {
         yzm:[
           {required: true, message: '请输入邮箱收到的验证码',trigger:'blur'}
         ]
+      },
+      changePhoneForm:{
+        pass:'',
+        yzm:'',
+        newPhone:''
+      },
+      changePhoneRules:{
+        pass:[
+          {required: true, message: '请填写账户密码',trigger:'blur'}
+        ],
+        newPhone:[
+          {required: true, message: '请填写新手机号码',trigger:'blur'}
+        ],
+        yzm:[
+          {required: true, message: '请输入短信验证码',trigger:'blur'}
+        ]
       }
     }
   },
   created(){
     this.getInfo()
+    
   },
   methods:{
     ...actions,
@@ -398,11 +479,27 @@ export default {
     },
     showBdPhoneDialog(){
       this.dialogPhonebd = true
+    },
+    showBindWX(){
+      this.dialogWX = true
+      this.$nextTick (function () {
+        document.getElementById("qrcode-wx").innerHTML = ""
+        this.qrcode();
+      })
+    },
+    qrcode(){
+      let _this = this
+      let qrcode = new QRCode('qrcode-wx',{
+        width:120,
+        height:120,
+        text:'sdfsd'
+      })
     }
   },
   components:{
     numberTips,
-    ySelect
+    ySelect,
+    QRCode
   }
 }
 </script>
@@ -413,5 +510,8 @@ export default {
   &:hover{
     cursor: pointer;
   }
+}
+.wxtips{
+  text-align: center;
 }
 </style>

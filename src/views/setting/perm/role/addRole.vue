@@ -186,7 +186,9 @@ export default {
   background: #FAFAFA;
   padding-left: 10px;
 }
-
+.collapse /deep/ .el-checkbox+.el-checkbox{
+  margin-left: 0;
+}
 </style>
 <style lang="less" scoped>
 

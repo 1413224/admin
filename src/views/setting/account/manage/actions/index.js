@@ -144,6 +144,62 @@ export default {
   SubmitBdPhome(formName){
 
   },
+  showChangePhoneDialog(){
+    this.dialogChangePhone = true
+  },
+  SubmitChangePhome(formName){
+    let _this = this
+    _this.$refs[formName].validate((valid)=>{
+      if(!valid){
+        return false
+      }
+      _this.$http.post(_this.baseUrl + _this.url.user.ChangeMobile,{
+        role_type:_this.url.role_type,
+        token:_this.$utils.getToken(),
+        password:_this.MD5(_this.changePhoneForm.pass),
+        new_mobile:_this.changePhoneForm.newPhone,
+        verification_code:_this.changePhoneForm.yzm
+      }).then((res)=>{
+        if(res.data.ret==200){
+          _this.$message({
+            type:'success',
+            message:'修改成功'
+          })
+          _this.dialogChangePhone = false
+          _this.$router.replace({
+            path:'/login'
+          })
+        }
+      })
+    })
+  },
+  getYzmByChangePhoneForm(){
+    let _this = this
+    _this.changeChangePhoneCountDown()
+    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
+      role_type:_this.url.role_type,
+      token:_this.$utils.getToken(),
+      type:3,
+      mobile:_this.changePhoneForm.newPhone
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.changeChangePhoneCountDown()
+      }
+    })
+  },
+  changeChangePhoneCountDown(){
+    let _this = this,
+        time = 60;
+    let timer = setInterval(()=>{
+      _this.showChangePhoneFormByYzm = false
+      time--;
+      _this.timesChangePhoneForm = time + 's'
+      if(time == 0){
+        clearInterval(timer)
+        _this.showChangePhoneFormByYzm = true
+      }
+    },1000)
+  },
   closeDialogPass(done){
     this.$refs['passForm'].resetFields()
     this.dialogPass = false
@@ -159,6 +215,10 @@ export default {
   },
   closeDialogPhonebd(done){
     this.dialogPhonebd = false
+    done()
+  },
+  closeDialogChangePhone(done){
+    this.dialogChangePhone = false
     done()
   }
 }

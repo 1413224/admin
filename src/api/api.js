@@ -76,11 +76,20 @@ let url = {
     DelByIds:'common/role/PermGroup/DelByIds',//批量删除角色组信息接口
     EditById:'common/role/PermGroup/EditById',//修改角色组信息接口
   },
+  PermAccount:{//操作员
+    GetAllGroupList:'common/role/PermAccount/GetAllGroupList',
+    GetList:'common/role/PermAccount/GetList',//获取账户列表信息接口
+    ChangeStatusById:'common/role/PermAccount/ChangeStatusById',//修改账号状态
+    DeleteByIds:'common/role/PermAccount/DeleteByIds',//批量删除账号信息
+    Add:'common/role/PermAccount/Add',//新增账户信息接口
+    GetInfoById:'common/role/PermAccount/GetInfoById',//获取账户信息接口
+    ChangeInfoById:'common/role/PermAccount/ChangeInfoById',//后台端修改账户信息接口
+    
+  },
 
   cloud:{
     Perm:{
       GetPermByRoleType:'cloud/role/Perm/GetPermByRoleType',//获取角色类型所有权限列表
-
     }
   }
 }

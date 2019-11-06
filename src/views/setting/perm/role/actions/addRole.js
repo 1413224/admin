@@ -10,7 +10,7 @@ export default {
         role_type:_this.url.role_type
       }).then((res)=>{
         if(res.data.ret==200){
-          let data = res.data.data
+          let data = res.data.data.list
           _this.roleList = data
           _this.roleList.map((item,index)=>{
             if(item.children.length!=0){

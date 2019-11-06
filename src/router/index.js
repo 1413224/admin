@@ -239,6 +239,42 @@ export default new Router({
             ]
           }
         },
+        {
+          path:'/setting/perm/account/addEditAccount',
+          component:() => import('@/views/setting/perm/account/addEditAccount'),
+          meta:{
+            title:'添加操作员',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'操作员管理',path:'/setting/perm/account' },
+              { name:'新增/编辑操作员' }
+            ]
+          }
+        },
+        {
+          path:'/setting/perm/account/accountDetail',
+          component:() => import('@/views/setting/perm/account/accountDetail'),
+          meta:{
+            title:'操作员详情',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'操作员管理',path:'/setting/perm/account' },
+              { name:'操作员详情' }
+            ]
+          }
+        },
+        {
+          path:'/setting/perm/account/accountData',
+          component:() => import('@/views/setting/perm/account/accountData'),
+          meta:{
+            title:'操作员资料',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'操作员管理',path:'/setting/perm/account' },
+              { name:'资料' }
+            ]
+          }
+        },
         //操作日志
         {
           path:'/setting/perm/log',
