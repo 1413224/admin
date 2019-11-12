@@ -64,6 +64,7 @@
   </div>
 </template>
 <script>
+import actions from './actions/index'
 export default {
   data(){
     return {
@@ -78,9 +79,10 @@ export default {
     }
   },
   created(){
-
+    this.getList()
   },
   methods:{
+    ...actions,
     resetForm(formName){
       this.$refs[formName].resetFields()
       this.getList()

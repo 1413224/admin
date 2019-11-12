@@ -25,14 +25,25 @@
         </el-form>
         <div class="btn-wrap mt-2">
           <el-button style="margin-left:20px;" @click="add()" type="primary" size="mini">新增敏感词</el-button>
-          <el-button class="daobtn" @click="del()" plain size="mini">
-            <i class="iconfont icon-download"></i>  导入
-          </el-button>
-          <el-button class="daobtn" @click="del()" plain size="mini">
-            <i class="iconfont icon-upload"></i>  导出
-          </el-button>
+          <el-upload
+            style="display:inline-block;"
+            :action="baseUrl+url.SensitiveWord.Import"
+            :show-file-list="false"
+            :http-request="Import">
+            <el-button class="daobtn" plain size="mini">
+              <i class="iconfont icon-download"></i>  导入
+            </el-button>
+          </el-upload>
+          <a :href="`${baseUrl+url.SensitiveWord.Export+
+          '?token='+$utils.getToken()+'&sort='+sort+'&keyword='+searchForm.keyword}`">
+            <el-button class="daobtn" plain size="mini">
+              <i class="iconfont icon-upload"></i>  导出
+            </el-button>
+          </a>
           <el-button @click="delAccount()" plain size="mini">批量删除</el-button>
-          <el-button @click="de()" class="fr mr-2" type="text" size="mini">下载导入模板</el-button>
+          <a :href="`${baseUrl + url.SensitiveWord.ImportTemp+'?token='+$utils.getToken()}`">
+            <el-button class="fr mr-2" type="text" size="mini">下载导入模板</el-button>
+          </a>
         </div>
       </div>
 
@@ -64,7 +75,7 @@
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <!-- <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button> -->
+              <!-- <el-button @click="editSen(scope.row)" type="text" size="small">编辑</el-button> -->
               <el-button 
               v-if="scope.row.type!=0"
               @click="delRole(scope.row.id)" 
@@ -87,26 +98,34 @@
     </el-pagination>
 
     <el-dialog
-      title="添加敏感词"
+      :title="dialogTitle"
       :visible.sync="mgcDialog"
       width="640px">
       <el-form
         :model="mgcForm" 
         :rules="mgcRules"
-        ref="WXform" 
+        ref="mgcForm" 
         label-width="120px">
         <el-form-item label="敏感词" prop="mgc">
-            <el-input v-model="mgcForm.mgc" 
+            <!-- <el-input v-model="mgcForm.mgc" 
               size="small" class="form-input"
               type="textarea" :rows="3" 
               placeholder="请输入...">
-            </el-input>
+            </el-input> -->
+            <el-select
+              v-model="mgcForm.mgc"
+              multiple
+              filterable
+              allow-create
+              default-first-option
+              placeholder="请输入...">
+            </el-select>
             <p class="tips font-sm">可批量添加，一行一个敏感词</p>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="mgcDialog = false">取 消</el-button>
+        <el-button type="primary" @click="submitAdd('mgcForm')">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -114,14 +133,17 @@
 </template>
 <script>
 import numberTips from '@/components/numberTips/numberTips'
-
+import actions from './actions/index'
 export default {
   data(){
     return {
+      isEdit:null,
+      editId:'',
+      dialogTitle:'',
       searchForm:{
         keyword:''
       },
-      tableData:[{}],
+      tableData:[],
       selection:[],
       totalNums:0,
       curPage: 1,
@@ -129,19 +151,21 @@ export default {
       totalPages:1,
       mgcDialog:false,
       mgcForm:{
-        mgc:''
+        mgc:[]
       },
       mgcRules:{
         mgc:[
           {required: true, message: '请输入敏感词',trigger:'blur'}
         ]
-      }
+      },
+      sort:2
     }
   },
   created(){
-
+    this.getList()
   },
   methods:{
+    ...actions,
     resetForm(formName){
       this.$refs[formName].resetFields()
       this.getList()
@@ -156,10 +180,12 @@ export default {
       // console.log(column)
       let _this = this
       if(column.order=='descending'){
-        _this.getList(null,2)
+        _this.getList(2)
+        _this.sort = 2
       }
       if(column.order=='ascending'){
-        _this.getList(null,1)
+        _this.getList(1)
+        _this.sort = 1
       }
     },
     handleSize(sizeVal){
@@ -171,11 +197,12 @@ export default {
       this.curPage = currentVal
       this.getList()
     },
-    getList(){
-
-    },
+    
     add(){
       let _this = this
+      _this.isEdit = false
+      _this.dialogTitle = '添加敏感词'
+      _this.mgcForm.mgc = []
       _this.mgcDialog = true
     }
   },

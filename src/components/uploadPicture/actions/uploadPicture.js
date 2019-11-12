@@ -275,7 +275,16 @@ export default {
     }
     //选择本地分组图片
     if(_this.tabsidx==1){
-
+      if(!_this.nums){
+        for(let i=0;i<_this.bdListData.length;i++){
+          if(_this.bdListData[i].active){
+            // console.log(_this.bdListData[i])
+            _this.$emit('selPictureUrl',_this.bdListData[i].url)
+            _this.dialogPicture = false
+            return
+          }
+        }
+      }
     }
     //选择在线链接图片
     if(_this.tabsidx==2){

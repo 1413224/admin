@@ -374,6 +374,42 @@ export default new Router({
             ]
           }
         },
+        {
+          path:'/operate/basic/file',
+          component:() => import('@/views/operate/basic/file/index'),
+          meta:{
+            title:'行业分类',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'行业分类' }
+            ]
+          }
+        },
+        {
+          path:'/operate/basic/file/jobcate',
+          component:() => import('@/views/operate/basic/file/jobcate'),
+          meta:{
+            title:'职位管理',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'职位管理' }
+            ]
+          }
+        },
+        {
+          path:'/operate/basic/file/interest',
+          component:() => import('@/views/operate/basic/file/interest'),
+          meta:{
+            title:'兴趣爱好',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'兴趣爱好' }
+            ]
+          }
+        },
         //账户信息
         {
           path:'/setting/account/info',
@@ -396,6 +432,32 @@ export default new Router({
             breadList:[
               { name:'首页',path:'/home' },
               { name:'账户管理' }
+            ]
+          }
+        },
+        //平台管理
+        {
+          path:'/setting/platform/info',
+          component:() => import('@/views/setting/platform/info/index'),
+          meta:{
+            title:'平台信息',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'平台信息' }
+            ]
+          }
+        },
+        //云服务
+        {
+          path:'/setting/cloud/info',
+          component:() => import('@/views/setting/cloud/info/index'),
+          meta:{
+            title:'授权信息',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'授权信息' }
             ]
           }
         }

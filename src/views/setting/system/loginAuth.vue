@@ -15,27 +15,31 @@
                 v-model="QQauth"
                 active-color="#13ce66"
                 inactive-color="#DFDFDFFF"
-                @change="">
+                @change="changeQQauth">
               </el-switch>
-              <span class="edit pl-2" @click="showQQdialog()">修改</span>
+              <span class="edit pl-2" @click="showQQdialog()" v-if="QQauth">修改</span>
             </div>
           </div>
-          <div class="line-wrap font-sm mt-2">
+          <div class="line-wrap font-sm mt-2" v-if="QQauth">
             <div class="line-item d-flex pl-2">
               <div class="left">AppID</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-if="!qqInfo.app_id">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-else>{{qqInfo.app_id}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">AppSecret</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-if="!qqInfo.app_secret">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-else>{{qqInfo.app_secret}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">网站地址</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-if="!qqInfo.url">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-else>{{qqInfo.url}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">网站回调域</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-if="!qqInfo.back_url">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right" v-else>{{qqInfo.back_url}}</div>
             </div>
           </div>
         </div>
@@ -46,32 +50,33 @@
             <span class=" ml-1">微信配置</span>
           </div>
           <div class="tit-wrap d-flex a-center pt-2 j-sb">
-            <div class="left pl-2">QQ授权登录</div>
+            <div class="left pl-2">微信授权登录</div>
             <div class="right d-flex a-center">
               <el-switch
-                v-model="QQauth"
+                v-model="WXauth"
                 active-color="#13ce66"
-                inactive-color="#DFDFDFFF">
+                inactive-color="#DFDFDFFF"
+                @change="changeWXauth">
               </el-switch>
-              <span class="edit pl-2">修改</span>
+              <span class="edit pl-2" @click="showWXdialog()" v-if="WXauth">修改</span>
             </div>
           </div>
-          <div class="line-wrap font-sm mt-2">
+          <div class="line-wrap font-sm mt-2" v-if="WXauth">
             <div class="line-item d-flex pl-2">
               <div class="left">AppID</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right">{{wxInfo.app_id}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">AppSecret</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right">{{wxInfo.app_secret}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">网站地址</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right">{{wxInfo.url}}</div>
             </div>
             <div class="line-item d-flex pl-2">
               <div class="left">网站回调域</div>
-              <div class="right">在QQ互联网平台注册创建应用后可获取到AppID</div>
+              <div class="right">{{wxInfo.back_url}}</div>
             </div>
           </div>
         </div>
@@ -82,6 +87,7 @@
     <el-dialog
       title="修改QQ登录授权"
       :visible.sync="qqDialog"
+      :before-close="closeDialogQQ"
       width="640px">
       <div>
         <el-form
@@ -104,26 +110,27 @@
           <el-form-item label="网站地址" prop="weburl">
               <el-input v-model="QQform.weburl" 
                 size="small" class="form-input" 
-                placeholder="http://wx.tianranzhu777.com">
+                placeholder="请输入网站地址">
               </el-input>
           </el-form-item>
           <el-form-item label="网站回调域" prop="webyu">
               <el-input v-model="QQform.webyu" 
                 size="small" class="form-input" 
-                placeholder="http://wx.tianranzhu777.com">
+                placeholder="请输入网站回调域">
               </el-input>
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="calcelQQ('QQform')">取 消</el-button>
+        <el-button type="primary" @click="submitQQ('QQform')">确 定</el-button>
       </span>
     </el-dialog>
 
     <el-dialog
       title="修改微信登录授权"
       :visible.sync="wxDialog"
+      :before-close="closeDialogWX"
       width="640px">
       <div>
         <el-form
@@ -143,23 +150,37 @@
                 placeholder="在微信开放平台注册创建应用后可获取到AppSecret">
               </el-input>
           </el-form-item>
+          <el-form-item label="网站地址" prop="weburl">
+              <el-input v-model="WXform.weburl" 
+                size="small" class="form-input" 
+                placeholder="请输入网站地址">
+              </el-input>
+          </el-form-item>
+          <el-form-item label="网站回调域" prop="webyu">
+              <el-input v-model="WXform.webyu" 
+                size="small" class="form-input" 
+                placeholder="请输入网站回调域">
+              </el-input>
+          </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="calcelWX('WXform')">取 消</el-button>
+        <el-button type="primary" @click="submitWX('WXform')">确 定</el-button>
       </span>
     </el-dialog>
 
   </div>
 </template>
 <script>
+import actions from './actions/loginAuth'
 export default {
   data(){
     return {
       QQauth:false,
+      WXauth:false,
       qqDialog:false,
-      wxDialog:true,
+      wxDialog:false,
       QQform:{
         AppID:'',
         AppSecret:'',
@@ -183,6 +204,8 @@ export default {
       WXform:{
         AppID:'',
         AppSecret:'',
+        weburl:'',
+        webyu:''
       },
       WXrules:{
         AppID:[
@@ -191,17 +214,33 @@ export default {
         AppSecret:[
           {required: true, message: '请输入AppSecret',trigger:'blur'}
         ],
-      }
+      },
+      qqInfo:{
+        name:'',
+        app_id:'',
+        app_secret:'',
+        url:'',
+        back_url:'',
+        status:'',
+        update_time:''
+      },
+      wxInfo:{
+        name:'',
+        app_id:'',
+        app_secret:'',
+        url:'',
+        back_url:'',
+        status:'',
+        update_time:''
+      },
     }
   },
   created(){
-
+    this.getQQauth()
+    this.getWXauth()
   },
   methods:{
-    showQQdialog(){
-      let _this = this
-      _this.qqDialog = true
-    }
+    ...actions,
   },
   components:{
 

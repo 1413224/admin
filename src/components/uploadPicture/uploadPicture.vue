@@ -164,7 +164,7 @@
               <el-button type="primary" size="small">上传图片</el-button>
             </el-upload>
             <div class="grouplist-wrap py-1" v-show="showBdGroupList">
-              <div class="item pl-2" 
+              <div class="item pl-2 py-1" 
                 v-for="(item,index) in bdGroupData"
                 :key="index"
                 @click.stop="moveBdPicture(item)">{{item.name}}</div>
@@ -558,7 +558,7 @@ export default {
 }
 .tit-tabs {
   .item {
-    padding: 0 10px;
+    padding: 10px;
     margin-right: 15px;
     border-radius: 5px;
     font-size: 14px;

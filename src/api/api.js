@@ -86,12 +86,73 @@ let url = {
     ChangeInfoById:'common/role/PermAccount/ChangeInfoById',//后台端修改账户信息接口
     GetAllInfoById:'common/role/PermAccount/GetAllInfoById',//获取操作员全部资料信息接口
     GetOperationLogList:'common/role/OperationLog/GetList',//获取日志列表信息接口
+    GetCategoryAllList:'common/common/Category/GetAllList',//一次性获取所有的分类列表信息接口
+    GetAllInterestList:'common/common/Interest/GetAllList',//一次性获取所有的兴趣爱好列表信息接口
+    GetAllAccountList:'common/role/PermAccount/GetAllAccountList',//获取所有的操作员列表接口
+    GetAllLogTypeList:'common/role/OperationLog/GetAllLogTypeList',//获取所有日志类型列表接口
+    ChangeAllInfoById:'common/role/PermAccount/ChangeAllInfoById',//修改账户全部资料信息接口
+  },
+  Category:{
+    GetAllList:'main/common/Category/GetAllList',//一次性获取所有的分类列表信息接口
+    ChangeStatusByIds:'main/common/Category/ChangeStatusByIds',//批量修改分类可用状态接口
+    UpdateMenuDisplayOrder:'main/common/Category/UpdateMenuDisplayOrder',//更新分类排序信息接口
+    DelByIds:'main/common/Category/DelByIds',//批量删除分类信息接口
+    Add:'main/common/Category/Add',//新增分类信息接口
+    EditById:'main/common/Category/EditById',//修改分类信息接口
+    GetInfoById:'main/common/Category/GetInfoById',//获取分类的详情信息接口
+    GetSubList:'main/common/Category/GetSubList',//获取所有下级分类列表信息接口
     
+  },
+  Interest:{
+    GetAllList:'main/common/Interest/GetAllList',//一次性获取所有的兴趣爱好列表信息接口
+    Add:'main/common/Interest/Add',//新增兴趣爱好信息接口
+    EditById:'main/common/Interest/EditById',//修改兴趣爱好信息接口
+    DelByIds:'main/common/Interest/DelByIds',//批量删除兴趣爱好信息接口
+
+  },
+  Bank:{
+    GetList:'main/operate/Bank/GetList',//获取合作银行列表
+    Add:'main/operate/Bank/Add',//新增合作银行
+    DeleteBankByIds:'main/operate/Bank/DeleteBankByIds',//批量删除文件日志信息
+    GetInfoById:'main/operate/Bank/GetInfoById',//获取合作银行详细信息
+    ChangeInfoById:'main/operate/Bank/ChangeInfoById',//修改合作银行信息
+
+  },
+  QQAuth:{
+    GetInfo:'main/common/setting/QQAuth/GetInfo',//获取QQ授权信息接口
+    SaveInfo:'main/common/setting/QQAuth/SaveInfo',//修改QQ授权信息接口
+    ChangeStatus:'main/common/setting/QQAuth/ChangeStatus',//修改QQ授权状态接口
+  },
+  WeChatAuth:{
+    GetInfo:'main/common/setting/WeChatAuth/GetInfo',//获取微信授权信息接口
+    SaveInfo:'main/common/setting/WeChatAuth/SaveInfo',//修改微信授权信息接口
+    ChangeStatus:'main/common/setting/WeChatAuth/ChangeStatus',//修改微信授权状态接口
+  },
+  Mailer:{
+    GetInfo:'main/common/setting/Mailer/GetInfo',//获取邮箱服务信息接口
+    SaveInfo:'main/common/setting/Mailer/SaveInfo',//修改邮箱服务信息接口
+    SendTestMailer:'main/common/setting/Mailer/SendTestMailer',//使用当前配置的邮箱服务器发送测试邮件接口
+  },
+  SensitiveWord:{
+    GetList:'main/common/SensitiveWord/GetList',//获取敏感词列表信息接口
+    Add:'main/common/SensitiveWord/Add',//新增敏感词信息接口
+    EditById:'main/common/SensitiveWord/EditById',//修改敏感词信息接口
+    DelByIds:'main/common/SensitiveWord/DelByIds',//批量删除敏感词信息接口
+    EditById:'main/common/SensitiveWord/EditById',//修改敏感词信息接口
+    Export:'main/common/SensitiveWord/Export',//根据搜索条件导出查询出来的敏感词文件
+    Import:'main/common/SensitiveWord/Import',//导入敏感词文件，已存在的敏感词自动过滤
+    ImportTemp:'main/common/SensitiveWord/ImportTemp',//下载导出敏感词模板文件
+  },
+  Protocol:{
+    GetList:'main/common/Protocol/GetList',//获取协议列表信息接口
   },
 
   cloud:{
     Perm:{
       GetPermByRoleType:'cloud/role/Perm/GetPermByRoleType',//获取角色类型所有权限列表
+    },
+    Bank:{
+      GetList:'cloud/finance/Bank/GetList',
     }
   }
 }

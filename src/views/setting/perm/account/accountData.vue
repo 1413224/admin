@@ -13,10 +13,12 @@
               <span>基础信息</span>
             </div>
             <el-form-item label="头像" prop="thumb">
-              <div v-if="ruleForm.thumb">
-                <img class="pic-thumb" :src="ruleForm.thumb" alt="">
+              <div @click="showPictureDialog()">
+                <div v-if="ruleForm.thumb">
+                  <img class="pic-thumb" :src="ruleForm.thumb" alt="">
+                </div>
+                <div v-else class="thumb d-flex a-center j-center">+</div>
               </div>
-              <div v-else class="thumb d-flex a-center j-center">+</div>
             </el-form-item>
             <el-form-item label="昵称" prop="nickName">
               <el-input v-model="ruleForm.nickName" size="small" 
@@ -43,7 +45,7 @@
                 v-model="ruleForm.birthday"
                 type="date"
                 value-format="timestamp"
-                placeholder="选择日期">
+                placeholder="选择日期" size="small">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="生肖星座">
@@ -60,6 +62,9 @@
             </el-form-item>
 
             <!-- 地址 -->
+            <el-form-item label="居住地址" prop="jzAddress">
+              <!-- <yArea style="width:518px;" v-model="ruleForm.jzAddress"></yArea> -->
+            </el-form-item>
             <el-form-item label="详细地址" prop="address">
               <el-input v-model="ruleForm.address" 
                 style="width:518px;" size="small" 
@@ -67,17 +72,32 @@
                 id="tipinput"></el-input>
               <span class=" font-sm ml-1" style="color:#999999FF">准确定位请移动地图上蓝点</span>
               <div id="container"></div>
+              <p class="mt-1 font-sm"><span>经度 {{ruleForm.lng}}</span>
+                <span style="display:inline-block;" class="ml-3">纬度 {{ruleForm.lat}}</span>
+              </p>
             </el-form-item>
             <!-- 地址end -->
 
             <el-form-item label="所在行业" prop="industry">
-              <ySelect v-model="ruleForm.industry"
-                :options="industryOptions"></ySelect>
+              <!-- <ySelect v-model="ruleForm.industry"
+                :options="industryOptions"></ySelect> -->
+              <el-cascader 
+                v-model="ruleForm.industry"
+                :options="industryOptions"
+                clearable
+                size="small"
+                @change="industryChange"></el-cascader>
             </el-form-item>
             <el-form-item label="所属职位" prop="job">
-              <ySelect
+              <!-- <ySelect
                 v-model="ruleForm.job"
-                :options="jobOptions"></ySelect>
+                :options="jobOptions"></ySelect> -->
+              <el-cascader
+                v-model="ruleForm.job"
+                :options="jobOptions"
+                clearable
+                size="small"
+                @change="jobChange"></el-cascader>
             </el-form-item>
             <el-form-item label="年收入" prop="annual">
               <ySelect
@@ -91,7 +111,7 @@
               <span>社交信息</span>
             </div>
             <el-form-item label="绑定的微信">
-              <p class="bir">WWW11950210</p>
+              <p class="bir">safsdgfdsg</p>
             </el-form-item>
             <el-form-item label="绑定的QQ">
               <p class="bir">WWW11950210</p>
@@ -178,10 +198,10 @@
             </div>
             <el-form-item label="婚姻状态">
               <el-radio-group v-model="ruleForm.hyType">
-                <el-radio :label="0">保密</el-radio>
-                <el-radio :label="1">已婚</el-radio>
-                <el-radio :label="2">未婚</el-radio>
-                <el-radio :label="3">离异</el-radio>
+                <el-radio :label="1">保密</el-radio>
+                <el-radio :label="2">已婚</el-radio>
+                <el-radio :label="3">未婚</el-radio>
+                <el-radio :label="4">离异</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="血型" prop="bloodType">
@@ -208,9 +228,10 @@
             </el-form-item>
             <el-form-item label="兴趣爱好" prop="interest" class="interest">
               <el-checkbox-group v-model="ruleForm.interestList">
-                <el-checkbox :label="1">爱好1</el-checkbox>
-                <el-checkbox :label="2">爱好2</el-checkbox>
-                <el-checkbox :label="3">爱好3</el-checkbox>
+                <el-checkbox 
+                v-for="(item,index) in intList"
+                :key="index"
+                :label="item.id">{{item.name}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="自我介绍" prop="introd">
@@ -227,16 +248,20 @@
       <el-button @click="goBackList()" size="small">取消</el-button>
       <el-button @click="submitManage('ruleForm')" size="small" type="primary">保存</el-button>
     </div>
+    <uploadPicture v-model="showPicture" @selPictureUrl="getPicUrl"></uploadPicture>
   </div>
 </template>
 <script>
 import dataPicker from '@/components/datePicker/datePicker'
 import ySelect from '@/components/ySelect/index'
+import yArea from '@/components/cascader/yArea'
+import uploadPicture from '@/components/uploadPicture/uploadPicture'
 import AMap from 'AMap'
 import actions from './actions/accountData'
 export default {
   data(){
     return {
+      showPicture:false,
       ruleForm:{
         thumb:'',
         nickName:'',
@@ -244,7 +269,7 @@ export default {
         nativePlace:'',
         birthday:'',
         phone:'',
-        industry:'',
+        industry:[],
         job:'',
         annual:'',
         qqNum:'',
@@ -263,103 +288,85 @@ export default {
         interestList:'',
         introd:'',
         address:'',
-
+        jzAddress:[],
+        lng:'',
+        lat:''
       },
       rules:{},
       dateConfig:{
         showType:'date',
         placeholder:'请选择'
       },
-      industryOptions:[
-        { label:'全部',value:'-1' },
-      ],
-      jobOptions:[
-        { label:'全部',value:'-1' },
-      ],
+      // industryOptions:[
+      //   { label:'全部',value:'-1' },
+      // ],
+      industryOptions:[],
+      jobOptions:[],
       annualOptions:[
         { label:'全部',value:'-1' },
       ],
       lxrTypeOptions:[
-        { label:'全部',value:'-1' },
+        { label:'配偶',value:'1' },
+        { label:'同事',value:'2' },
+        { label:'直系亲属',value:'3' },
+        { label:'朋友',value:'4' },
+        { label:'其他',value:'5' },
       ],
       bloodTypeOptions:[
-        { label:'全部',value:'-1' },
+        { label:'保密',value:'1' },
+        { label:'A型',value:'2' },
+        { label:'B型',value:'3' },
+        { label:'AB型',value:'4' },
+        { label:'O型',value:'5' },
       ],
         educationOptions:[
-        { label:'全部',value:'-1' },
+        { label:'保密',value:'1' },
+        { label:'小学',value:'2' },
+        { label:'初中',value:'3' },
+        { label:'高中',value:'4' },
+        { label:'专科',value:'5' },
+        { label:'本科',value:'6' },
+        { label:'硕士',value:'7' },
+        { label:'博士',value:'8' },
       ],
       Info:{
         xinzuo:'',
-        shengxiao:''
-      }
+        shengxiao:'',
+        
+      },
+      intList:[]
     }
   },
   created(){
+    let _this = this
+    _this.getIndustryOptions()
+    _this.getJobOptions()
+    _this.GetAllInterestList()
+    _this.initMap()
 
   },
   mounted(){
+    let _this = this
+
     this.getInfo()
 
-    this.initMap()
   },
   methods:{
     ...actions,
     goBackList(){
       this.$router.go(-1)
     },
-    // initMap(){
-    //   let _this = this
-    //   let AMapUI = window.AMapUI
-    //   AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
-    //     var map = new AMap.Map('container',{
-    //         zoom:16
-    //     })
-    //     var positionPicker = new PositionPicker({
-    //         mode:'dragMarker',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
-    //         map:map,//依赖地图对象
-    //         iconStyle:{//自定义外观
-    //           url:'//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
-    //           size:[48,48],  //要显示的点大小，将缩放图片
-    //           ancher:[24,40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
-    //         }
-    //     })
-    //     positionPicker.on('success',function(positionResult){
-    //       _this.ruleForm.address = positionResult.address
-    //       // console.log(999)
-    //     })
-    //     positionPicker.on('fail', function(failResult){
-    //       console.log(failResult)
-    //     })
-    //     positionPicker.start()
-
-    //     //插件加载  
-    //     AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch','AMap.ToolBar'],function(){
-    //       map.addControl(new AMap.Autocomplete())
-    //       map.addControl(new AMap.PlaceSearch())
-    //       map.addControl(new AMap.ToolBar())
-    //     })
-
-    //     //输入提示
-    //     var autoOptions = {
-    //       input: "tipinput"
-    //     }
-    //     var auto = new AMap.Autocomplete(autoOptions)
-    //     var placeSearch = new AMap.PlaceSearch({//构造地点查询类
-    //       map: map
-    //     })
-    //     //注册监听，当选中某条记录时会触发
-    //     AMap.event.addListener(auto,"select",(e)=>{
-    //       placeSearch.setCity(e.poi.adcode)
-    //       placeSearch.search(e.poi.name,_this.ruleForm.address)
-    //     })
-
-    //   })
-    // },
-    
-    
-    
+    showPictureDialog(){
+      console.log(9)
+      this.showPicture = true
+    },
+    getPicUrl(url){
+      this.ruleForm.thumb = url
+      console.log(url)
+    },
   },
   computed:{
+    
     shengxiao(){
       let _this = this
       let year = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'Y/M/D')
@@ -377,7 +384,9 @@ export default {
   },
   components:{
     dataPicker,
-    ySelect
+    ySelect,
+    yArea,
+    uploadPicture
   }
 }
 </script>

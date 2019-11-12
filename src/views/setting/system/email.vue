@@ -24,15 +24,15 @@
             </el-radio-group>
             <span class="tips ml-2">有特殊需要请自定义AMTP服务器</span>
           </el-form-item>
-          <div v-show="sendForm.stmpType==1">
+          <div v-if="sendForm.stmpType==1">
             <el-form-item label="发送账户用户名" prop="userName">
                 <el-input v-model="sendForm.userName" size="small" 
                   style="width:518px;" placeholder="请输入发送账户用户名">
                 </el-input>
-                <span class="tips ml-2">指定发送邮件的用户名，例如：test@163.con</span>
+                <span class="tips ml-2">指定发送邮件的用户名，例如：test@163.com</span>
             </el-form-item>
             <el-form-item label="客户端授权密码" prop="pass">
-                <el-input v-model="sendForm.pass" size="small" 
+                <el-input v-model="sendForm.pass" size="small"
                   style="width:518px;" placeholder="请输入客户端授权密码">
                 </el-input>
                 <span class="tips ml-2">指定发送邮件的密码</span>
@@ -51,7 +51,34 @@
             </el-form-item>
           </div>
 
-          <div class="zdy-wrap" v-show="sendForm.stmpType==3">
+          <div v-if="sendForm.stmpType==2">
+            <el-form-item label="发送账户用户名" prop="qquserName">
+                <el-input v-model="sendForm.qquserName" size="small" 
+                  style="width:518px;" placeholder="请输入发送账户用户名">
+                </el-input>
+                <span class="tips ml-2">指定发送邮件的用户名，例如：test@163.com</span>
+            </el-form-item>
+            <el-form-item label="客户端授权密码" prop="qqpass">
+                <el-input v-model="sendForm.qqpass" size="small"
+                  style="width:518px;" placeholder="请输入客户端授权密码">
+                </el-input>
+                <span class="tips ml-2">指定发送邮件的密码</span>
+            </el-form-item>
+            <el-form-item label="发件人名称" prop="qqsendName">
+                <el-input v-model="sendForm.qqsendName" size="small" 
+                  style="width:518px;" placeholder="请输入发件人名称">
+                </el-input>
+                <span class="tips ml-2">指定发送邮件的密码</span>
+            </el-form-item>
+            <el-form-item label="邮件签名" prop="qqdesc">
+              <el-input type="textarea" style="width:440px;" 
+                placeholder="请输入..."
+                :rows="3" v-model="sendForm.qqdesc"></el-input>
+                <span class="tips textArea ml-2">指定邮件末尾添加的签名信息</span>
+            </el-form-item>
+          </div>
+
+          <div class="zdy-wrap" v-if="sendForm.stmpType==3">
             <el-form-item label="STMP服务器地址" prop="zdyStmURL">
                 <el-input v-model="sendForm.zdyStmURL" size="small" 
                   style="width:518px;" placeholder="请输入STMP服务器地址">
@@ -78,7 +105,7 @@
                 <span class="tips ml-2">指定发送邮件的用户名，例如test@163.com</span>
             </el-form-item>
             <el-form-item label="SMTP客户端授权密码" prop="zdySendCode">
-                <el-input v-model="sendForm.zdySendCode" size="small" 
+                <el-input v-model="sendForm.zdySendCode" size="small"
                   style="width:518px;" placeholder="请输入SMTP客户端授权密码">
                 </el-input>
                 <span class="tips ml-2">指定发送邮件的密码，QQ邮箱此处为授权码</span>
@@ -102,7 +129,7 @@
     </div>
     <div class="bottom">
       <el-button @click="goBackList()" size="small">取消</el-button>
-      <el-button @click="submitManage('ruleForm')" size="small" type="primary">确定</el-button>
+      <el-button @click="submitManage('sendForm')" size="small" type="primary">保存</el-button>
     </div>
 
     <el-dialog
@@ -121,13 +148,14 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="sendEmailDialog = false">取 消</el-button>
+        <el-button type="primary" @click="sendEmailSubmit('sendEmailForm')">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
+import actions from './actions/email'
 export default {
   data(){
     return {
@@ -136,22 +164,37 @@ export default {
         userName:'',
         pass:'',
         sendName:'',
-        zdySSLtype:'',
+        zdySSLtype:0,
         zdyStmURL:'',
         zdyStmpro:'',
         zdySendUser:'',
         zdySendCode:'',
         zdySendName:'',
-        adyEmailDesc:''
+        adyEmailDesc:'',
+
+        qquserName:'',
+        qqpass:'',
+        qqsendName:'',
+        qqdesc:''
+
       },
       sendSearchForm:{
         userName:[
           {required: true, message: '请输入发送账户用户名',trigger:'blur'}
         ],
+        qquserName:[
+          {required: true, message: '请输入发送账户用户名',trigger:'blur'}
+        ],
         pass:[
           {required: true, message: '请输入客户端授权密码',trigger:'blur'}
         ],
+        qqpass:[
+          {required: true, message: '请输入客户端授权密码',trigger:'blur'}
+        ],
         sendName:[
+          {required: true, message: '请输入发件人名称',trigger:'blur'}
+        ],
+        qqsendName:[
           {required: true, message: '请输入发件人名称',trigger:'blur'}
         ],
         zdyStmURL:[
@@ -178,16 +221,23 @@ export default {
         email:[
           {required: true, message: '请输入邮件人邮箱地址',trigger:'blur'}
         ]
-      }
+      },
+      Info:{}
     }
   },
   created(){
-
+    let _this = this
+    _this.getInfo()
   },
   methods:{
+    ...actions,
     sendEmail(){
       let _this = this
+      _this.sendEmailForm.email = ''
       _this.sendEmailDialog = true
+    },
+    goBackList(){
+      this.$router.go(-1)
     }
   }
 }

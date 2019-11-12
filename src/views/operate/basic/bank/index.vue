@@ -39,8 +39,8 @@
             label="银行名称">
             <template slot-scope="scope">
               <div class=" d-flex a-center">
-                <img class="logo" src="../../../../assets/logo.png" alt="">
-                <p class="ml-1">中国银行</p>
+                <img class="logo" :src="scope.row.logo" alt="">
+                <p class="ml-1">{{scope.row.name}}</p>
               </div>
             </template>
           </el-table-column>
@@ -56,7 +56,7 @@
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <!-- <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button> -->
+              <el-button @click="goEdit(scope.row.id)" type="text" size="small">编辑</el-button>
               <el-button 
               v-if="scope.row.type!=0"
               @click="delRole(scope.row.id)" 
@@ -76,7 +76,7 @@ export default {
       searchForm:{
         keyword:''
       },
-      tableData:[{}],
+      tableData:[],
       selection:[],
       totalNums:0,
       curPage: 1,
@@ -85,7 +85,7 @@ export default {
     }
   },
   created(){
-
+    this.getList()
   },
   methods:{
     resetForm(formName){
@@ -102,18 +102,103 @@ export default {
       // console.log(column)
       let _this = this
       if(column.order=='descending'){
-        _this.getList(null,2)
+        _this.getList(2)
       }
       if(column.order=='ascending'){
-        _this.getList(null,1)
+        _this.getList(1)
       }
     },
-    getList(){
+    getList(sort){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.Bank.GetList,{
+        token:_this.$utils.getToken(),
+        keyword:_this.searchForm.keyword,
+        status:-1,
+        sort:sort ? sort : 2
+      }).then((res)=>{
+        if(res.data.ret==200){
+          let data = res.data.data
+          _this.tableData = data.list
+        }
+      })
+    },
+    delRole(id){
+      let _this = this
+      _this.$confirm('此操作将永久删除该信息, 是否继续?','提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        _this.$http.post(_this.baseUrl + _this.url.Bank.DeleteBankByIds,{
+          token:_this.$utils.getToken(),
+          ids:id
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            _this.getList()
+          }
+        })
+      }).catch(()=>{
+        _this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    delAccount(){
+      let _this = this,
+        idsArr = [],
+        ids = '';
+      if(_this.selection.length==0){
+        _this.$message({
+          type: 'warning',
+          message: '请选择需要删除的数据!'
+        })
+        return false
+      }
+      _this.selection.map((item,index)=>{
+        idsArr.push(item.id)
+      })
+      ids = idsArr.toString()
 
+      _this.$confirm('此操作将永久删除该信息, 是否继续?', '提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        _this.$http.post(_this.baseUrl + _this.url.Bank.DeleteBankByIds,{
+          token:_this.$utils.getToken(),
+          ids:ids
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            _this.getList()
+          }
+        })
+      }).catch(()=>{
+        _this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     add(){
       this.$router.push({
         path:'/operate/basic/bank/addBank',
+      })
+    },
+    goEdit(id){
+      this.$router.push({
+        path:'/operate/basic/bank/addBank',
+        query:{
+          id:id
+        }
       })
     }
   }

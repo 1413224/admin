@@ -21,7 +21,7 @@
               class="yselect"></ySelect>
           </el-form-item>
           <el-form-item label="操作时间">
-            <linkageDateTimePicker></linkageDateTimePicker>
+            <linkageDateTimePicker v-model="searchForm.dateTime"></linkageDateTimePicker>
           </el-form-item>
           <div class="pl-5 pt">
               <el-button class="search-btn" type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
@@ -38,27 +38,27 @@
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <p class="name">名字</p>
-              <p class="phone">152111111</p>
+              <p class="name">{{scope.row.account_name}}</p>
+              <p class="phone">{{scope.row.account_mobile}}</p>
             </template>
           </el-table-column>
           <el-table-column
-            prop="model"
+            prop="module_name"
             label="操作模块">
           </el-table-column>
           <el-table-column
-            prop="aPage"
+            prop="page_name"
             label="操作页面">
           </el-table-column>
           <el-table-column
             label="操作时间"
-            prop="update_time">
+            prop="create_time">
             <template slot-scope="scope">
-              <div>{{scope.row.update_time|formatDate}}</div>
+              <div>{{scope.row.create_time|formatDate}}</div>
             </template>
           </el-table-column>
           <el-table-column
-            prop="content"
+            prop="remark"
             label="操作内容">
           </el-table-column>
         </el-table>
@@ -86,17 +86,12 @@ export default {
     return {
       searchForm:{
         name:'',
-        modelName:''
+        modelName:'',
+        dateTime:[]
       },
-      options:[
-        { label:'全部',value:'-1' },
-      ],
-      modelOptions:[
-        { label:'全部',value:'-1' },
-      ],
-      tableData:[
-        {}
-      ],
+      options:[],
+      modelOptions:[],
+      tableData:[],
       totalNums:0,
       curPage: 1,
       pageSize: 10,
@@ -104,9 +99,22 @@ export default {
     }
   },
   created(){
-
+    let _this = this
+    _this.getAccountList()
+    _this.getLogTypeList()
+  },
+  mounted(){
+    this.getList()
   },
   methods:{
+    searchSubmit(){
+      this.getList()
+    },
+    resetForm(formName){
+      this.$refs[formName].resetFields()
+      this.searchForm.dateTime = []
+      this.getList()
+    },
     handleSize(sizeVal){
       this.pageSize = sizeVal
       this.curPage = 1
@@ -118,7 +126,58 @@ export default {
     },
     getAccountList(){
       let _this = this
-      
+      return new Promise((resolve,reject)=>{
+        _this.$http.post(_this.baseUrl + _this.url.PermAccount.GetAllAccountList,{
+          token:_this.$utils.getToken()
+        }).then((res)=>{
+          if(res.data.ret==200){
+            let data = res.data.data
+            data.list.map((item,index)=>{
+              _this.options.push({
+                label:item.nickname,
+                value:item.id
+              })
+            })
+            _this.options.unshift({ label:'全部',value:'' })
+            resolve()
+          }
+        })
+      })
+    },
+    getLogTypeList(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.PermAccount.GetAllLogTypeList,{
+        token:_this.$utils.getToken()
+      }).then((res)=>{
+        if(res.data.ret==200){
+          let data = res.data.data
+          data.list.map((item,index)=>{
+            _this.modelOptions.push({
+              label:item.name,
+              value:item.code
+            })
+          })
+          _this.modelOptions.unshift({ label:'全部',value:'' })
+        }
+      })
+    },
+    getList(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.PermAccount.GetOperationLogList,{
+        token:_this.$utils.getToken(),
+        account_id:_this.searchForm.name,
+        start_time:_this.searchForm.dateTime ? _this.searchForm.dateTime[0] : '',
+        end_time:_this.searchForm.dateTime ? _this.searchForm.dateTime[1] : '',
+        type_code:_this.searchForm.modelName,
+        keyword:'',
+        page_size:_this.pageSize,
+        page_num:_this.curPage
+      }).then((res)=>{
+        if(res.data.ret==200){
+          let data = res.data.data
+          _this.tableData = data.list
+        }
+      })
     }
   },
   components:{
