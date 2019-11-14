@@ -20,7 +20,7 @@
           <div class="tit ml-2">登陆密码</div>
           <div class="desc ml-3">定期更换有助于账号安全</div>
         </div>
-        <div class="right  d-flex a-center">
+        <div class="right d-flex a-center">
           <div class="bangding" @click="showPassDialog()">修改密码</div>
         </div>
       </div>
@@ -32,15 +32,16 @@
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
-            <img class="a-img" src="../../../../assets/account/phone.png"/>
-            <img class="a-img" src="../../../../assets/account/phone.png"/>
+            <img class="a-img" v-if="!bindInfo.is_bind_mobile" src="../../../../assets/account/phone.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/phone.png"/>
           </div>
           <div class="tit ml-2">绑定手机</div>
-          <div class="desc ml-3">用于登录、保护、找回密码</div>
+          <div class="desc ml-3" v-if="!bindInfo.is_bind_mobile">用于登录、保护、找回密码</div>
+          <div class="desc ml-3" v-else>{{bindInfo.mobile}}</div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding" @click="showBdPhoneDialog()">绑定</div>
-          <div class="bangding" @click="showChangePhoneDialog()">修改手机号</div>
+          <div class="bangding" v-if="!bindInfo.is_bind_mobile" @click="showBdPhoneDialog()">绑定</div>
+          <div class="bangding" v-else @click="showChangePhoneDialog()">修改手机号</div>
         </div>
       </div>
       <!-- 绑定手机end -->
@@ -51,17 +52,21 @@
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
-            <img class="a-img" src="../../../../assets/account/user.png"/>
-            <img class="a-img" src="../../../../assets/account/user_a.png"/>
+            <img class="a-img" v-if="!bindInfo.is_bind_emergency" src="../../../../assets/account/user.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/user_a.png"/>
           </div>
           <div class="tit ml-2">紧急联系人</div>
-          <div class="desc ml-3">系统管理员可通过紧急联系人联系到您</div>
+          <div class="desc ml-3" v-if="!bindInfo.is_bind_emergency">系统管理员可通过紧急联系人联系到您</div>
+          <div class="desc ml-3" v-else>
+            {{bindInfo.emergency_info.emergency}}
+            {{bindInfo.emergency_info.egmobile}}
+          </div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding" @click="lianxiBtn()">绑定</div>
-          <div class="jie-wrap d-flex">
-            <div class="edit">修改</div>
-            <div class="jie ml-1">解绑</div>
+          <div class="bangding" v-if="!bindInfo.is_bind_emergency" @click="lianxiBtn()">绑定</div>
+          <div class="jie-wrap d-flex" v-else>
+            <div class="edit" @click="editEmergency">修改</div>
+            <div class="jie ml-1" @click="unbindEmergency">解绑</div>
           </div>
         </div>
       </div>
@@ -73,15 +78,15 @@
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
-            <img class="a-img" src="../../../../assets/account/qq.png"/>
-            <img class="a-img" src="../../../../assets/account/qq_a.png"/>
+            <img class="a-img" v-if="!bindInfo.is_bind_qq" src="../../../../assets/account/qq.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/qq_a.png"/>
           </div>
           <div class="tit ml-2">绑定QQ</div>
           <div class="desc ml-3">可用绑定的QQ扫码登录</div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding">绑定</div>
-          <div class="jiebang">解绑</div>
+          <div class="bangding" v-if="!bindInfo.is_bind_qq">绑定</div>
+          <div class="jiebang" v-else>解绑</div>
         </div>
       </div>
       <!-- 绑定QQend -->
@@ -92,15 +97,15 @@
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
-            <img class="a-img" src="../../../../assets/account/wx.png"/>
-            <img class="a-img" src="../../../../assets/account/wx_a.png"/>
+            <img class="a-img" v-if="!bindInfo.is_bind_wechat" src="../../../../assets/account/wx.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/wx_a.png"/>
           </div>
           <div class="tit ml-2">绑定微信</div>
           <div class="desc ml-3">可用绑定的微信扫码登录</div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding" @click="showBindWX()">绑定</div>
-          <div class="jiebang">解绑</div>
+          <div class="bangding" v-if="!bindInfo.is_bind_wechat" @click="showBindWX()">绑定</div>
+          <div class="jiebang" v-else>解绑</div>
         </div>
       </div>
       <!-- 绑定微信end -->
@@ -111,17 +116,18 @@
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
-            <img class="a-img" src="../../../../assets/account/email.png"/>
-            <img class="a-img" src="../../../../assets/account/email_a.png"/>
+            <img class="a-img" v-if="!bindInfo.is_bind_email" src="../../../../assets/account/email.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/email_a.png"/>
           </div>
           <div class="tit ml-2">绑定邮箱</div>
-          <div class="desc ml-3">可用绑定的邮箱找回密码</div>
+          <div class="desc ml-3" v-if="!bindInfo.is_bind_email">可用绑定的邮箱找回密码</div>
+          <div class="desc ml-3" v-else>{{bindInfo.email}}</div>
         </div>
         <div class="right d-flex a-center">
-          <div class="bangding" @click="showEmailDialog()">绑定</div>
-          <div class="jie-wrap d-flex">
-            <div class="edit">修改</div>
-            <div class="jie ml-1">解绑</div>
+          <div class="bangding" v-if="!bindInfo.is_bind_email" @click="showEmailDialog()">绑定</div>
+          <div class="jie-wrap d-flex" v-else>
+            <div class="edit" @click="editEmail()">修改</div>
+            <div class="jie ml-1" @click="dialogEmailUnbind=true">解绑</div>
           </div>
         </div>
       </div>
@@ -292,9 +298,25 @@
       </span>
     </el-dialog>
     <!-- 紧急联系人弹框end -->
+    <!-- 紧急联系人解绑弹框 -->
+    <el-dialog
+      title="解绑邮箱"
+      :visible.sync="dialogEmerUnbind"
+      width="428px">
+      <p style="line-height:25px;">
+        <i style="color:#E6A23CFF" class="iconfont icon-warning-circle"></i> 
+        删除后系统管理员将无法通过 <span style="color:#2589FFFF"> 紧急联系人</span>
+        联系到您，请确认操作！！
+      </p>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogEmerUnbind=false">取消</el-button>
+        <el-button type="primary" @click="unBindEmer()">确定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 紧急联系人解绑弹框end -->
     <!-- 邮箱绑定弹框 -->
     <el-dialog
-      title="绑定邮箱"
+      :title="emailTitle"
       :visible.sync="dialogEmail"
       :before-close="closeDialogEmail"
       width="640px">
@@ -302,12 +324,25 @@
         label-width="130px" 
         :model="EmailForm" :rules="EmailRules" 
         ref="EmailForm">
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="当前邮箱" v-if="isEmailEdit">
+          <p style="margin-top:2px;">{{bindInfo.email}}</p>
+        </el-form-item>
+        <el-form-item label="账号密码" prop="pass" v-if="isEmailEdit">
+          <el-input v-model="EmailForm.pass"
+            style="width:346px;" type="password"
+            placeholder="请输入账号密码" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email" v-if="!isEmailEdit">
           <el-input v-model="EmailForm.email"
             style="width:346px;"
             placeholder="请输入邮箱账号" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="短信验证码" prop="yzm">
+        <el-form-item label="新邮箱" prop="newEmail" v-if="isEmailEdit">
+          <el-input v-model="EmailForm.newEmail"
+            style="width:346px;"
+            placeholder="请输入新邮箱" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="验证码" prop="yzm">
           <el-input 
             style="width:239px;"
             v-model="EmailForm.yzm" 
@@ -318,10 +353,28 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogEmail = false">取 消</el-button>
-        <el-button type="primary" @click="changeEmail('EmailForm')">确 定</el-button>
+        <el-button type="primary" @click="changeEmail('EmailForm')">开启保护</el-button>
       </span>
     </el-dialog>
     <!-- 邮箱绑定弹框end -->
+
+    <!-- 邮箱解绑弹框 -->
+    <el-dialog
+      title="解绑邮箱"
+      :visible.sync="dialogEmailUnbind"
+      width="428px">
+      <p>
+        <i style="color:#E6A23CFF" class="iconfont icon-warning-circle"></i> 
+        解绑后将无法通过<span style="color:#2589FFFF"> 邮箱</span>
+        找回密码，请确认操作！
+      </p>
+      <span slot="footer" class="dialog-footer">
+        <el-button>修改密码</el-button>
+        <el-button type="primary" @click="unBindEmail()">确定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 邮箱解绑弹框end -->
+
     <!-- 绑定QQ弹框 -->
     <!-- <el-dialog
       title="绑定QQ"
@@ -362,6 +415,9 @@ export default {
       }
     }
     return {
+      bindInfo:{},
+      dialogEmerUnbind:false,
+      dialogEmailUnbind:false,
       usePassChange:true,
       showChangePassByYzm:true,
       timesChangePass:'',
@@ -406,6 +462,7 @@ export default {
           {required: true, message: '请输入要绑定的手机号',trigger:'blur'}
         ]
       },
+      isEmergencyEdit:null,
       EmergencyForm:{
         emergencyType:'',
         name:'',
@@ -430,9 +487,13 @@ export default {
         {label:'朋友',value:4},
         {label:'其他',value:5},
       ],
+      isEmailEdit:false,
+      emailTitle:'',
       EmailForm:{
         email:'',
-        yzm:''
+        yzm:'',
+        pass:'',
+        newEmail:''
       },
       EmailRules:{
         email:[
@@ -440,6 +501,12 @@ export default {
         ],
         yzm:[
           {required: true, message: '请输入邮箱收到的验证码',trigger:'blur'}
+        ],
+        pass:[
+          {required: true, message: '请输入账号密码',trigger:'blur'}
+        ],
+        newEmail:[
+          {required: true, message: '请输入新邮箱',trigger:'blur'}
         ]
       },
       changePhoneForm:{
@@ -462,7 +529,7 @@ export default {
   },
   created(){
     this.getInfo()
-    
+    this.getBindInfo()
   },
   methods:{
     ...actions,
@@ -475,7 +542,18 @@ export default {
       this.dialogPass = true
     },
     showEmailDialog(){
+      let _this = this
+      _this.emailTitle = '绑定邮箱',
+      _this.isEmailEdit = false
+      _this.EmailForm.email = ''
+      _this.EmailForm.yzm = ''
       this.dialogEmail = true
+    },
+    editEmail(){
+      let _this = this
+      _this.emailTitle = '修改邮箱',
+      _this.isEmailEdit = true
+      _this.dialogEmail = true
     },
     showBdPhoneDialog(){
       this.dialogPhonebd = true

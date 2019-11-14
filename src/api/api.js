@@ -145,6 +145,19 @@ let url = {
   },
   Protocol:{
     GetList:'main/common/Protocol/GetList',//获取协议列表信息接口
+    ChangeStatusByIds:'main/common/Protocol/ChangeStatusByIds',
+    GetInfoById:'main/common/Protocol/GetInfoById',//获取协议列表信息接口
+    ChangeInfoById:'main/common/Protocol/ChangeInfoById',//修改协议信息接口
+  },
+  Account:{
+    BindEmail:'common/role/Account/BindEmail',//后台端绑定邮箱接口
+    ChangeEmail:'common/role/Account/ChangeEmail',//后台端修改邮箱接口
+    GetLoginCode:'common/role/EmailCode/GetLoginCode',//在已经登录账号的情况获取邮箱验证码
+    GetBindInfo:'common/role/Account/GetBindInfo',//获取账户安全绑定信息接口
+    UnbindEmail:'common/role/Account/UnbindEmail',//后台端解绑邮箱接口
+    ChangeEmergencyInfo:'common/role/Account/ChangeEmergencyInfo',//修改紧急联系人信息
+    DelEmergencyInfo:'common/role/Account/DelEmergencyInfo',//删除紧急联系人信息
+    
   },
 
   cloud:{

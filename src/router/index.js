@@ -9,14 +9,27 @@ export default new Router({
   routes: [
     
     {
-      path:'/login',
+      path:'/login2',
       name:'login',
       component:() => import('@/views/user/login')
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:() => import('@/views/user/login2')
     },
     {
       path:'/forgetPass',
       name:'forget',
       component:() => import('@/views/user/forgetPass'),
+      meta:{
+        title:'忘记密码'
+      }
+    },
+    {
+      path:'/forgetPass2',
+      name:'forget',
+      component:() => import('@/views/user/forgetPass2'),
       meta:{
         title:'忘记密码'
       }
@@ -458,6 +471,18 @@ export default new Router({
             breadList:[
               { name:'首页',path:'/home' },
               { name:'授权信息' }
+            ]
+          }
+        },
+        {
+          path:'/setting/cloud/log',
+          component:() => import('@/views/setting/cloud/log/index'),
+          meta:{
+            title:'更新日志',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'更新日志' }
             ]
           }
         }

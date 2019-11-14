@@ -23,11 +23,11 @@
           :data="tableData"
           stripe>
           <el-table-column
-            prop="type"
+            prop="name"
             label="协议类型">
           </el-table-column>
           <el-table-column
-            prop="desc"
+            prop="remark"
             label="协议描述">
           </el-table-column>
           <el-table-column
@@ -37,14 +37,15 @@
               <el-switch
                 v-model="scope.row.status"
                 active-color="#13ce66"
-                inactive-color="#eee">
+                inactive-color="#eee"
+                @change="changeStatus(scope.row)">
               </el-switch>
             </template>
           </el-table-column>
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row)" type="text" size="small">修改</el-button>
+              <el-button @click="goDetail(scope.row.id)" type="text" size="small">修改</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -71,7 +72,7 @@ export default {
       searchForm:{
         keyword:''
       },
-      tableData:[{}],
+      tableData:[],
       totalNums:0,
       curPage: 1,
       pageSize: 10,
@@ -102,7 +103,9 @@ export default {
     goDetail(id){
       this.$router.push({
         path:'/operate/basic/rule/editRule',
-        id:id
+        query:{
+          id:id
+        }
       })
     }
   }

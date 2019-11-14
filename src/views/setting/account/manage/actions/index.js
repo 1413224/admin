@@ -10,6 +10,17 @@ export default {
       }
     })
   },
+  getBindInfo(){
+    let _this = this
+    _this.$http.post(_this.baseUrl + _this.url.Account.GetBindInfo,{
+      token:_this.$utils.getToken(),
+      role_type:_this.url.role_type
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.bindInfo = res.data.data
+      }
+    })
+  },
   changePass(formName){
     let _this = this
     let params 
@@ -85,15 +96,142 @@ export default {
   },
   lianxiBtn(){
     let _this = this
+    _this.EmergencyForm.emergencyType = ''
+    _this.EmergencyForm.name = ''
+    _this.EmergencyForm.phone = ''
+    _this.EmergencyForm.remack = ''
+    _this.isEmergencyEdit = false
     _this.dialogEmergency = true
+  },
+  editEmergency(){
+    let _this = this
+    _this.EmergencyForm.emergencyType = _this.bindInfo.emergency_info.emergency_type
+    _this.EmergencyForm.name = _this.bindInfo.emergency_info.emergency
+    _this.EmergencyForm.phone = _this.bindInfo.emergency_info.egmobile
+    _this.EmergencyForm.remack = _this.bindInfo.emergency_info.emergency_remark
+    _this.isEmergencyEdit = true
+    _this.dialogEmergency = true
+  },
+  unbindEmergency(){
+    let _this = this
+    _this.dialogEmerUnbind = true
+  },
+  unBindEmer(){
+    let _this = this
+    _this.$http.post(_this.baseUrl + _this.url.Account.DelEmergencyInfo,{
+      token:_this.$utils.getToken(),
+      role_type:_this.url.role_type
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        _this.dialogEmerUnbind = false
+        _this.getBindInfo()
+      }
+    })
+  },
+  changeEmergency(formName){
+    let _this = this,
+        url = '',
+        params = {};
+    _this.$refs[formName].validate((valid)=>{
+      if(!valid){
+        return false
+      }
+      params = {
+        role_type:_this.url.role_type,
+        token:_this.$utils.getToken(),
+        emergency_type:_this.EmergencyForm.emergencyType,
+        emergency:_this.EmergencyForm.name,
+        egmobile:_this.EmergencyForm.phone,
+        emergency_remark:_this.EmergencyForm.remack
+      }
+      url = _this.baseUrl + _this.url.Account.ChangeEmergencyInfo
+      
+      _this.$http.post(url,params).then((res)=>{
+        if(res.data.ret==200){
+          _this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+        }
+        _this.dialogEmergency = false
+        _this.getBindInfo()
+      })
+
+    })
+  },
+  changeEmail(formName){
+    let _this = this,
+        url = '',
+        params = {};
+    _this.$refs[formName].validate((valid)=>{
+      if(!valid){
+        return false
+      }
+      params = {
+        token:_this.$utils.getToken(),
+        role_type:_this.url.role_type,
+        verification_code:_this.EmailForm.yzm
+      }
+      if(!_this.isEmailEdit){
+        url = _this.baseUrl + _this.url.Account.BindEmail
+        params.email = _this.EmailForm.email
+      }else{
+        url = _this.baseUrl + _this.url.Account.ChangeEmail
+        params.password = _this.MD5(_this.EmailForm.pass)
+        params.new_email = _this.EmailForm.newEmail
+      }
+
+      _this.$http.post(url,params).then((res)=>{
+        if(res.data.ret==200){
+          if(!_this.isEmailEdit){
+            _this.$message({
+              type: 'success',
+              message: '绑定成功!'
+            })
+          }else{
+            _this.$message({
+              type: 'success',
+              message: '修改成功!'
+            })
+          }
+          _this.getBindInfo()
+          _this.dialogEmail = false
+        }
+      })
+    })
+  },
+  unBindEmail(){
+    let _this = this
+    _this.$http.post(_this.baseUrl + _this.url.Account.UnbindEmail,{
+      role_type:_this.url.role_type,
+      token:_this.$utils.getToken()
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.$message({
+          type: 'success',
+          message: '解绑成功!'
+        })
+        _this.getBindInfo()
+        _this.dialogEmailUnbind = false
+      }
+    })
   },
   getYzmByChangeEmail(){
     let _this = this
-    _this.changeEmailCountDown()
-    return;
-    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
-      role_type:_this.url.role_type,
+    // _this.changeEmailCountDown()
+    let email = ''
+    if(!_this.isEmailEdit){
+      email = _this.EmailForm.email
+    }else{
+      email = _this.EmailForm.newEmail
+    }
+    _this.$http.post(_this.baseUrl + _this.url.Account.GetLoginCode,{
       token:_this.$utils.getToken(),
+      email:email,
       type:1
     }).then((res)=>{
       if(res.data.ret==200){

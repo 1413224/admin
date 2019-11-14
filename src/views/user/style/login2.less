@@ -1,0 +1,186 @@
+.page-login{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #f0f2f5;
+  background-image: url(../../../assets/loginbg.svg);
+  width: 100%;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+.content{
+  height: 600px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow:0px 0px 20px 0px rgba(34,36,47,0.1);
+}
+.left-wrap{
+  width: 422px;
+  height: 600px;
+  background:url(/static/img/register-bg.c1b8e6a.jpg) no-repeat;
+  background-size: 100% 100%;
+  vertical-align: middle;
+  .tit-wrap{
+    padding-top: 70px;
+    padding-left: 28px;
+    .tit{
+      font-size: 28px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .ul-wrap{
+      padding-left: 28px;
+      li{
+        font-size: 20px;
+        color: #fff;
+        margin-top: 15px;
+      }
+    }
+  }
+}
+.right-wrap{
+  width: 518px;
+  background: #fff;
+  .top{
+    &:hover{
+      cursor: pointer;
+    }
+    .ico{
+      color: #67c23a;
+    }
+    .saoma-wrap{
+      border: 1px solid #eee;
+      padding: 2px 4px;
+      height: 18px;
+      border-radius: 3px;
+    }
+    .erwei-wrap{
+      width: 50px;
+      height: 50px;
+      position: relative;
+      .sanjiao{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border: 25px solid #333;
+        border-top-color: transparent;
+        border-bottom-color: #fff;
+        border-left-color: #fff;
+        border-right-color: transparent;
+      }
+      i{
+        font-size: 48px;
+      }
+    }
+  }
+}
+.cont-wrap{
+  padding-top: 120px;
+  padding-bottom: 20px;
+  width: 340px;
+  // border: 1px solid #eee;
+  margin: 0 auto;
+  .from-wrap{
+    ul{
+      // margin: 0 auto;
+      .item{
+        width: 167px;
+        height: 28px;
+        font-size: 20px;
+        text-align: center;
+        color: #A1A6BBFF;
+        border-bottom: 2px solid #F0F2F7FF;
+        &.active{
+          color: #494F68FF;
+          border-bottom: 2px solid #62C645FF;
+        }
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    .form-item{
+      margin-top: 24px;
+    }
+    .icouser{
+      font-size: 20px;
+      position: relative;
+      top: 2px;
+      left: 12px;
+    }
+    .forget{
+      color:#A1A6BBFF;
+      padding-right:20px;
+      &:hover{
+        cursor: pointer;
+        color: #4274faFF;
+      }
+    }
+    .btn-login{
+      clear: both;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 20px;
+      color: #fff;
+      background:linear-gradient(90deg,rgba(67,155,248,1),rgba(66,116,250,1));
+      border-radius:25px;
+      margin-top: 100px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .yzm-btn{
+      display: inline-block;
+      width: 106px;
+      border: 1px solid #2589FFFF;
+      border-radius: 20px;
+      margin-left: 10px;
+      text-align: center;
+      color: #2589FFFF;
+      .text{
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    .other{
+      p{
+        color: #A1A6BBFF;
+        margin-top: 30px;
+      }
+      .ico-qq{
+        margin-top: 23px;
+        font-size: 24px;
+        margin-left: 10px;
+        color: #61BCE9FF;
+      }
+    }
+  }
+}
+.wx-wrap{
+  text-align: center;
+  .top{
+    i{
+      font-size: 40px;
+      color: #67c23a;
+      margin-right: 10px;
+    }
+    span{
+      font-size: 18px;
+    }
+  }
+  .erwei-wrap{
+    width: 180px;
+    height: 180px;
+    border: 1px solid #eee;
+    margin: 40px auto 30px;
+  }
+}
