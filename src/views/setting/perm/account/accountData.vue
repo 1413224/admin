@@ -13,11 +13,11 @@
               <span>基础信息</span>
             </div>
             <el-form-item label="头像" prop="thumb">
-              <div @click="showPictureDialog()">
+              <div>
                 <div v-if="ruleForm.thumb">
-                  <img class="pic-thumb" :src="ruleForm.thumb" alt="">
+                  <img @click="showPictureDialog()" class="pic-thumb" :src="ruleForm.thumb" alt="">
                 </div>
-                <div v-else class="thumb d-flex a-center j-center">+</div>
+                <div @click="showPictureDialog()" v-else class="thumb d-flex a-center j-center">+</div>
               </div>
             </el-form-item>
             <el-form-item label="昵称" prop="nickName">
@@ -285,7 +285,7 @@ export default {
         height:'',
         weight:'',
         education:'',
-        interestList:'',
+        interestList:[],
         introd:'',
         address:'',
         jzAddress:[],
@@ -360,12 +360,11 @@ export default {
       this.$router.go(-1)
     },
     showPictureDialog(){
-      console.log(9)
       this.showPicture = true
     },
     getPicUrl(url){
       this.ruleForm.thumb = url
-      console.log(url)
+      // console.log(url)
     },
   },
   computed:{
