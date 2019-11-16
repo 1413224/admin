@@ -33,7 +33,7 @@
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
             <img class="a-img" v-if="!bindInfo.is_bind_mobile" src="../../../../assets/account/phone.png"/>
-            <img class="a-img" v-else src="../../../../assets/account/phone.png"/>
+            <img class="a-img" v-else src="../../../../assets/account/phone_a.png"/>
           </div>
           <div class="tit ml-2">绑定手机</div>
           <div class="desc ml-3" v-if="!bindInfo.is_bind_mobile">用于登录、保护、找回密码</div>
@@ -105,7 +105,7 @@
         </div>
         <div class="right d-flex a-center">
           <div class="bangding" v-if="!bindInfo.is_bind_wechat" @click="showBindWX()">绑定</div>
-          <div class="jiebang" v-else>解绑</div>
+          <div class="jiebang" v-else @click="unBindWX">解绑</div>
         </div>
       </div>
       <!-- 绑定微信end -->
@@ -524,7 +524,9 @@ export default {
         yzm:[
           {required: true, message: '请输入短信验证码',trigger:'blur'}
         ]
-      }
+      },
+      interval:null,
+      sureBind:null,
     }
   },
   created(){
@@ -560,18 +562,72 @@ export default {
     },
     showBindWX(){
       this.dialogWX = true
-      this.$nextTick (function () {
+      this.$nextTick(function () {
         document.getElementById("qrcode-wx").innerHTML = ""
-        this.qrcode();
+        this.qrcode()
       })
     },
     qrcode(){
       let _this = this
-      let qrcode = new QRCode('qrcode-wx',{
-        width:120,
-        height:120,
-        text:'sdfsd'
+      _this.getWXurl().then((url)=>{
+        let qrcode = new QRCode('qrcode-wx',{
+          width:200,
+          height:200,
+          text:url,
+          // correctLevel:QRCode.CorrectLevel.Q
+        })
       })
+      _this.interval = setInterval(() => {
+        _this.getWXurl().then((url)=>{
+          document.getElementById("qrcode-wx").innerHTML = ""
+          let qrcode = new QRCode('qrcode-wx',{
+            width:200,
+            height:200,
+            text:url,
+            // correctLevel:QRCode.CorrectLevel.Q
+          })
+        })
+      }, 1000*60*5)
+      _this.sureBind = setInterval(()=>{
+        _this.checkBindWeChat()
+      },5000)
+    },
+    getWXurl(){
+      let _this = this
+      return new Promise((resolve,reject)=>{
+        _this.$http.post(_this.baseUrl + _this.url.cloud.WeChat.GetBindAccountUrl,{
+          token:_this.$utils.getToken()
+        }).then((res)=>{
+          if(res.data.ret==200){
+            let data = res.data.data
+            resolve(data.url)
+          }
+        })
+      })
+    },
+    checkBindWeChat(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.Area.CheckBindWeChat,{
+        role_type:_this.url.role_type,
+        token:_this.$utils.getToken(),
+        // isNoLoading:true
+      }).then((res)=>{
+        if(res.data.ret==200){
+          if(res.data.data.status){
+            _this.dialogWX = false
+            _this.getBindInfo()
+          }
+        }
+      })
+    }
+  },
+  watch:{
+    dialogWX(){
+      // console.log(this.dialogWX)
+      if(!this.dialogWX){
+        clearInterval(this.interval)
+        clearInterval(this.sureBind)
+      }
     }
   },
   components:{

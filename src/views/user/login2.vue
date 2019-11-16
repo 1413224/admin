@@ -154,7 +154,10 @@ export default {
         yam:[
           {required: true, message: '请输入验证码',trigger:'blur'}
         ]
-      }
+      },
+      interval:null,
+      sureBind:null,
+      code:''
     }
   },
   created(){
@@ -180,16 +183,79 @@ export default {
     },
     qrcode(){
       let _this = this
-      let qrcode = new QRCode('erweima',{
-        width:140,
-        height:140,
-        text:'sdfsd'
+      _this.getUrl().then((url)=>{
+        let qrcode = new QRCode('erweima',{
+          width:140,
+          height:140,
+          text:url
+        })
+      })
+      _this.interval = setInterval(() => {
+        _this.getUrl().then((url)=>{
+          let qrcode = new QRCode('erweima',{
+            width:140,
+            height:140,
+            text:url
+          })
+        })
+      }, 1000*60*5)
+      _this.sureBind = setInterval(()=>{
+        _this.checkBindWeChat()
+      },5000)
+    },
+    getUrl(){
+      let _this = this
+      return new Promise((resolve,reject)=>{
+        _this.$http.post(_this.cloudUrl + _this.url.cloud.WeChat.GetLoginAccountUrl,{
+          role_type:_this.url.role_type
+        }).then((res)=>{
+          if(res.data.ret==200){
+            let data = res.data.data
+            _this.code = data.code
+            resolve(data.url)
+          }
+        })
+      })
+    },
+    checkBindWeChat(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.cloud.WeChat.CheckAccountLogin,{
+        code:_this.code
+      }).then((res)=>{
+        if(res.data.ret==200){
+          if(res.data.data.code){
+            localStorage.setItem("info",JSON.stringify(res.data.data))
+            // if(_this.rememberUserName==true){
+            //   localStorage.setItem("userName",_this.phone)
+            // }else{
+            //   localStorage.removeItem("userName",_this.phone)
+            // }
+            if(_this.$route.query.redirect){
+              _this.$router.replace({
+                path:_this.$route.query.redirect
+              })
+            }else{
+              _this.$router.replace({
+                path:'/home'
+              })
+            }
+          }
+        }
       })
     },
     forgetPass(){
       this.$router.push({
         path:'/forgetPass2'
       })
+    }
+  },
+  watch:{
+    isWX(){
+      // console.log(this.dialogWX)
+      if(!this.isWX){
+        clearInterval(this.interval)
+        clearInterval(this.sureBind)
+      }
     }
   },
   components:{

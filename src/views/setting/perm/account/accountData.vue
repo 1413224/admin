@@ -63,7 +63,7 @@
 
             <!-- 地址 -->
             <el-form-item label="居住地址" prop="jzAddress">
-              <!-- <yArea style="width:518px;" v-model="ruleForm.jzAddress"></yArea> -->
+              <yArea style="width:518px;" v-model="ruleForm.jzAddress" @changeArea="getAreaText"></yArea>
             </el-form-item>
             <el-form-item label="详细地址" prop="address">
               <el-input v-model="ruleForm.address" 
@@ -303,7 +303,10 @@ export default {
       industryOptions:[],
       jobOptions:[],
       annualOptions:[
-        { label:'全部',value:'-1' },
+        { label:'5万以下',value:'1' },
+        { label:'5~15万',value:'2' },
+        { label:'15~30万',value:'3' },
+        { label:'30万以上',value:'4' },
       ],
       lxrTypeOptions:[
         { label:'配偶',value:'1' },
@@ -366,7 +369,6 @@ export default {
     },
   },
   computed:{
-    
     shengxiao(){
       let _this = this
       let year = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'Y/M/D')
@@ -381,6 +383,9 @@ export default {
       let day = _this.$utils.formatTime(_this.ruleForm.birthday/1000,'D')
       return _this.Info.xinzuo = _this.$utils.getAstro(month,day)
     }
+  },
+  watch:{
+    
   },
   components:{
     dataPicker,

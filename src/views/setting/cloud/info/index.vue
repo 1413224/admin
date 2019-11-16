@@ -45,12 +45,44 @@
         </el-form>
       </div>
     </div>
+    <el-dialog 
+      :visible.sync="dialog"
+      width="431.5px"
+      :show-close="false" class="dialog">
+      <div v-if="0==1">
+        <img class="bg" src="../../../../assets/bg-v.png" alt="">
+        <div class="text">
+          <p class="tit">发现新版本</p>
+          <p class="bv mt-1">V.1.0.773</p>
+        </div>
+        <div class="cont mt ml-5">
+          <p>1.解决部分已知bug;</p>
+          <p>2.添加分享功能;</p>
+          <p>3.收费站详情界面改版；</p>
+        </div>
+        <div class="btn">立即体验</div>
+        <div>
+          <el-progress 
+          :text-inside="true" 
+          :stroke-width="26" 
+          :percentage="70" style="width:378px;margin:0 auto;"></el-progress>
+          <p style="color:#999999FF;font-size:14px;" class="mt-1 pl-5">系统更新中，请耐心等候...</p>
+        </div>
+      </div>
+      <div class="success-wrap">
+        <img class="check" src="../../../../assets/check.png" alt="">
+        <p style="color:#333333FF;font-size:30px;margin-top:34px;">系统更新成功！</p>
+        <p style="color:#999999FF;font-size:20px;margin-top:19px;">当前版本号：V.1.0.773</p>
+        <div class="isee-btn">我知道了</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 export default {
   data(){
     return {
+      dialog:true,
       ruleForm:{
         code:''
       },
@@ -83,4 +115,78 @@ export default {
   top: 8px;
   left: 10px;
 }
+.dialog /deep/ .el-dialog__header{
+  padding: 0 !important;
+}
+.dialog /deep/ .el-dialog__body{
+  padding: 0 !important;
+}
+.dialog /deep/ .el-dialog{
+  border-radius: 18px;
+  // overflow: hidden;
+  padding-bottom: 30px;
+}
+.dialog{
+  padding-bottom: 20px;
+  // position: relative;
+  .check{
+    margin: 50px auto 0;
+  }
+  .success-wrap{
+    text-align: center;
+  }
+  .isee-btn{
+    width:317px;
+    height:56px;
+    line-height: 56px;
+    background:linear-gradient(90deg,rgba(66,116,250,1),rgba(67,155,248,1));
+    border:1px solid rgba(217,226,235,1);
+    border-radius:28px;
+    margin: 70px auto 0;
+    color: #fff;
+    font-size: 26px;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .text{
+    color: #fff;
+    position: absolute;
+    top: 37px;
+    left: 26px;
+    .tit{
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .bv{
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+  .bg{
+    margin-top: -50px;
+  }
+  .cont{
+    p{
+      font-size: 14px;
+      color: #000000FF;
+      line-height: 23px;
+    }
+  }
+  .btn{
+    width:317px;
+    height:56px;
+    line-height: 56px;
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    background:linear-gradient(90deg,rgba(66,116,250,1),rgba(67,155,248,1));
+    border-radius:28px;
+    margin: 30px auto 0;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
 </style>

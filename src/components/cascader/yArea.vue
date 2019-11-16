@@ -4,7 +4,9 @@
       v-model="areaArr"
       :props="areaProps"
       clearable
-      size="small"></el-cascader>
+      size="small"
+      ref="area"
+      @change="changeArea"></el-cascader>
   </div>
 </template>
 <script>
@@ -43,6 +45,7 @@ export default {
   created(){
   },
   mounted(){
+    
   },
   watch:{
     value(val){
@@ -55,6 +58,15 @@ export default {
     }
   },
   methods:{
+    changeArea(value){
+      // console.log(value)
+      let _this = this
+      setTimeout(()=>{
+        // console.log(this.$refs['area'].inputValue)
+        let text = _this.$refs['area'].inputValue
+        _this.$emit('changeArea',text)
+      },100)
+    },
     handleAreaItem(value){
       let _this = this
     },
@@ -66,7 +78,7 @@ export default {
         parent_id:parantId
       }
       return new Promise(function(reso,rej){
-        _this.$http.post(_this.baseUrl + _this.url.control.GetAreaList,params).then(function(res){
+        _this.$http.post(_this.baseUrl + _this.url.Area.GetSubList,params).then(function(res){
           if(res.data.ret == 200){
             let list = res.data.data.list
             _this.areaItem = list.map(item => ({

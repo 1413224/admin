@@ -157,7 +157,18 @@ let url = {
     UnbindEmail:'common/role/Account/UnbindEmail',//后台端解绑邮箱接口
     ChangeEmergencyInfo:'common/role/Account/ChangeEmergencyInfo',//修改紧急联系人信息
     DelEmergencyInfo:'common/role/Account/DelEmergencyInfo',//删除紧急联系人信息
-    
+  },
+  Area:{
+    GetSubList:'main/common/Area/GetSubList',//获取所有下级区域列表信息接口
+    ChangeStatusByIds:'main/common/Area/ChangeStatusByIds',//批量修改区域可用状态接口
+    Add:'main/common/Area/Add',//新增区域信息接口
+    EditById:'main/common/Area/EditById',//修改区域信息接口
+    GetInfoById:'main/common/Area/GetInfoById',//获取区域的详情信息接口
+    DelByIds:'main/common/Area/DelByIds',//批量删除区域信息接口
+    GetWeChatAuthUrlBindAccount:'cloud/setting/WeChatAuth/GetWeChatAuthUrlBindAccount',//获取后台绑定微信的授权链接接口
+    UnbindWeChat:'common/role/Account/UnbindWeChat',//后台端解绑邮箱接口
+    CheckBindWeChat:'common/role/Account/CheckBindWeChat',//后台端个人中心检查账号是否绑定微信接口
+
   },
 
   cloud:{
@@ -166,6 +177,11 @@ let url = {
     },
     Bank:{
       GetList:'cloud/finance/Bank/GetList',
+    },
+    WeChat:{
+      GetLoginAccountUrl:'cloud/auth/WeChat/GetLoginAccountUrl',//获取PC后台微信扫码登录授权链接接口
+      CheckAccountLogin:'cloud/auth/WeChat/CheckAccountLogin',//微信登录后台 -- 循环请求是否微信登录成功 ， 成功则返回账号登录信息
+      
     }
   }
 }

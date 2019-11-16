@@ -33,22 +33,24 @@ export default {
 
     _this.ruleForm.industry = data.industry_id
 
+    _this.ruleForm.annual = data.annual_income ? data.annual_income : ''
+
     _this.ruleForm.qqNum = data.qq
     _this.ruleForm.wxNum = data.wechat
     _this.ruleForm.zfbNum = data.alipay
     _this.ruleForm.grPage = data.website
     _this.ruleForm.grPage = data.website
     // 紧急联系人
-    _this.ruleForm.lxrType = data.emergency_info.emergency_type
+    _this.ruleForm.lxrType = data.emergency_info.emergency_type.toString()
     _this.ruleForm.lxrName = data.emergency_info.emergency
     _this.ruleForm.lxrPhone = data.emergency_info.egmobile
     _this.ruleForm.lxrRemark = data.emergency_info.emergency_remark
     //其他信息
     _this.ruleForm.hyType = Number(data.other_info.marital_status)
-    _this.ruleForm.bloodType = data.other_info.blood_type
+    _this.ruleForm.bloodType = data.other_info.blood_type.toString()
     _this.ruleForm.height = data.other_info.stature
     _this.ruleForm.weight = data.other_info.weight
-    _this.ruleForm.education = data.other_info.education
+    _this.ruleForm.education = data.other_info.education.toString()
     _this.ruleForm.introd = data.other_info.introduction
 
   },
@@ -88,7 +90,8 @@ export default {
       weight:_this.ruleForm.weight,
       education:_this.ruleForm.education,
       interest:_this.ruleForm.interestList.toString(),
-      introduction:_this.ruleForm.introd
+      introduction:_this.ruleForm.introd,
+      annual_income:_this.ruleForm.annual
     }).then((res)=>{
       if(res.data.ret==200){
         _this.$message({
@@ -169,6 +172,14 @@ export default {
       }
     })
   },
+  getAreaText(value){
+    // console.log(value)
+    let _this = this
+    let textArr = value.split('/')
+    let textString = textArr.join('')
+    // console.log(textString)
+    _this.ruleForm.address = textString
+  },
   initMap(){
     let _this = this
     //加载UI
@@ -186,7 +197,7 @@ export default {
         input: 'tipinput' //输入框id
       })
       var positionPicker = new PositionPicker({
-          mode: 'dragMap',
+          mode: 'dragMarker',
           map: map,
       })
 

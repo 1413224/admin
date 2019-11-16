@@ -78,8 +78,7 @@
               action="http://47.104.187.243:18666/datacenter/v1/fileupload/image" 
               :show-file-list="false" :before-upload="beforeUpload" 
               :http-request="imgRequest"
-              :on-remove="onRemove"
-              >
+              :on-remove="onRemove">
                 <div v-if="dialogForm.thumb" class="avatar">
                     <i class="el-icon-close" style="width:18px;height:18px;" @click="deleteImg()" ></i>
                     <img :src="dialogForm.thumb" class="image">

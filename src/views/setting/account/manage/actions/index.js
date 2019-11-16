@@ -338,6 +338,32 @@ export default {
       }
     },1000)
   },
+  unBindWX(){
+    let _this = this
+    _this.$confirm('解绑后将无法使用 微信扫码 登录，请使用账号密码或其他快捷登录方式','提示',{
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(()=>{
+      _this.$http.post(_this.baseUrl + _this.url.Area.UnbindWeChat,{
+        token:_this.$utils.getToken(),
+        role_type:_this.url.role_type
+      }).then((res)=>{
+        if(res.data.ret==200){
+          _this.$message({
+            type: 'success',
+            message: '解绑成功!'
+          })
+          _this.getBindInfo()
+        }
+      })
+    }).catch(()=>{
+      _this.$message({
+        type: 'info',
+        message: '已取消'
+      })
+    })
+  },
   closeDialogPass(done){
     this.$refs['passForm'].resetFields()
     this.dialogPass = false
