@@ -14,13 +14,11 @@
 </template>
  
 <script>
-// import IndexedDB from '@/utils/indexedDB'
 export default {
   model: {
     prop: "areaArr",
     event: "getAreaArr"
   },
-  // props: ['rank'],
   props: {
     initval: {
       type: [Boolean, Array],
@@ -38,22 +36,19 @@ export default {
   },
   methods: {
     handleAreaItem(arr, initArr) {
-      // 区域动态加载数据
       let vm = this;
       vm.$emit("getAreaArr", arr);
       let tempLeng = vm.rank ? vm.rank-1 : 3
       if (arr.length > tempLeng || arr.length < 1) {
-        // 只有4级,超过3级不再加载数据
         return;
       }
       let temp = [];
-      let tempSrc = ""; // 保存运行的js代码字符串
+      let tempSrc = ""; 
       for (let i = 0; i < arr.length; i++) {
         if (i === 0) {
           for (let j in vm.areaItem) {
             if (vm.areaItem[j].value === arr[0]) {
               if (arr.length == 1 && vm.areaItem[j].children.length > 0) {
-                // 已确认加载过数据,不再加载数据
                 return;
               }
               temp[0] = j;
@@ -68,7 +63,6 @@ export default {
                 arr.length == 2 &&
                 vm.areaItem[temp[0]].children[j].children.length > 0
               ) {
-                // 已确认加载过数据,不再加载数据
                 return;
               }
               temp[1] = j;
@@ -87,7 +81,6 @@ export default {
                 vm.areaItem[temp[0]].children[temp[1]].children[j].children
                   .length > 0
               ) {
-                // 已确认加载过数据,不再加载数据
                 return;
               }
               temp[2] = j;
@@ -137,7 +130,6 @@ export default {
       });
     },
     areaItemOne(initArr) {
-      // 区域第一级数据
       let vm = this;
       let params = {
         token:vm.$utils.getToken(),

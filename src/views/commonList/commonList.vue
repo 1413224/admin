@@ -66,16 +66,7 @@
                 </diyTable>
             </template>
           </div>
-          <!-- <div v-if="listData.length!=0">
-            <component
-            :is="item.type" 
-            v-for="(item,index) in mainData" 
-            :key="index"
-            :configs="item"
-            :lists="item.type=='diyTable'?listData:''"></component> 
-          </div>-->
         </div>
-        <!-- <yButton :configs="btnConfig"></yButton> -->
       </div>
     </div>
 
@@ -112,9 +103,9 @@ export default {
       // headerConfigs:{},
       mainConfigs:{},
       pageConfigs:{},
-      statInfo:[],//统计数据
-      statInfoData:{},//保存统计数据字段
-      listData:[],//页面接口getlist请求数据
+      statInfo:[],
+      statInfoData:{},
+      listData:[],
 
       curPage:1,
       pageSize:10,
@@ -126,12 +117,10 @@ export default {
     }
   },
   created(){
-    // console.log(this.headerData)
-    // console.log(this.mainData)
     let _this = this
     let path = _this.$route.path
     _this.$store.dispatch('getConfigs',path).then(()=>{
-      _this.statInfo = _this.pageData.statInfo //赋值统计数据
+      _this.statInfo = _this.pageData.statInfo 
       _this.showSearch = true
       _this.$nextTick(()=>{
         _this.setStatInfoData()
@@ -165,7 +154,6 @@ export default {
         page_num:_this.curPage,
         page_size:_this.pageSize
       },{token:token,status:-1},_this.ruleForm)
-      //apiService为空时，不需要请求
       if(_this.pageData.apiService){
         _this.$http.post(_this.pageData.apiService,params).then((res)=>{
           if(res.data.ret==200){
@@ -174,7 +162,6 @@ export default {
               item.checkModel = false
             })
             _this.listData = data.list
-            // console.log(_this.listData)
             _this.statInfoData['total_nums'] = data.total_nums
             if(data.total_pages){
               _this.totalPages = data.total_pages || 1
@@ -205,7 +192,7 @@ export default {
       pageData:state => state.diypage.pageData,
       headerData:state => state.diypage.headerData,
       mainData:state => state.diypage.mainData,
-      ruleForm:state => state.diypage.ruleForm,//search数据（入参）
+      ruleForm:state => state.diypage.ruleForm,
       listNum:state => state.diypage.listNum,
     }),
     extendsInfo(){

@@ -82,7 +82,6 @@ export default {
   },
   watch:{
     value(val){
-      // console.log(val)
       this.inputValue = val
     },
     inputValue(val,oldVal){

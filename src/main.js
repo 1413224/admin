@@ -6,7 +6,7 @@ import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
 import axios from './config/axios-config'
-import store from './store/index'//引入store
+import store from './store/index'
 import url from './api/api'
 import MD5 from 'js-md5'
 import utils from './utils/index'
@@ -22,20 +22,16 @@ import './icons/index'
 
 
 document.documentElement.style.fontSize = 10 + 'px'
-
 Vue.config.productionTip = false
 Vue.prototype.url = url
 Vue.prototype.$http = axios
 Vue.prototype.MD5 = MD5
 Vue.prototype.$utils = utils
-
 Vue.prototype.baseUrl = '//dev.9yetech.com/apigw/'
 Vue.prototype.cloudUrl = '//dev.9yetech.com/apigw/'
-
 Vue.use(Vuex)
 Vue.use(ElementUI)
 Vue.component('yTitle',yTitle)
-
 Array.prototype.indexOf = function(val){
   for(let i=0;i<this.length;i++){
     if(this[i] == val) return i
@@ -56,8 +52,6 @@ if(localStorage.getItem('themeValue')){
 }
 
 router.beforeEach(async(to, from, next)=>{
-  //请求权限路由
-
   let hasToken = Vue.prototype.$utils.getToken()
   if(!hasToken){
     if(to.path=='/login'){
@@ -67,11 +61,7 @@ router.beforeEach(async(to, from, next)=>{
     }
   }else{
     if(to.path!='/login'){
-
       store.dispatch('getMenuList').then((res)=>{
-        // store.dispatch('getConfigs',to.path).then(function(data){
-        //   next({})
-        // })
         next({})
       })
     }else{
@@ -83,7 +73,6 @@ router.beforeEach(async(to, from, next)=>{
 })
 
 router.afterEach(()=>{
-  // next()
 })
 
 

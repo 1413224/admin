@@ -35,13 +35,6 @@
             :class="tabClass"
             v-for="(item,index) in list"
             :key="index">
-            <!-- 几列 -->
-            <!-- @change="checked=>checkItem(checked,item)" -->
-            <!-- <el-checkbox 
-              class="checkbox" 
-              :value="item.id"
-              v-model="checkData"></el-checkbox> -->
-              <!-- <input type="checkbox" v-model="checkData" :value="item.id"> -->
               <el-checkbox
                 class="item-checkbox" 
                 v-model="item.checkModel" 
@@ -51,7 +44,6 @@
               :class="{tabClass,'dragtab':needPagebean==false?true:false}"
               :style="{minWidth:`${itm.minWidth}px`}"
               v-for="(itm,idx) in lineConfig[0].column" :key="idx">
-                <!-- 循环组件内容 -->
                 <div v-for="(comItem,ide) in itm.component" :key="ide" :class="{linebtn:comItem.type=='button'}">
                   <yText 
                     v-if="comItem.type=='text' 
@@ -65,14 +57,12 @@
                   <yText class="default" v-else-if="comItem.type=='text' && item[comItem.field] ==''" :configs="comItem">
                     {{ comItem.defaultValue }}
                   </yText>
-                  <!-- :status="item[comItem.statusField]" -->
                   <yButton class="tabbtn" v-if="comItem.type=='button'" 
                     :configs="comItem" 
                     v-model="item[comItem.statusField]"
                     :listItem="item">
                   </yButton>
                 </div>
-                <!-- 循环组件内容end -->
               </div>
           </div>
         </draggable>
@@ -80,8 +70,6 @@
       <div class="nolist-wrap" v-if="list.length==0">
         暂无数据
       </div>
-      <!-- <div>暂无数据</div> -->
-      <!-- 表格结束 -->
       <div v-show="needPagebean" class="pagination">
         <slot></slot>
       </div>
@@ -91,7 +79,6 @@
   </div>
 </template>
 <script>
-// import Sortable from 'sortablejs'
 import actions from './actions/index'
 import draggable from 'vuedraggable'
 import yButton from '@/components/yButton/yButton'
@@ -109,30 +96,22 @@ export default {
     return {
       checkAll:false,
       isIndeterminate:false,
-      // list:this.lists,
       list:this.value,
       checkedList:[],//选中的行
       draggableOptions:{
         disabled:this.needPagebean ? true : false,
-        // sort:this.needPagebean ? true : false,
       }
     }
   },
 
   created(){
-    // console.log(this.configs)
-    // console.log(this.lists)
-    // this.getCompoment()
-    // console.log(this.tableList)
   },
   mounted(){
-    // this.rowDropMethod()
   },
   computed:{
     ...mapState({
       lineConfig:state => state.diypage.lineConfig,
       tableConfig:state => state.diypage.tableConfig,
-      // tableList:state => state.diypage.tableList,
       resetChecklist:state => state.diypage.resetChecklist
     }),
     

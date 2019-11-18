@@ -13,10 +13,6 @@
 import { resolve } from 'q';
 export default {
   name:'yArea',
-  // model:{
-  //   prop:'areaArr',
-  //   event:'getAreaArr'
-  // },
   props:{
     value:[Array,String]
   },
@@ -42,11 +38,6 @@ export default {
       }
     }
   },
-  created(){
-  },
-  mounted(){
-    
-  },
   watch:{
     value(val){
       this.areaArr = val
@@ -59,10 +50,8 @@ export default {
   },
   methods:{
     changeArea(value){
-      // console.log(value)
       let _this = this
       setTimeout(()=>{
-        // console.log(this.$refs['area'].inputValue)
         let text = _this.$refs['area'].inputValue
         _this.$emit('changeArea',text)
       },100)

@@ -28,7 +28,7 @@
       <!-- 绑定手机 -->
       <div class="item d-flex bg-white rounded mt-1 py-2">
         <div class="left d-flex a-center j-end">
-          <img src="../../../../assets/account/check.png" alt="">
+          <img v-if="bindInfo.is_bind_mobile" src="../../../../assets/account/check.png" alt="">
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
@@ -48,7 +48,7 @@
       <!-- 紧急联系人 -->
       <div class="item d-flex bg-white rounded mt-1 py-2">
         <div class="left d-flex a-center j-end">
-          <img src="../../../../assets/account/check.png" alt="">
+          <img v-if="bindInfo.is_bind_emergency" src="../../../../assets/account/check.png" alt="">
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
@@ -74,7 +74,7 @@
       <!-- 绑定QQ -->
       <div class="item d-flex bg-white rounded mt-1 py-2">
         <div class="left d-flex a-center j-end">
-          <img src="../../../../assets/account/check.png" alt="">
+          <img v-if="bindInfo.is_bind_qq" src="../../../../assets/account/check.png" alt="">
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
@@ -93,7 +93,7 @@
       <!-- 绑定微信 -->
       <div class="item d-flex bg-white rounded mt-1 py-2">
         <div class="left d-flex a-center j-end">
-          <img src="../../../../assets/account/check.png" alt="">
+          <img v-if="bindInfo.is_bind_wechat" src="../../../../assets/account/check.png" alt="">
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">
@@ -112,7 +112,7 @@
       <!-- 绑定邮箱 -->
       <div class="item d-flex bg-white rounded mt-1 py-2">
         <div class="left d-flex a-center j-end">
-          <img src="../../../../assets/account/check.png" alt="">
+          <img v-if="bindInfo.is_bind_email" src="../../../../assets/account/check.png" alt="">
         </div>
         <div class="center d-flex a-center">
           <div class="img d-flex a-center j-center">

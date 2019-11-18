@@ -7,7 +7,6 @@
       <li class="sfc-solution-user">
         <svg-icon icon-class="clipboard"/>
         <ul class="acount-menu">
-          <!-- 多视图 -->
           <li>
             <svg-icon icon-class="clipboard"></svg-icon>
             <span class="lab">切换店铺</span>

@@ -18,10 +18,6 @@
 
     <!-- 内容开始 -->
     <div v-if="showEdit">
-      <!-- <div v-for="(item,index) in mainData" :key="index">
-        <panel v-if="item.type=='panel'" :configs="item"></panel>
-        <lineBreak v-if="item.type=='line-break'"></lineBreak>
-      </div> -->
       <panelWrap></panelWrap>
     </div>
     <!-- 内容结束 -->
@@ -34,8 +30,6 @@
          v-for="(item,index) in bottomInfo"
          :key="index"
          :configs="item"></yButton>
-        <!-- <el-button size="mini">取消</el-button>
-        <el-button type="primary" size="mini" @click="addEditSubmit('addEditForm')">保存</el-button> -->
       </div>
     </div>
 

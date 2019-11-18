@@ -1,7 +1,6 @@
 <template>
   <el-submenu v-if="menu.menuType === 'menuLabel'" :index="String(menu.menuId)">
 		<template slot="title" v-if="menu.name !== null">
-			<!-- <i :class="menu.icon"></i> -->
 			<!--submenu绑定的index为id唯一项，可操作默认展开  -->
 			<span slot="title">{{ menu.name }}</span>
 		</template>

@@ -140,8 +140,7 @@ export default {
           _this.submitButton()
       }
     },
-    changeStatus(){//修改可用，禁用状态
-      // console.log(this.status)
+    changeStatus(){
       let _this = this,
           token = '';
       if(_this.btnStatus==1){
@@ -189,7 +188,6 @@ export default {
     },
     addButton(){
       let _this = this
-      // console.log(_this.configs)
       _this.$router.push({
         path:_this.configs.url
       })
@@ -210,7 +208,6 @@ export default {
       if(_this.configs.needLogin){
         token = _this.$utils.getToken()
       }
-      //这里的传参可能需要修改
       _this.configs.params.map((item,index)=>{
         params[item.name] = _this.ids
       })
@@ -260,7 +257,6 @@ export default {
       if(_this.configs.needLogin){
         token = _this.$utils.getToken()
       }
-      //这里的传参可能需要修改
       _this.configs.params.map((item,index)=>{
         params[item.name] = _this.ids
       })

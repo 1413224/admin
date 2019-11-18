@@ -17,5 +17,3 @@ function $has(value){
   }
 }
 
-
-{/* <el-button v-has="'/main/attachment/Config/Add'" size="mini">新增</el-button> */}

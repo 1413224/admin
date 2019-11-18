@@ -24,10 +24,8 @@
                   <span>
                     <el-tag v-if="data.status==1"  size="mini" class="mouse-hand" type="success" @click.native="openConfirm(data, '是否将此区域的状态变更为不显示状态?', 0, changeStatusById)">显示</el-tag>
                     <el-tag v-if="data.status==0" size="mini" class="mouse-hand" type="info" @click.native="openConfirm(data, '是否将此区域的状态变更为显示状态?', 1, changeStatusById)">不显示</el-tag>			
-                    <!-- <el-tag  size="mini" class="mouse-hand" type="info">/</el-tag> -->
                   </span>
                   <span>
-                    <!-- v-if="data.level!=4" -->
                     <el-tooltip  class="item" effect="dark" content="添加子分类" placement="top">
                       <el-button size="mini" type="primary" icon="el-icon-circle-plus-outline" plain @click="showAddArea(data,'dialogForm')"></el-button>
                     </el-tooltip>

@@ -1,10 +1,6 @@
 <template>
   <div class="content bg-white box-shadow-page rounded p-1">
-    <div class="tab-wrap d-flex pl-1 py-1">
-      <div class="item active">个人信息</div>
-      <div class="item" @click="goBindPage()">账号管理</div>
-    </div>
-    <div class=" bg-gray p-1 rounded mt-1">
+    <div class=" bg-gray p-1 rounded">
       <div class="cont bg-white py-2 rounded px-1">
         <el-form
           :model="ruleForm"
@@ -109,156 +105,141 @@
                 :options="annualOptions"></ySelect>
             </el-form-item>
           </div>
-
-          <!-- 分割线 -->
-          <div class="fgx-wrap d-flex a-center j-center" v-show="!seeDetail">
-            <p class="seeMore d-flex a-center j-center" @click="seeMore()">更多详细信息</p>
+          <div class="item pb-2 pt-2">
+            <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
+              <span class="xian mr"></span>
+              <span>社交信息</span>
+            </div>
+            <el-form-item label="绑定的微信">
+              <p class="bir">safsdgfdsg</p>
+            </el-form-item>
+            <el-form-item label="绑定的QQ">
+              <p class="bir">WWW11950210</p>
+            </el-form-item>
+            <el-form-item label="QQ号" prop="qqNum">
+              <el-input v-model="ruleForm.qqNum" size="small" 
+                style="width:518px;" placeholder="请输入QQ号">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="微信号" prop="wxNum">
+              <el-input v-model="ruleForm.wxNum" size="small" 
+                style="width:518px;" placeholder="请输入微信号">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="支付宝账户" prop="zfbNum">
+              <el-input v-model="ruleForm.zfbNum" size="small" 
+                style="width:518px;" placeholder="请输入支付宝账户">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="个人主页" prop="grPage">
+              <el-input v-model="ruleForm.grPage" size="small" 
+                style="width:518px;" placeholder="请输入个人主页">
+              </el-input>
+            </el-form-item>
           </div>
-          <!-- 分割线end -->
-
-          <div v-show="seeDetail">
-            <div class="item pb-2">
-              <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
-                <span class="xian mr"></span>
-                <span>社交信息</span>
-              </div>
-              <el-form-item label="绑定的微信">
-                <p class="bangding"><span @click="goBindPage()">立即绑定</span></p>
-                <p class="bir">WWW11950210
-                  <span class="desc ml-1">修改请前往 “<span class="zhgl" @click="goBindPage()">账号管理</span>” 验证</span>
-                </p>
-              </el-form-item>
-              <el-form-item label="绑定的QQ">
-                <p class="bangding"><span @click="goBindPage()">立即绑定</span></p>
-                <p class="bir">WWW11950210
-                  <span class="desc ml-1">修改请前往 “<span class="zhgl" @click="goBindPage()">账号管理</span>” 验证</span>
-                </p>
-              </el-form-item>
-              <el-form-item label="QQ号" prop="qqNum">
-                <el-input v-model="ruleForm.qqNum" size="small" 
-                  style="width:518px;" placeholder="请输入QQ号">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="微信号" prop="wxNum">
-                <el-input v-model="ruleForm.wxNum" size="small" 
-                  style="width:518px;" placeholder="请输入微信号">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="支付宝账户" prop="zfbNum">
-                <el-input v-model="ruleForm.zfbNum" size="small" 
-                  style="width:518px;" placeholder="请输入支付宝账户">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="个人主页" prop="grPage">
-                <el-input v-model="ruleForm.grPage" size="small" 
-                  style="width:518px;" placeholder="请输入个人主页">
-                </el-input>
-              </el-form-item>
+          <div class="item pb-2">
+            <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
+              <span class="xian mr"></span>
+              <span>认证信息</span>
             </div>
-            <div class="item pb-2">
-              <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
-                <span class="xian mr"></span>
-                <span>认证信息</span>
-              </div>
-              <el-form-item label="邮箱">
-                <p class="bir font-sm">WWW11950210</p>
-              </el-form-item>
-              <el-form-item label="真实姓名">
-                <p class="bir font-sm">WWW11950210</p>
-              </el-form-item>
-              <el-form-item label="身份证号">
-                <p class="bir font-sm">WWW11950210</p>
-              </el-form-item>
-              <el-form-item label="身份证图">
-                <div class="d-flex">
-                  <div class="zheng">
-                    <img class="img" src="http://pic25.nipic.com/20121116/9252150_144336550000_2.jpg" alt="">
-                    <p class="text-center">正面</p>
-                  </div>
-                  <div class="fan ml-2">
-                    <img class="img" src="http://pic25.nipic.com/20121116/9252150_144336550000_2.jpg" alt="">
-                    <p class="text-center">反面</p>
-                  </div>
+            <el-form-item label="邮箱">
+              <p class="bir font-sm">WWW11950210</p>
+            </el-form-item>
+            <el-form-item label="真实姓名">
+              <p class="bir font-sm">WWW11950210</p>
+            </el-form-item>
+            <el-form-item label="身份证号">
+              <p class="bir font-sm">WWW11950210</p>
+            </el-form-item>
+            <el-form-item label="身份证图">
+              <div class="d-flex">
+                <div class="zheng">
+                  <img class="img" src="http://pic25.nipic.com/20121116/9252150_144336550000_2.jpg" alt="">
+                  <p class="text-center">正面</p>
                 </div>
-              </el-form-item>
-            </div>
-            <div class="item pb-2">
-              <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
-                <span class="xian mr"></span>
-                <span>紧急联系人</span>
+                <div class="fan ml-2">
+                  <img class="img" src="http://pic25.nipic.com/20121116/9252150_144336550000_2.jpg" alt="">
+                  <p class="text-center">反面</p>
+                </div>
               </div>
-              <el-form-item label="联系人类型" prop="lxrType">
-                <ySelect
-                  v-model="ruleForm.lxrType"
-                  :options="lxrTypeOptions" placeholder="请选择联系人"></ySelect>
-              </el-form-item>
-              <el-form-item label="姓名" prop="lxrName">
-                <el-input v-model="ruleForm.lxrName" size="small" 
-                  style="width:518px;" placeholder="请输入姓名">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="手机号" prop="lxrPhone">
-                <el-input v-model="ruleForm.lxrPhone" size="small" 
-                  style="width:518px;" placeholder="请输入手机号">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="备注" prop="lxrRemark">
-                <el-input v-model="ruleForm.lxrRemark" size="small" 
-                  style="width:440px;" placeholder="请输入..." type="textarea"
-                  :rows="4" maxlength="200" show-word-limit>
-                </el-input>
-              </el-form-item>
+            </el-form-item>
+          </div>
+          <div class="item pb-2">
+            <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
+              <span class="xian mr"></span>
+              <span>紧急联系人</span>
             </div>
-            <div class="item pb-2">
-              <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
-                <span class="xian mr"></span>
-                <span>其他信息</span>
-              </div>
-              <el-form-item label="婚姻状态">
-                <el-radio-group v-model="ruleForm.hyType">
-                  <el-radio :label="1">保密</el-radio>
-                  <el-radio :label="2">已婚</el-radio>
-                  <el-radio :label="3">未婚</el-radio>
-                  <el-radio :label="4">离异</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="血型" prop="bloodType">
-                <ySelect
-                  v-model="ruleForm.bloodType"
-                  :options="bloodTypeOptions" placeholder="请选择血型"></ySelect>
-              </el-form-item>
-              <el-form-item label="身高">
-                <el-input placeholder="请填写身高" v-model="ruleForm.height"
-                  size="small" style="width:256px;">
-                  <template slot="append">cm</template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="体重">
-                <el-input placeholder="请填写体重" v-model="ruleForm.weight"
-                  size="small" style="width:256px;">
-                  <template slot="append">kg</template>
-                </el-input>
-              </el-form-item>
-              <el-form-item label="学历" prop="education">
-                <ySelect
-                  v-model="ruleForm.education"
-                  :options="educationOptions" placeholder="请选择"></ySelect>
-              </el-form-item>
-              <el-form-item label="兴趣爱好" prop="interest" class="interest">
-                <el-checkbox-group v-model="ruleForm.interestList">
-                  <el-checkbox 
-                  v-for="(item,index) in intList"
-                  :key="index"
-                  :label="item.id">{{item.name}}</el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item label="自我介绍" prop="introd">
-                <el-input v-model="ruleForm.introd" size="small" 
-                  style="width:440px;" placeholder="请输入..." type="textarea"
-                  :rows="4" maxlength="200" show-word-limit>
-                </el-input>
-              </el-form-item>
+            <el-form-item label="联系人类型" prop="lxrType">
+              <ySelect
+                v-model="ruleForm.lxrType"
+                :options="lxrTypeOptions" placeholder="请选择联系人"></ySelect>
+            </el-form-item>
+            <el-form-item label="姓名" prop="lxrName">
+              <el-input v-model="ruleForm.lxrName" size="small" 
+                style="width:518px;" placeholder="请输入姓名">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="手机号" prop="lxrPhone">
+              <el-input v-model="ruleForm.lxrPhone" size="small" 
+                style="width:518px;" placeholder="请输入手机号">
+              </el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="lxrRemark">
+              <el-input v-model="ruleForm.lxrRemark" size="small" 
+                style="width:440px;" placeholder="请输入..." type="textarea"
+                :rows="4" maxlength="200" show-word-limit>
+              </el-input>
+            </el-form-item>
+          </div>
+          <div class="item pb-2">
+            <div class="item-head bg-gray p-1 rounded d-flex a-center mb-3">
+              <span class="xian mr"></span>
+              <span>其他信息</span>
             </div>
+            <el-form-item label="婚姻状态">
+              <el-radio-group v-model="ruleForm.hyType">
+                <el-radio :label="1">保密</el-radio>
+                <el-radio :label="2">已婚</el-radio>
+                <el-radio :label="3">未婚</el-radio>
+                <el-radio :label="4">离异</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="血型" prop="bloodType">
+              <ySelect
+                v-model="ruleForm.bloodType"
+                :options="bloodTypeOptions" placeholder="请选择血型"></ySelect>
+            </el-form-item>
+            <el-form-item label="身高">
+              <el-input placeholder="请填写身高" v-model="ruleForm.height"
+                size="small" style="width:256px;">
+                <template slot="append">cm</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="体重">
+              <el-input placeholder="请填写体重" v-model="ruleForm.weight"
+                size="small" style="width:256px;">
+                <template slot="append">kg</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="学历" prop="education">
+              <ySelect
+                v-model="ruleForm.education"
+                :options="educationOptions" placeholder="请选择"></ySelect>
+            </el-form-item>
+            <el-form-item label="兴趣爱好" prop="interest" class="interest">
+              <el-checkbox-group v-model="ruleForm.interestList">
+                <el-checkbox 
+                v-for="(item,index) in intList"
+                :key="index"
+                :label="item.id">{{item.name}}</el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="自我介绍" prop="introd">
+              <el-input v-model="ruleForm.introd" size="small" 
+                style="width:440px;" placeholder="请输入..." type="textarea"
+                :rows="4" maxlength="200" show-word-limit>
+              </el-input>
+            </el-form-item>
           </div>
         </el-form>
       </div>
@@ -276,11 +257,10 @@ import ySelect from '@/components/ySelect/index'
 import yArea from '@/components/cascader/yArea'
 import uploadPicture from '@/components/uploadPicture/uploadPicture'
 import AMap from 'AMap'
-import actions from './actions/index'
+import actions from './actions/userData'
 export default {
   data(){
     return {
-      seeDetail:false,
       showPicture:false,
       ruleForm:{
         thumb:'',
@@ -300,7 +280,7 @@ export default {
         lxrName:'',
         lxrPhone:'',
         lxrRemark:'',
-        hyType:0,
+        hyType:1,
         bloodType:'',
         height:'',
         weight:'',
@@ -376,9 +356,6 @@ export default {
   },
   methods:{
     ...actions,
-    seeMore(){
-      this.seeDetail = true
-    },
     goBackList(){
       this.$router.go(-1)
     },
@@ -418,7 +395,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import url('./actions/index.less');
+@import url('./actions/userData.less');
 .bottom{
   position: fixed;
   bottom: 0;

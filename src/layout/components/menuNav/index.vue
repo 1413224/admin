@@ -20,14 +20,9 @@
         </ul>
       </nav>
     </div>
-    <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
-
-    <!-- <div class="show-menu" v-show="showMenu" @mouseleave="sout">
-      <MenuList :menuList="subMenuDataMove" :settings="menuSetting"></MenuList>
-    </div> -->
   </div>
 </template>
 <script>

@@ -43,25 +43,10 @@
             <i class="iconfont icon-search"></i>
           </el-button>
           <div class="btn-wrap">
-            <!-- <el-button type="danger" size="small">删除</el-button>
-            <el-upload
-              ref="uploada"
-              style="width:120px;display:inline"
-              :action="baseUrl + url.File.AddImage"
-              :show-file-list="false"
-              :before-upload="beforeAvatarUpload"
-              :http-request="imgRequest"
-              multiple>
-              <el-button type="primary" size="small">上传图片</el-button>
-            </el-upload> -->
           </div>
 
           <div class="top-wrap">
             <div class="group-wrap">
-              <!-- <div class="top">
-                <i class="iconfont icon-plus-circle"></i>
-                <span class="add-group">添加分组</span>
-              </div> -->
               <div class="group-list pt-group-list">
                 <div
                   class="item default-item"
@@ -87,9 +72,6 @@
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
                 </div>
-                <!-- <div class="del">
-                    <i class="iconfont icon-delete"></i>
-                  </div> -->
                 <div class="del-border">
                   <div class="del" @click.stop="ptDelImage(item)">
                     <i class="iconfont icon-delete"></i>
@@ -239,9 +221,6 @@
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
                 </div>
-                <!-- <div class="del">
-                    <i class="iconfont icon-delete"></i>
-                  </div> -->
                 <div class="del-border">
                   <div class="del" @click.stop="ptDelImage(item)">
                     <i class="iconfont icon-delete"></i>
@@ -332,7 +311,7 @@ export default {
       ],
       bdGroupId:-1,
       bdGroupData:[],
-      bdListData:[],//本地图片列表
+      bdListData:[],
       bdYear:-1,
       bdYearList:this.$utils.getYearList(),
       bdMonth:-1,
@@ -346,15 +325,13 @@ export default {
       ptGroupCurPage: 1,
       ptGroupPageSize: 10,
       ptGroupTotalPages:1,
-      ptListData: [],//平台图片列表
+      ptListData: [],
       totalNums:0,
       curPage: 1,
       pageSize: 10,
       totalPages:1,
       ptGroupIdx: 0,
       ptGroupData: [
-        // {name:'全部',type:-1},
-        // {name:'未分组',type:0},
       ],
       ptMonthList:[
         {month:1},{month:2},{month:3},{month:4},{month:5},{month:6},{month:7},
@@ -375,7 +352,7 @@ export default {
         { text: "提取网络图片" }
       ],
       picSrc:'',
-      srcPicture:'',//上传的链接图片
+      srcPicture:'',
     };
   },
   created() {
@@ -384,11 +361,6 @@ export default {
       _this.getBdImageList()
     })
     _this.getPtGroupList()
-  },
-  computed: {
-    ...mapState({
-      // dialogPicture:state => state.uploadPicture.dialogPicture
-    })
   },
   methods: {
     ...actions,
@@ -399,7 +371,6 @@ export default {
     },
     closeDialog(done) {
       done()
-      // this.$store.commit('setDialogPicture',false)
     },
     
     selectBdImage(item,index) {
@@ -429,7 +400,6 @@ export default {
       console.log(item)
     },
     bdCheckAll(value){
-      // console.log(value)
       let _this = this
       if(value){
         _this.bdListData.map((item,index)=>{
@@ -457,31 +427,13 @@ export default {
       // console.log(file)
       let _this = this
       console.log(file)
-      // console.log(_this.$refs.uploada.uploadFiles)
-      // console.log(_this.list)
-      // const isJPG = file.type === 'image/jpeg/png'
-      // const isLt2M = file.size / 1024 / 1024 < 2
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!')
-      // }
-      // return isJPG && isLt2M
-      // _this.imgRequest(file)
     },
     imgRequest(obj){
       let _this = this
       let fileObj = obj.file
-      // let fileObj = obj
       let form = new FormData()
 
-      // console.log(_this.$refs.uploada.uploadFiles)
-      // console.log(obj.file)
-      // return 
-
       form.append("file", fileObj)
-      // form.append("file",_this.$refs.uploada.uploadFiles)
       form.append("token", _this.$utils.getToken())
       form.append("role_type", _this.url.role_type)
 
@@ -500,7 +452,6 @@ export default {
           // })
         }
       })
-      // console.log(form.get('file'))
     },
     linkUpLoadPic(){
       let _this = this
@@ -529,7 +480,6 @@ export default {
       })
     },
     handleAvatarSuccess(res,file){
-      // this.imageUrl = URL.createObjectURL(file.raw)
       let _this = this
     },
     handleAvatarError(err, file, fileList){

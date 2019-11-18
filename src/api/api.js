@@ -168,7 +168,23 @@ let url = {
     GetWeChatAuthUrlBindAccount:'cloud/setting/WeChatAuth/GetWeChatAuthUrlBindAccount',//获取后台绑定微信的授权链接接口
     UnbindWeChat:'common/role/Account/UnbindWeChat',//后台端解绑邮箱接口
     CheckBindWeChat:'common/role/Account/CheckBindWeChat',//后台端个人中心检查账号是否绑定微信接口
-
+  },
+  BackgroundFactory:{
+    GetList:'main/operate/BackgroundFactory/GetList',//获取后台工厂账户列表信息接口
+    Add:'main/operate/BackgroundFactory/Add',//后台端修改账户信息接口
+    ChangeInfoById:'main/operate/BackgroundFactory/ChangeInfoById',//后台端修改账户信息接口
+    ChangeStatusById:'main/operate/BackgroundFactory/ChangeStatusById',//修改后台工厂账号状态
+    DeleteByIds:'main/operate/BackgroundFactory/DeleteByIds',//批量删除后台工厂账号信息
+    GetInfoById:'main/operate/BackgroundFactory/GetInfoById',//获取后台工厂账户信息接口
+    ChangeAllInfoById:'main/operate/AppFactory/ChangeAllInfoById',//修改账户全部资料信息接口
+    GetAllInfoById:'main/operate/AppFactory/GetAllInfoById',//获取账号全部资料信息接口
+  },
+  AppFactory:{
+    GetList:'main/operate/AppFactory/GetList',//获取应用工厂账户列表信息接口
+    Add:'main/operate/AppFactory/Add',//新增账户信息接口
+    ChangeInfoById:'main/operate/AppFactory/ChangeInfoById',//后台端修改账户信息接口
+    DeleteByIds:'main/operate/AppFactory/DeleteByIds',//批量删除应用工厂账号信息
+    
   },
 
   cloud:{

@@ -485,8 +485,84 @@ export default new Router({
               { name:'更新日志' }
             ]
           }
+        },
+        //后台工厂
+        {
+          path:'/operate/developer/background',
+          component:() => import('@/views/operate/developer/background/index'),
+          meta:{
+            title:'后台工厂',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'后台工厂' }
+            ]
+          }
+        },
+        {
+          path:'/operate/developer/background/addUser',
+          component:() => import('@/views/operate/developer/background/addUser'),
+          meta:{
+            title:'新增账户',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'后台工厂',path:'/operate/developer/background' },
+              { name:'新增账户' }
+            ]
+          }
+        },
+        {
+          path:'/operate/developer/background/userData',
+          component:() =>import('@/views/operate/developer/background/userData'),
+          meta:{
+            title:'账户资料',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'后台工厂',path:'/operate/developer/background' },
+              { name:'资料' }
+            ]
+          }
+        },
+        {
+          path:'/operate/developer/app',
+          component:() => import('@/views/operate/developer/app/index'),
+          meta:{
+            title:'应用工厂',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'应用工厂' }
+            ]
+          }
+        },
+        {
+          path:'/operate/developer/app/addUser',
+          component:() => import('@/views/operate/developer/app/addUser'),
+          meta:{
+            title:'新增账户',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'应用工厂',path:'/operate/developer/app' },
+              { name:'新增账户' }
+            ]
+          }
+        },
+        {
+          path:'/operate/developer/app/userData',
+          component:() => import('@/views/operate/developer/app/userData'),
+          meta:{
+            title:'账户资料',
+            parentsLabel:'运营',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'应用工厂',path:'/operate/developer/app' },
+              { name:'账户资料' }
+            ]
+          }
         }
-
       ]
     },
     

@@ -1,11 +1,10 @@
 export default {
   testPhone(phone){
     if(!(/^1[3456789]\d{9}$/.test(phone))){ 
-      // alert("手机号码有误，请重填");  
       return true; 
     } 
   },
-  testPassword(value){//8-16位，必须包含字母和数字
+  testPassword(value){
     if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(value))){
       return true
     }
@@ -66,13 +65,6 @@ export default {
     }  
     return format
   },
-   /* *
-    *  计算生肖
-    *
-    *      支持简写生日，比如01，转换为2001，89转换为1989；
-    *      支持任何可以进行时间转换的格式，比如'1989/01/01','1989 01'等
-    *
-    * */
   getShengXiao(birth){
     birth += '';
     var len = birth.length;
@@ -86,12 +78,6 @@ export default {
     var arr = ['猴', '鸡', '狗', '猪', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊'];
     return /^\d{4}$/.test(year) ? arr[year % 12] : false;
   },
-  /* *
-  *  计算星座
-  *
-  *      支持传递[月日]，[月,日]，[年月日]等格式
-  *
-  * */
   getAstro(){
     var params = {};
       var c = function (d) {
@@ -129,18 +115,3 @@ function formatNumber(n){
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-// //例子：计算生肖
-// console.log(Calculator.shengxiao(1989));
-// console.log(Calculator.shengxiao('1989 01'));
-// console.log(Calculator.shengxiao('1989-01'));
-// console.log(Calculator.shengxiao('1989-01-01'));
-
-// //例子：计算星座
-// console.log(Calculator.astro('102'));       //01-02
-// console.log(Calculator.astro('0102'));      //01-02
-// console.log(Calculator.astro('1023'));      //10-22
-// console.log(Calculator.astro('890102'));    //01-01
-// console.log(Calculator.astro('19890102'));  //01-01
-// 后两个可用
-// console.log(Calculator.astro(1, 2));        //01-02
-// console.log(Calculator.astro(01, 22));      //01-22

@@ -1,7 +1,7 @@
 export default {
   getInfo(){
     let _this = this
-    _this.$http.post(_this.baseUrl + _this.url.PermAccount.GetAllInfoById,{
+    _this.$http.post(_this.baseUrl + _this.url.BackgroundFactory.GetAllInfoById,{
       token:_this.$utils.getToken(),
       id:_this.$route.query.id
     }).then((res)=>{
@@ -56,7 +56,7 @@ export default {
   },
   submitManage(){
     let _this = this
-    _this.$http.post(_this.baseUrl + _this.url.PermAccount.ChangeAllInfoById,{
+    _this.$http.post(_this.baseUrl + _this.url.BackgroundFactory.ChangeAllInfoById,{
       role_type:_this.url.role_type,
       id:_this.$route.query.id,
       token:_this.$utils.getToken(),

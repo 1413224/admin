@@ -8,15 +8,15 @@ const diypage = {
     pageData:{},
     headerData:{},
     mainData:[],
-    ruleForm:{},//搜索，参数
+    ruleForm:{},
     addEditForm:{},
     addEditFormRefs:'',
-    lineConfig:[],//tablelineConfigs
+    lineConfig:[],
     tableConfig:{},
-    listNum:0,//判断是否需要重新请求加载列表数据
-    ids:'',//table列表的ids，其他按钮操作后必须重置
-    resetChecklist:0,//重置全选等(表格)
-    addOrEditBtn:'',//提交表单是新增还是编辑操作
+    listNum:0,
+    ids:'',
+    resetChecklist:0,
+    addOrEditBtn:'',
   },
 
   mutations:{
@@ -66,7 +66,6 @@ const diypage = {
       return new Promise((resolve,reject)=>{
         _this.$http.post(_this.baseUrl + _this.url.control.GetDiyListPage,{
           token:_this.$utils.getToken(),
-          // path:'/account/list'
           path:url
         }).then((res)=>{
           if(res.data.ret==200){
